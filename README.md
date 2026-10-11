@@ -10,7 +10,26 @@
 - 레벨·머티리얼·Niagara·사운드·Behavior Tree·StateTree·Level Sequence 등 **에셋을 코드로 생성** (손으로 만든 레벨 없음)
 - 용어집 문서: [Claude Docs](https://claude.ai/code/artifact/e551ba89-bc77-4986-a284-ef21c7552635) · Notion DB "언리얼 용어 DB"
 
-![허브 레벨: 분야를 고르고 용어를 누르면 해당 예제 레벨로 이동](docs/images/0000_Hub.png)
+![허브 레벨: 분야를 고르고 용어를 누르면 해당 예제 레벨로 이동](docs/images/0000_Hub.jpg)
+
+## 스크린샷
+
+모든 레벨 왼쪽 위에 용어 · 쉽게 말하면 · 요청 예문 · 조작법 · 실시간 상태를 보여 주는 정보 패널이 있습니다.
+
+| | |
+| --- | --- |
+| ![0501](docs/images/0501.jpg) | ![0518](docs/images/0518.jpg) |
+| **0501 Niagara System** · 코드로 만든 불꽃·불씨·연기 3 이미터 모닥불 | **0518 포탈** · Vortex Velocity + Point Attraction |
+| ![0503](docs/images/0503.jpg) | ![0211](docs/images/0211.jpg) |
+| **0503 GPU Sim** · 입자 10만 개, Fixed Bounds | **0211 Chaos Destruction** · 코드로 Voronoi 20조각, Field 로 파괴 |
+| ![0404](docs/images/0404.jpg) | ![0412](docs/images/0412.jpg) |
+| **0404 Material Parameter Collection** · 플레이어 근처 풀이 눌림 | **0412 World Position Offset** · 바람에 흔들리는 풀·깃발 |
+| ![1001](docs/images/1001.jpg) | ![1007](docs/images/1007.jpg) |
+| **1001 Lumen GI** · 빨간 벽 반사광이 바닥을 물들임 | **1007 Volumetric Fog** · 창살 사이 빛줄기 |
+| ![1012](docs/images/1012.jpg) | ![1018](docs/images/1018.jpg) |
+| **1012 HISM** · 나무 5000그루, 드로우콜 65 vs 4812 | **1018 PCG** · 코드로 만든 PCG 그래프, 길 주변 비우기 |
+| ![0703](docs/images/0703.jpg) | ![0609](docs/images/0609.jpg) |
+| **0703 Behavior Tree** · 순찰→추격→공격, 실행 노드·블랙보드 표시 | **0609 ListView** · 1000개 목록에 엔트리 위젯 26개 재사용 |
 
 ## 처음 열 때
 

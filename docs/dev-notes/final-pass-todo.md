@@ -8,3 +8,8 @@
 - 0214: 복사한 SKM_SportsCar 가 렌더링되지 않음(물리는 정상) → 에디터에서 확인. 지금은 SM 차체를 소켓에 붙여 보이게 함
 - 0904/0807 등: shot 연속 키 여러 개 중 일부만 반영 — 3프레임 홀드 수정 후에도 재확인 필요
 - 1003: r.Nanite.Visualize 를 -game 에서 켜면 화면이 검게 나옴 (에디터 뷰포트에서는 확인 필요)
+
+## 최종 검증 (2026-10-11)
+- tools/shot-all.sh 8 → 188개(허브 포함) 모두 실행·캡처 성공, 로그 Error/Fatal/Ensure 0
+- 위 항목 중 처리 완료: ExposureEV100 주석, Indoor SkyLight 경고, shot 키 파싱(쉼표)·실시간 타이머, M_Color Usage, 게임플레이 태그 ini
+- 남음: 0214 SKM 렌더링, 1003 Nanite Visualize 검은 화면(-game), 공통 카메라 오프셋 옵션, 0512·0514 빨간 디버그 글씨
