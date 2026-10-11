@@ -29,7 +29,7 @@ protected:
 
 	/** 경계선 두께 (노이즈 값 단위) */
 	UPROPERTY(EditAnywhere, Category = "Dissolve", meta = (ClampMin = 0))
-	float EdgeWidth = 0.06f;
+	float EdgeWidth = 0.08f;
 
 	UPROPERTY(EditAnywhere, Category = "Dissolve")
 	FLinearColor EdgeColor = FLinearColor(1.f, 0.35f, 0.02f);

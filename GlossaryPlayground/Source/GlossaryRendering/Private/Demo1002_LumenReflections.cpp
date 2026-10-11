@@ -13,9 +13,9 @@ ADemo1002_LumenReflections::ADemo1002_LumenReflections()
 	DemoId = TEXT("1002");
 	Controls = TEXT("1 : Lumen Reflections   2 : Screen Space Reflections   3 : 끄기(None)\n")
 		TEXT("WASD·QE 카메라 이동 · ←→↑↓ 회전\n")
-		TEXT("관찰: 카메라 뒤 노란 벽과 화면 위로 잘린 기둥 꼭대기는 Lumen 에서만 바닥에 비친다.\n")
+		TEXT("관찰: 화면 위쪽 밖의 노란 간판과 잘린 기둥 꼭대기는 Lumen 에서만 바닥에 비친다.\n")
 		TEXT("SSR 은 화면에 보이는 것만 반사해 화면 가장자리로 갈수록 반사가 사라진다.");
-	Showcase = TEXT("Roughness 0.05 대리석 바닥, 화면 밖 노란 벽·기둥 반사로 Lumen 반사 vs SSR vs None 비교");
+	Showcase = TEXT("Roughness 0.05 대리석 바닥, 화면 밖 노란 간판·기둥 반사로 Lumen 반사 vs SSR vs None 비교");
 	PlayerPawnClass = nullptr;
 	Environment.Sky = EGlossarySky::Day;
 }
@@ -41,11 +41,11 @@ void ADemo1002_LumenReflections::BeginPlay()
 	AStaticMeshActor* Tall = SpawnShape(World, EShape::Cube, FVector(1400.f, 0.f, 1500.f), FVector(200.f, 200.f, 3000.f), Colors::Cyan);
 	SetColor(Tall->GetStaticMeshComponent(), Colors::Cyan, 0.5f, 0.f, 2.f);
 
-	// 카메라 뒤의 큰 노란 벽 (화면 밖 → SSR 은 절대 못 비춘다)
-	AStaticMeshActor* Back = SpawnShape(World, EShape::Cube, FVector(-900.f, 0.f, 300.f), FVector(40.f, 2400.f, 600.f), Colors::Item);
+	// 화면 위쪽 밖에 떠 있는 큰 노란 간판 (화면에 안 보이므로 SSR 은 바닥에 비추지 못한다)
+	AStaticMeshActor* Back = SpawnShape(World, EShape::Cube, FVector(1600.f, 0.f, 900.f), FVector(40.f, 2400.f, 400.f), Colors::Item);
 	SetColor(Back->GetStaticMeshComponent(), Colors::Item, 0.6f, 0.f, 3.f);
 
-	SpawnLabel(World, TEXT("카메라 뒤에 노란 벽이 있다"), FVector(200.f, -700.f, 40.f), Colors::Item, 18.f);
+	SpawnLabel(World, TEXT("화면 위(밖)에 노란 간판이 떠 있다"), FVector(200.f, -700.f, 40.f), Colors::Item, 18.f);
 
 	Camera = RenderKit::SpawnLookAtCamera(this, FVector(-500.f, 0.f, 220.f), FVector(600.f, 0.f, -60.f), 75.f);
 

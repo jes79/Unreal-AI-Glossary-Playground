@@ -10,6 +10,7 @@
 #include "Materials/Material.h"
 #include "Materials/MaterialExpressionCustom.h"
 #include "Materials/MaterialExpressionScalarParameter.h"
+#include "Materials/MaterialExpressionVectorParameter.h"
 #include "Materials/MaterialExpressionTime.h"
 #include "Materials/MaterialInstanceConstant.h"
 #include "MeshDescription.h"
@@ -286,9 +287,19 @@ namespace
 		UMaterialInterface* ColorMat = GlossaryKit::GetColorMaterial();
 		UMaterialInstanceConstant* RockMat = CreateMaterialInstance(RenderingAssets::RockMaterial, ColorMat,
 			{{TEXT("Roughness"), 0.85f}}, {{TEXT("Color"), FLinearColor(0.42f, 0.38f, 0.33f)}});
-		UMaterialInstanceConstant* Trunk = CreateMaterialInstance(TEXT("/Game/Glossary/10_Rendering/MI_TreeTrunk"), ColorMat,
+		// 나무는 HISM·PCG(인스턴스)로도 그려지므로 Used with Instanced Static Meshes 를 켠 전용 머티리얼을 쓴다
+		UMaterial* Foliage = CreateMaterial(TEXT("/Game/Glossary/10_Rendering/M_Foliage"));
+		Foliage->bUsedWithInstancedStaticMeshes = true;
+		{
+			auto* Color = AddVectorParam(Foliage, TEXT("Color"), FLinearColor(0.1f, 0.4f, 0.1f));
+			auto* Rough = AddScalarParam(Foliage, TEXT("Roughness"), 0.8f, -600, 200);
+			ConnectToPin(Color, MP_BaseColor);
+			ConnectToPin(Rough, MP_Roughness);
+			FinishMaterial(Foliage);
+		}
+		UMaterialInstanceConstant* Trunk = CreateMaterialInstance(TEXT("/Game/Glossary/10_Rendering/MI_TreeTrunk"), Foliage,
 			{{TEXT("Roughness"), 0.9f}}, {{TEXT("Color"), FLinearColor(0.25f, 0.13f, 0.06f)}});
-		UMaterialInstanceConstant* Leaves = CreateMaterialInstance(TEXT("/Game/Glossary/10_Rendering/MI_TreeLeaves"), ColorMat,
+		UMaterialInstanceConstant* Leaves = CreateMaterialInstance(TEXT("/Game/Glossary/10_Rendering/MI_TreeLeaves"), Foliage,
 			{{TEXT("Roughness"), 0.8f}}, {{TEXT("Color"), FLinearColor(0.08f, 0.35f, 0.07f)}});
 		UMaterialInstanceConstant* Proxy = CreateMaterialInstance(TEXT("/Game/Glossary/10_Rendering/MI_HLODProxy"), ColorMat,
 			{{TEXT("Roughness"), 0.7f}}, {{TEXT("Color"), FLinearColor(0.75f, 0.55f, 0.35f)}});

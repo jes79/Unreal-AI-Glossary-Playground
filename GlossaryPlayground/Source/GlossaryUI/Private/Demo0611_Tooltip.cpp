@@ -135,6 +135,7 @@ ADemo0611_Tooltip::ADemo0611_Tooltip()
 void ADemo0611_Tooltip::BeginPlay()
 {
 	Super::BeginPlay();
+	GlossaryUIKit::SetupFixedCamera(this, FVector(-650.f, 0.f, 260.f), FRotator(-12.f, 0.f, 0.f)); // 고정 카메라
 	Panel = CreateWidget<UDemo0611_Panel>(GetPC(), UDemo0611_Panel::StaticClass());
 	auto Add = [this](const TCHAR* Name, int32 Rarity, const TCHAR* Desc, const TCHAR* Stats, const FLinearColor& Color)
 	{

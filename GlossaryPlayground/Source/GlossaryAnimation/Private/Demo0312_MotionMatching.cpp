@@ -119,8 +119,8 @@ void ADemo0312_MotionMatching::Search(const FVector2D& Desired)
 	{
 		const FFrame& F = Database[i];
 		const float CostV = (F.Velocity - Desired).SizeSquared() / FMath::Square(200.f);
-		const float CostP = ((F.FootL - Cur.FootL).SizeSquared() + (F.FootR - Cur.FootR).SizeSquared()) / FMath::Square(25.f)
-			+ ((F.FootVelL - Cur.FootVelL).SizeSquared() + (F.FootVelR - Cur.FootVelR).SizeSquared()) / FMath::Square(300.f);
+		const float CostP = ((F.FootL - Cur.FootL).SizeSquared() + (F.FootR - Cur.FootR).SizeSquared()) / FMath::Square(50.f)
+			+ ((F.FootVelL - Cur.FootVelL).SizeSquared() + (F.FootVelR - Cur.FootVelR).SizeSquared()) / FMath::Square(600.f);
 		float Cost = CostV * VelocityWeight + CostP * PoseWeight;
 		if (F.Clip == CurClip && FMath::Abs(F.Time - CurTime) < 0.15f)
 		{

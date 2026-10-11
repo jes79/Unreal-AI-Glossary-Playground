@@ -22,7 +22,7 @@ using namespace GlossaryKit;
 ADemo0704_BTNodes::ADemo0704_BTNodes()
 {
 	DemoId = TEXT("0704");
-	Controls = TEXT("WASD 이동 · 1 : 적에게 피해 25 · V 카메라 전환\n")
+	Controls = TEXT("WASD 이동 · 1 : 적에게 피해 25 · 2 : HP 20% 로 · V 카메라 전환\n")
 		TEXT("관찰: Service 가 0.5초마다 거리를 갱신해 200 이내면 Attack Task,\n")
 		TEXT("HP 30% 이하가 되면 Decorator 가 추격을 끊고 Flee. 3초 뒤 회복해 30%를 넘으면 다시 추격");
 	Showcase = TEXT("C++ Decorator(HP ≤ 30% 도망)·Service(0.5초 거리 갱신)·Task(공격·도망)로 조립한 트리, 피해 키로 분기 확인");
@@ -99,7 +99,7 @@ void ADemo0704_BTNodes::BeginPlay()
 	}
 
 	SidePanel = D07::CreateSidePanel(this);
-	OverviewCamera = D07::SetupOverviewCamera(this, FVector(-1600.f, 0.f, 1700.f), FRotator(-45.f, 0.f, 0.f));
+	OverviewCamera = D07::SetupOverviewCamera(this, FVector(-1400.f, -900.f, 1800.f), FRotator(-48.f, 22.f, 0.f));
 }
 
 void ADemo0704_BTNodes::Tick(float DeltaSeconds)
@@ -122,6 +122,11 @@ void ADemo0704_BTNodes::Tick(float DeltaSeconds)
 	if (WasKeyPressed(EKeys::One))
 	{
 		Enemy->Health = FMath::Max(5.f, Enemy->Health - DamagePerHit);
+		SinceLastHit = 0.f;
+	}
+	if (WasKeyPressed(EKeys::Two))
+	{
+		Enemy->Health = 20.f;   // 한 번에 빈사 상태로
 		SinceLastHit = 0.f;
 	}
 	if (SinceLastHit > RegenDelay)

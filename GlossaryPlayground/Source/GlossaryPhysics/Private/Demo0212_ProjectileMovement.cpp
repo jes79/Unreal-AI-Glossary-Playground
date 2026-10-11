@@ -10,13 +10,14 @@
 
 using namespace GlossaryKit;
 
-namespace
+namespace D0212Local
 {
 	const FVector Muzzle(-800.f, 0.f, 150.f);
 	const float GrenadeLaneY = 160.f;
 	const float TargetX = 1450.f;
 	const float ThrowPitch = 35.f;
 }
+using namespace D0212Local;
 
 ADemo0212_ProjectileMovement::ADemo0212_ProjectileMovement()
 {

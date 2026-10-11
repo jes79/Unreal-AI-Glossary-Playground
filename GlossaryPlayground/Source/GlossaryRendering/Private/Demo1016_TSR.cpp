@@ -26,9 +26,9 @@ void ADemo1016_TSR::BeginPlay()
 	UWorld* World = GetWorld();
 
 	// 1) 비스듬한 가는 철사 (계단 현상이 잘 보인다)
-	for (int32 i = 0; i < 24; ++i)
+	for (int32 i = 0; i < 14; ++i)
 	{
-		SpawnShape(World, EShape::Cylinder, FVector(500.f, -600.f + i * 50.f, 220.f), FVector(1.5f, 1.5f, 500.f), Colors::Dark, FRotator(0.f, 0.f, 25.f + i * 2.f));
+		SpawnShape(World, EShape::Cylinder, FVector(900.f, -350.f + i * 40.f, 150.f), FVector(1.5f, 1.5f, 260.f), Colors::Dark, FRotator(0.f, 0.f, 20.f + i * 3.f));
 	}
 	// 2) 멀리 이어지는 울타리 (먼 곳의 얇은 형상 = 깜빡임)
 	for (int32 i = 0; i < 120; ++i)

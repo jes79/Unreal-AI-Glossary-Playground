@@ -35,7 +35,7 @@ void ADemo0203_LineTrace::BeginPlay()
 		SpawnLabel(World, Name, Loc + FVector(0.f, 0.f, Size.Z * 0.5f + 60.f), FLinearColor::White, 16.f);
 		return A;
 	};
-	Place(EShape::Cube, FVector(-150.f, 0.f, 100.f), FVector(120.f, 160.f, 200.f), Colors::Platform, TEXT("Crate_A"));
+	Place(EShape::Cube, FVector(-150.f, 90.f, 100.f), FVector(120.f, 160.f, 200.f), Colors::Platform, TEXT("Crate_A"));
 	Place(EShape::Cylinder, FVector(350.f, -450.f, 90.f), FVector(110.f, 110.f, 180.f), Colors::Enemy, TEXT("Barrel_B"));
 	Place(EShape::Cube, FVector(1200.f, 350.f, 150.f), FVector(60.f, 300.f, 300.f), Colors::Ally, TEXT("FarWall_C (1000cm 밖)"));
 	Mover = Place(EShape::Sphere, FVector(500.f, 0.f, 160.f), FVector(90.f), Colors::Item, TEXT("Drone_D"));

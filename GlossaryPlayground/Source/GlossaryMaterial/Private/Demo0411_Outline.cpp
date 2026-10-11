@@ -27,7 +27,7 @@ ADemo0411_Outline::ADemo0411_Outline()
 void ADemo0411_Outline::BeginPlay()
 {
 	Super::BeginPlay();
-	SetupFixedCamera(FVector(-750.f, -150.f, 330.f), FVector(0.f, -150.f, 90.f), 60.f);
+	SetupFixedCamera(FVector(-1000.f, 40.f, 340.f), FVector(0.f, 40.f, 90.f), 60.f);
 
 	// 적 3명(마네킹) + 선택되지 않는 소품들
 	for (int32 I = 0; I < 3; ++I)

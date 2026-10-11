@@ -15,7 +15,7 @@ namespace
 {
 	constexpr int32 SlotCount = 16;
 	const FVector MuzzleLocation(300.f, -500.f, 180.f);
-	float SlotY(int32 Index) { return -560.f + Index * 75.f; }
+	float SlotY(int32 Index) { return -330.f + Index * 64.f; }
 }
 
 ADemo0907_Concurrency::ADemo0907_Concurrency()
@@ -33,7 +33,7 @@ void ADemo0907_Concurrency::BeginPlay()
 	Super::BeginPlay();
 	GlossaryAudioKit::PrepareAudioDemo();
 	UWorld* World = GetWorld();
-	Camera = GlossaryAudioKit::SpawnFixedCamera(World, FVector(-650.f, 0.f, 330.f), FRotator(-14.f, 0.f, 0.f), 72.f);
+	Camera = GlossaryAudioKit::SpawnFixedCamera(World, FVector(-1000.f, 0.f, 380.f), FRotator(-12.f, 0.f, 0.f), 72.f);
 
 	Gunshot = LoadAsset<USoundWave>(GlossaryAudioKit::AssetPath(TEXT("S_Gunshot")));
 	Concurrency = LoadAsset<USoundConcurrency>(GlossaryAudioKit::AssetPath(TEXT("SCon_Gunshot")));
@@ -50,15 +50,15 @@ void ADemo0907_Concurrency::BeginPlay()
 	// 보이스 슬롯 16칸 (재생 중인 총소리 수)
 	for (int32 i = 0; i < SlotCount; ++i)
 	{
-		UStaticMeshComponent* Slot = AddShape(this, EShape::Cube, FVector(600.f, SlotY(i) + 400.f, 120.f), FVector(50.f, 60.f, 160.f), Colors::Neutral);
+		UStaticMeshComponent* Slot = AddShape(this, EShape::Cube, FVector(600.f, SlotY(i), 120.f), FVector(50.f, 50.f, 160.f), Colors::Neutral);
 		SlotMats.Add(SetColor(Slot, FLinearColor(0.15f, 0.15f, 0.17f), 0.5f, 0.f, 0.f));
 	}
 	// Max Count 4 경계선
-	const float LimitY = (SlotY(3) + SlotY(4)) * 0.5f + 400.f;
+	const float LimitY = (SlotY(3) + SlotY(4)) * 0.5f;
 	UStaticMeshComponent* Limit = AddShape(this, EShape::Cube, FVector(590.f, LimitY, 120.f), FVector(10.f, 8.f, 260.f), Colors::Enemy);
 	SetColor(Limit, Colors::Enemy, 0.5f, 0.f, 5.f);
 	SpawnLabel(World, TEXT("Max Count 4"), FVector(590.f, LimitY, 290.f), Colors::Enemy, 17.f);
-	SpawnLabel(World, TEXT("동시에 재생 중인 총소리 (보이스)"), FVector(600.f, SlotY(8) + 400.f, 330.f), Colors::Item, 19.f);
+	SpawnLabel(World, TEXT("동시에 재생 중인 총소리 (보이스)"), FVector(600.f, SlotY(8), 330.f), Colors::Item, 19.f);
 
 	Panel = UGlossaryAudioPanel::Create(this, TEXT("Sound Concurrency"));
 	if (Panel)
@@ -66,7 +66,7 @@ void ADemo0907_Concurrency::BeginPlay()
 		Panel->AddRow(TEXT("재생 중 보이스"), Colors::Accent);
 		Panel->AddRow(TEXT("최대 동시 재생"), Colors::Purple);
 		Panel->AddRow(TEXT("Stop Oldest 끊김"), Colors::Enemy);
-		Panel->SetFooter(TEXT("AudioComponent->ConcurrencySet.Add(SCon_Gunshot)\nMaxCount 4 · ResolutionRule StopOldest"));
+		Panel->SetFooter(TEXT("AudioComponent->ConcurrencySet.Add(SCon_Gunshot)\nMaxCount 4 · ResolutionRule StopOldest\n(요청 후 50ms 지난 보이스만 셈 — 오디오 스레드 반영 시간)"));
 		Panel->AddToViewport(1);
 	}
 }
@@ -143,7 +143,12 @@ void ADemo0907_Concurrency::Tick(float DeltaSeconds)
 		UAudioComponent* Audio = Shots[i].Audio.Get();
 		if (Audio && Audio->IsPlaying())
 		{
-			++Playing;
+			// 방금(50ms 안) 요청한 소리는 아직 오디오 스레드가 처리 전이라 세지 않는다
+			// (이 순간엔 Stop Oldest 로 꺼질 소리의 정지 알림도 아직 안 왔다)
+			if (Now - Shots[i].StartTime >= 0.05)
+			{
+				++Playing;
+			}
 			continue;
 		}
 		if (Now - Shots[i].StartTime < Duration * 0.85f)

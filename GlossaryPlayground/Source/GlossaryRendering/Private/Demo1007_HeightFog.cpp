@@ -18,6 +18,7 @@ ADemo1007_HeightFog::ADemo1007_HeightFog()
 	PlayerPawnClass = nullptr;
 	Environment.Sky = EGlossarySky::Day;
 	Environment.bFog = true;
+	Environment.ExposureEV100 = 12.f;   // 어두운 실내라 노출을 2스톱 밝게
 }
 
 void ADemo1007_HeightFog::BeginPlay()

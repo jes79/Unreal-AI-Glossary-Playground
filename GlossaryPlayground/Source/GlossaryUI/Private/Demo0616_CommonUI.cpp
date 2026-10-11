@@ -210,6 +210,7 @@ ADemo0616_CommonUI::ADemo0616_CommonUI()
 void ADemo0616_CommonUI::BeginPlay()
 {
 	Super::BeginPlay();
+	GlossaryUIKit::SetupFixedCamera(this, FVector(-650.f, 0.f, 260.f), FRotator(-12.f, 0.f, 0.f)); // 고정 카메라
 	SpawnShape(GetWorld(), EShape::Cube, FVector(-100.f, -250.f, 60.f), FVector(120.f), Colors::Cyan);
 	Layout = CreateWidget<UDemo0616_RootLayout>(GetPC(), UDemo0616_RootLayout::StaticClass());
 	Layout->AddToViewport(0);

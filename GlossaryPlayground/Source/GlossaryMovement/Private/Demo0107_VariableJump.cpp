@@ -179,7 +179,7 @@ void ADemo0107_VariableJump::Tick(float DeltaSeconds)
 			TrackJump(J, DeltaSeconds, J.bHolding);
 			if (AGlossaryLabel* L = J.Label.Get())
 			{
-				L->SetActorLocation(C->GetActorLocation() + FVector(0.f, 0.f, 140.f));
+				L->SetActorLocation(C->GetActorLocation() - FVector(0.f, 0.f, 120.f));   // 이름은 발밑에 (최고점 라벨과 겹치지 않게)
 			}
 		}
 		else

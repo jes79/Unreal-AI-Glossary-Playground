@@ -22,6 +22,8 @@ void UD0802_CoinKeeper::Initialize(FSubsystemCollectionBase& Collection)
 ADemo0802_GameInstance::ADemo0802_GameInstance()
 {
 	DemoId = TEXT("0802");
+	// 플레이어 컨트롤러(입력 처리) 다음에 Tick 해서 WasKeyPressed 를 놓치지 않게
+	PrimaryActorTick.TickGroup = TG_PostPhysics;
 	Controls = TEXT("WASD 이동 · 코인에 닿으면 획득 · C : 가장 가까운 코인 줍기(테스트)\n")
 		TEXT("N : 다음 스테이지 (OpenLevel 로 레벨을 새로 연다)\n")
 		TEXT("관찰: 레벨을 다시 열면 액터 변수는 0, GameInstance 의 코인은 그대로");

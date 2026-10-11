@@ -16,7 +16,7 @@ ADemo0501_NiagaraSystem::ADemo0501_NiagaraSystem()
 	Showcase = TEXT("불꽃·불씨·연기 3개 이미터로 된 Niagara 모닥불 + 깜빡이는 Point Light, 이미터별 ON/OFF");
 	PlayerPawnClass = nullptr;
 	Environment.Sky = EGlossarySky::Night;
-	Environment.ExposureEV100 = 3.f;
+	Environment.ExposureEV100 = 1.f;
 	PrimaryActorTick.bCanEverTick = true;
 }
 

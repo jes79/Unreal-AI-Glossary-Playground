@@ -44,4 +44,6 @@ private:
 	float NpcTimer = 0.f;
 	int32 NpcPresses = 0;
 	FName PlayerQueued;
+	FName PlayerLastSection;
+	FString PlayerHistory;   // 플레이어가 재생한 섹션 기록 (콤보가 이어졌는지 확인용)
 };

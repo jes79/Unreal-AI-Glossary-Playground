@@ -73,3 +73,22 @@ namespace GlossaryUIKit
 		return Box;
 	}
 }
+
+#include "Camera/CameraActor.h"
+#include "Camera/CameraComponent.h"
+#include "GameFramework/PlayerController.h"
+#include "Kismet/GameplayStatics.h"
+
+void GlossaryUIKit::SetupFixedCamera(AActor* WorldContext, const FVector& Location, const FRotator& Rotation, float FOV)
+{
+	UWorld* World = WorldContext ? WorldContext->GetWorld() : nullptr;
+	APlayerController* PC = UGameplayStatics::GetPlayerController(WorldContext, 0);
+	if (!World || !PC)
+	{
+		return;
+	}
+	ACameraActor* Cam = World->SpawnActor<ACameraActor>(Location, Rotation);
+	Cam->GetCameraComponent()->SetFieldOfView(FOV);
+	Cam->GetCameraComponent()->bConstrainAspectRatio = false;
+	PC->SetViewTarget(Cam);
+}

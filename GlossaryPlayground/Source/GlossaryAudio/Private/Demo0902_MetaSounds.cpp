@@ -43,7 +43,7 @@ void ADemo0902_MetaSounds::BeginPlay()
 		SetColor(Piston, Colors::Neutral, 0.3f, 0.9f);
 		Pistons.Add(Piston);
 	}
-	SpawnLabel(World, TEXT("엔진 (피스톤 속도 = RPM)"), FVector(300.f, -380.f, 420.f), Colors::Item, 18.f);
+	SpawnLabel(World, TEXT("엔진 (피스톤 속도 = RPM)"), FVector(150.f, -380.f, -30.f), Colors::Item, 18.f);
 
 	// ---- 타코미터 (오른쪽): 카메라를 향한 원판 + 눈금 + 바늘
 	const FVector DialCenter(300.f, 380.f, 260.f);

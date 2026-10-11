@@ -58,8 +58,9 @@ void ADemo1008_LightTypes::BeginPlay()
 		ARectLight* Rect = World->SpawnActor<ARectLight>(Loc, FRotator(-90.f, 0.f, 0.f));
 		URectLightComponent* C = Rect->RectLightComponent;
 		C->SetMobility(EComponentMobility::Movable);
+		C->SetWorldRotation(FRotator(-90.f, 0.f, 0.f));   // 아래를 향하게 (스폰 회전이 라이트 액터에 안 먹는 경우가 있어 명시)
 		C->SetIntensityUnits(ELightUnits::Candelas);
-		C->SetIntensity(25.f);
+		C->SetIntensity(10.f);
 		C->SetSourceWidth(150.f);
 		C->SetSourceHeight(20.f);
 		C->SetAttenuationRadius(1000.f);
@@ -98,6 +99,7 @@ void ADemo1008_LightTypes::BeginPlay()
 		ASpotLight* Spot = World->SpawnActor<ASpotLight>(Loc, (FVector(650.f, 0.f, 0.f) - Loc).Rotation());
 		USpotLightComponent* C = Spot->SpotLightComponent;
 		C->SetMobility(EComponentMobility::Movable);
+		C->SetWorldRotation((FVector(650.f, 0.f, 0.f) - Loc).Rotation());
 		C->SetIntensityUnits(ELightUnits::Candelas);
 		C->SetIntensity(400.f);
 		C->SetInnerConeAngle(SpotInnerConeAngle);

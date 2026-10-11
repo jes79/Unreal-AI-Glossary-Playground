@@ -139,11 +139,11 @@ void AD1104_ScoreBoard::HandleDied(AActor* DeadActor)
 ADemo1104_Delegate::ADemo1104_Delegate()
 {
 	DemoId = TEXT("1104");
-	Controls = TEXT("1 : 적에게 35 피해 (3번이면 쓰러짐)\n")
+	Controls = TEXT("1 : 적에게 35 피해 (3번이면 쓰러짐)   K : 한 번에 쓰러뜨리기\n")
 		TEXT("2 / 3 / 4 : UI · 사운드 · 점수의 구독 끊기/다시 붙이기 (AddDynamic / RemoveDynamic)\n")
 		TEXT("관찰: 적은 OnDied.Broadcast 만 한다. 구독을 끊은 쪽만 반응하지 않고 나머지는 그대로");
 	Showcase = TEXT("적 OnDied 방송에 UI 배너·사운드·점수판이 각자 반응, 구독 끊기/붙이기 비교");
-	PlayerStartTransform = FTransform(FRotator::ZeroRotator, FVector(-500.f, 0.f, 100.f));
+	PlayerStartTransform = FTransform(FRotator::ZeroRotator, FVector(-600.f, -250.f, 100.f));
 }
 
 void ADemo1104_Delegate::BeginPlay()
@@ -221,6 +221,7 @@ void ADemo1104_Delegate::Tick(float DeltaSeconds)
 		return;
 	}
 	if (WasKeyPressed(EKeys::One)) { Enemy->TakeHit(HitDamage); }
+	if (WasKeyPressed(EKeys::K))   { Enemy->TakeHit(Enemy->MaxHealth); } // 한 번에 쓰러뜨리기
 	if (WasKeyPressed(EKeys::Two)) { ToggleListener(0); }
 	if (WasKeyPressed(EKeys::Three)) { ToggleListener(1); }
 	if (WasKeyPressed(EKeys::Four)) { ToggleListener(2); }

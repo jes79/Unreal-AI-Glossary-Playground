@@ -160,7 +160,7 @@ ADemo1103_Interface::ADemo1103_Interface()
 		TEXT("관찰: 폭발통·허수아비·유리창은 서로 다른 클래스지만 같은 호출 하나로 각자 다르게 반응,\n")
 		TEXT("인터페이스가 없는 회색 벽은 Implements 검사에서 걸러져 아무 일도 없다");
 	Showcase = TEXT("Damageable 인터페이스로 폭발통·허수아비·유리창을 캐스트 없이 Execute_TakeHit 한 줄로");
-	PlayerStartTransform = FTransform(FRotator::ZeroRotator, FVector(-500.f, 0.f, 100.f));
+	PlayerStartTransform = FTransform(FRotator::ZeroRotator, FVector(-700.f, 100.f, 100.f));
 }
 
 void ADemo1103_Interface::BeginPlay()
@@ -170,14 +170,14 @@ void ADemo1103_Interface::BeginPlay()
 	FActorSpawnParameters Params;
 	Params.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 
-	Targets.Add(World->SpawnActor<AD1103_Barrel>(FVector(300.f, -500.f, 65.f), FRotator::ZeroRotator, Params));
-	Targets.Add(World->SpawnActor<AD1103_Dummy>(FVector(300.f, -150.f, 90.f), FRotator::ZeroRotator, Params));
+	Targets.Add(World->SpawnActor<AD1103_Barrel>(FVector(300.f, -350.f, 65.f), FRotator::ZeroRotator, Params));
+	Targets.Add(World->SpawnActor<AD1103_Dummy>(FVector(300.f, -50.f, 90.f), FRotator::ZeroRotator, Params));
 	Targets.Add(World->SpawnActor<AD1103_Glass>(FVector(300.f, 250.f, 100.f), FRotator::ZeroRotator, Params));
 	// 인터페이스가 없는 평범한 벽 (AStaticMeshActor)
 	Targets.Add(SpawnBlock(World, FVector(300.f, 600.f, 0.f), FVector(60.f, 160.f, 220.f), Colors::Wall));
 
-	SpawnLabel(World, TEXT("폭발통\nAD1103_Barrel"), FVector(300.f, -500.f, 230.f), Colors::Enemy, 15.f);
-	SpawnLabel(World, TEXT("허수아비\nAD1103_Dummy"), FVector(300.f, -150.f, 260.f), FLinearColor(0.95f, 0.85f, 0.6f), 15.f);
+	SpawnLabel(World, TEXT("폭발통\nAD1103_Barrel"), FVector(300.f, -350.f, 200.f), Colors::Enemy, 15.f);
+	SpawnLabel(World, TEXT("허수아비\nAD1103_Dummy"), FVector(300.f, -50.f, 260.f), FLinearColor(0.95f, 0.85f, 0.6f), 15.f);
 	SpawnLabel(World, TEXT("유리창\nAD1103_Glass"), FVector(300.f, 250.f, 280.f), Colors::Cyan, 15.f);
 	SpawnLabel(World, TEXT("벽 (인터페이스 없음)\nAStaticMeshActor"), FVector(300.f, 600.f, 300.f), Colors::Neutral, 15.f);
 

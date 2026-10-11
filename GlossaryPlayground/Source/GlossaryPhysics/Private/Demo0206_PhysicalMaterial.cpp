@@ -9,13 +9,14 @@
 
 using namespace GlossaryKit;
 
-namespace
+namespace D0206Local
 {
 	const float RampLength = 600.f;
 	const float RampRowX[2] = { 350.f, -50.f };     // 0 기본(뒤), 1 얼음(앞)
-	const float BallY[2] = { 950.f, 1200.f };      // 0 기본, 1 고무
+	const float BallY[2] = { 1000.f, 1300.f };      // 0 기본, 1 고무
 	const float BallDropZ = 450.f;
 }
+using namespace D0206Local;
 
 ADemo0206_PhysicalMaterial::ADemo0206_PhysicalMaterial()
 {
@@ -59,7 +60,7 @@ void ADemo0206_PhysicalMaterial::BeginPlay()
 		AStaticMeshActor* Box = SpawnShape(World, EShape::Cube, Start.GetLocation(), FVector(60.f), bIce ? Colors::Cyan : Colors::Accent, RampRot, true);
 		Box->GetStaticMeshComponent()->SetPhysMaterialOverride(PM);   // 핵심: 컴포넌트에 Physical Material 지정
 		Sliders.Add(Box);
-		SpawnLabel(World, bIce ? TEXT("얼음 PM_Ice (Friction 0.05)") : TEXT("기본 (Friction 0.7)"), Top + FVector(0.f, -60.f, 120.f),
+		SpawnLabel(World, bIce ? TEXT("얼음 PM_Ice (Friction 0.05)") : TEXT("기본 (Friction 0.7)"), Top + Down * RampLength + FVector(0.f, 80.f, 90.f),
 			bIce ? Colors::Cyan : FLinearColor::White, 18.f);
 	}
 
@@ -73,7 +74,7 @@ void ADemo0206_PhysicalMaterial::BeginPlay()
 		Balls.Add(Ball);
 		// 높이 눈금 기둥
 		SpawnShape(World, EShape::Cube, FVector(260.f, BallY[i], BallDropZ * 0.5f), FVector(8.f, 8.f, BallDropZ), Colors::Dark);
-		SpawnLabel(World, bRubber ? TEXT("고무공 PM_Rubber (Restitution 0.9)") : TEXT("기본 공 (Restitution 0.1)"), Start + FVector(0.f, 0.f, 110.f),
+		SpawnLabel(World, bRubber ? TEXT("고무공 PM_Rubber (Restitution 0.9)") : TEXT("기본 공 (Restitution 0.1)"), Start + FVector(0.f, 0.f, bRubber ? 190.f : 110.f),
 			bRubber ? Colors::Enemy : FLinearColor::White, 18.f);
 		MaxBounce.Add(0.f);
 		BounceCount.Add(0);

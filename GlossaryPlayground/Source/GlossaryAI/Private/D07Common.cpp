@@ -83,10 +83,8 @@ void AD07Enemy::SetBodyColor(const FLinearColor& Color)
 	USkeletalMeshComponent* SkelMesh = GetMesh();
 	for (int32 Index = 0; Index < SkelMesh->GetNumMaterials(); ++Index)
 	{
-		UMaterialInstanceDynamic* MID = UMaterialInstanceDynamic::Create(GlossaryKit::GetColorMaterial(), SkelMesh);
-		MID->SetVectorParameterValue(TEXT("Color"), Color);
-		MID->SetScalarParameterValue(TEXT("Roughness"), 0.55f);
-		SkelMesh->SetMaterial(Index, MID);
+		// 스켈레탈 메시용 Usage 가 켜진 M_AgentColor (공통 M_Color 는 스태틱 메시 전용이라 회색 기본 머티리얼로 바뀜)
+		D07::SetAgentColor(SkelMesh, Index, Color);
 	}
 }
 
@@ -167,6 +165,44 @@ void UD07SidePanel::SetPanelText(const FString& InTitle, const FString& InBody)
 
 namespace D07
 {
+	UMaterialInterface* GetAgentMaterial()
+	{
+		static TWeakObjectPtr<UMaterialInterface> Cached;
+		if (!Cached.IsValid())
+		{
+			UMaterialInterface* Found = GlossaryKit::LoadAsset<UMaterialInterface>(TEXT("/Game/Glossary/07_AI/M_AgentColor"));
+			Cached = Found ? Found : GlossaryKit::GetColorMaterial();
+		}
+		return Cached.Get();
+	}
+
+	void SetAgentColor(UPrimitiveComponent* Component, int32 MaterialIndex, const FLinearColor& Color, float Emissive)
+	{
+		if (!Component)
+		{
+			return;
+		}
+		UMaterialInstanceDynamic* MID = UMaterialInstanceDynamic::Create(GetAgentMaterial(), Component);
+		MID->SetVectorParameterValue(TEXT("Color"), Color);
+		MID->SetScalarParameterValue(TEXT("Roughness"), 0.55f);
+		MID->SetScalarParameterValue(TEXT("Emissive"), Emissive);
+		Component->SetMaterial(MaterialIndex, MID);
+	}
+
+	void DrawSightFan(UWorld* World, const FVector& Origin, const FVector& Forward, float Radius, float HalfAngleDeg, const FColor& Color, float Thickness)
+	{
+		const FVector Flat = Forward.GetSafeNormal2D();
+		FVector Prev = Origin + Flat.RotateAngleAxis(-HalfAngleDeg, FVector::UpVector) * Radius;
+		DrawDebugLine(World, Origin, Prev, Color, false, -1.f, 0, Thickness);
+		for (int32 Step = 1; Step <= 18; ++Step)
+		{
+			const FVector Next = Origin + Flat.RotateAngleAxis(-HalfAngleDeg + 2.f * HalfAngleDeg * Step / 18.f, FVector::UpVector) * Radius;
+			DrawDebugLine(World, Prev, Next, Color, false, -1.f, 0, Thickness);
+			Prev = Next;
+		}
+		DrawDebugLine(World, Origin, Prev, Color, false, -1.f, 0, Thickness);
+	}
+
 	AD07Enemy* SpawnEnemy(UWorld* World, const FVector& GroundLocation, float Yaw, TSubclassOf<AAIController> ControllerClass,
 		const FLinearColor& BodyColor, TSubclassOf<AD07Enemy> PawnClass)
 	{
@@ -294,8 +330,9 @@ namespace D07
 		}
 		TArray<FNavPoly> Polys;
 		TArray<FVector> PolyVerts;
-		const int32 TileCount = NavMesh->GetNavMeshTilesCount();
-		for (int32 Tile = 0; Tile < TileCount; ++Tile)
+		TArray<FNavTileRef> Tiles;
+		NavMesh->GetAllNavMeshTiles(Tiles);
+		for (const FNavTileRef& Tile : Tiles)
 		{
 			Polys.Reset();
 			if (!NavMesh->GetPolysInTile(Tile, Polys))

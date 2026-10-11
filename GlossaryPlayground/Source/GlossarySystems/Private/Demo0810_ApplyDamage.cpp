@@ -32,6 +32,8 @@ float AD0810_Enemy::TakeDamage(float DamageAmount, FDamageEvent const& DamageEve
 ADemo0810_ApplyDamage::ADemo0810_ApplyDamage()
 {
 	DemoId = TEXT("0810");
+	// 플레이어 컨트롤러(입력 처리) 다음에 Tick 해서 WasKeyPressed 를 놓치지 않게
+	PrimaryActorTick.TickGroup = TG_PostPhysics;
 	Controls = TEXT("1 : 일반 · 2 : 화염 · 3 : 얼음 — 모두 ApplyDamage(적, 10, …, DamageType)\n")
 		TEXT("관찰: 같은 10 을 보내도 적의 TakeDamage 가 Damage Type 배율로 10 / 20 / 5 를 깎는다");
 	Showcase = TEXT("ApplyDamage(10)을 일반·화염(×2)·얼음(×0.5) Damage Type 으로 보내면 TakeDamage 가 10/20/5 로 처리");
@@ -42,7 +44,7 @@ void ADemo0810_ApplyDamage::BeginPlay()
 	Super::BeginPlay();
 	FActorSpawnParameters Params;
 	Params.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-	Enemy = GetWorld()->SpawnActor<AD0810_Enemy>(FVector(300.f, 0.f, 90.f), FRotator::ZeroRotator, Params);
+	Enemy = GetWorld()->SpawnActor<AD0810_Enemy>(FVector(300.f, 350.f, 90.f), FRotator::ZeroRotator, Params);
 	Enemy->Configure(TEXT("적"), 200.f, Colors::Enemy);
 
 	// 키 안내 표지
@@ -50,7 +52,7 @@ void ADemo0810_ApplyDamage::BeginPlay()
 	const TCHAR* Texts[] = { TEXT("1 일반 ×1"), TEXT("2 화염 ×2"), TEXT("3 얼음 ×0.5") };
 	for (int32 i = 0; i < 3; ++i)
 	{
-		SpawnLabel(GetWorld(), Texts[i], FVector(-200.f, -300.f + i * 300.f, 220.f), Cols[i], 22.f);
+		SpawnLabel(GetWorld(), Texts[i], FVector(0.f, -650.f + i * 220.f, 30.f), Cols[i], 20.f);
 	}
 	Panel = UD08_SidePanel::Create(GetPC(), TEXT("TakeDamage 기록"), UD08_SidePanel::EPlace::TopRight, 440.f);
 }

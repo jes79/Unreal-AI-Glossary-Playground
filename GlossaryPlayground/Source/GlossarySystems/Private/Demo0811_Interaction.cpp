@@ -148,6 +148,8 @@ void AD0811_NPC::Interact(AActor* InteractInstigator)
 ADemo0811_Interaction::ADemo0811_Interaction()
 {
 	DemoId = TEXT("0811");
+	// 플레이어 컨트롤러(입력 처리) 다음에 Tick 해서 WasKeyPressed 를 놓치지 않게
+	PrimaryActorTick.TickGroup = TG_PostPhysics;
 	Controls = TEXT("WASD 이동 · 마우스로 화면 가운데(+)를 문·상자·NPC 에 맞춘다 · E : 상호작용\n")
 		TEXT("관찰: 보고 있는 물체만 노랗게 강조되고 아래에 'E : …' 안내가 뜬다. 셋은 다른 클래스지만 같은 Interact 호출");
 	Showcase = TEXT("카메라 Line Trace 로 바라보는 문·상자·NPC 를 강조하고 E 로 Interactable 인터페이스 Interact 호출");

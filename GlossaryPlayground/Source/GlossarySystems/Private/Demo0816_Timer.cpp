@@ -11,6 +11,8 @@ using namespace GlossaryKit;
 ADemo0816_Timer::ADemo0816_Timer()
 {
 	DemoId = TEXT("0816");
+	// 플레이어 컨트롤러(입력 처리) 다음에 Tick 해서 WasKeyPressed 를 놓치지 않게
+	PrimaryActorTick.TickGroup = TG_PostPhysics;
 	Controls = TEXT("1 : 독 시작 (SetTimer 1초 반복) · 2 : 해독 (ClearTimer)\n")
 		TEXT("관찰: 1초마다 -10 이 뜨고 머리 위 램프가 하나씩 켜진다. 5번째에 타이머가 스스로 ClearTimer — 그 사이 Tick 은 수백 번");
 	Showcase = TEXT("SetTimer 로 1초마다 독 데미지 5번, 다섯 번째에 ClearTimer — 같은 시간 Tick 호출 수와 비교");
@@ -21,18 +23,18 @@ void ADemo0816_Timer::BeginPlay()
 	Super::BeginPlay();
 	FActorSpawnParameters Params;
 	Params.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-	Target = GetWorld()->SpawnActor<AD08_Dummy>(FVector(200.f, 0.f, 90.f), FRotator::ZeroRotator, Params);
+	Target = GetWorld()->SpawnActor<AD08_Dummy>(FVector(200.f, 350.f, 90.f), FRotator::ZeroRotator, Params);
 	Target->Configure(TEXT("표적"), 100.f, Colors::Enemy);
 	Target->RespawnDelay = 1.f;
 
 	// 틱 램프 5개 (타이머 콜백 한 번 = 램프 하나)
 	for (int32 i = 0; i < PoisonTicks; ++i)
 	{
-		UStaticMeshComponent* Lamp = AddShape(this, EShape::Sphere, FVector(200.f, -160.f + i * 80.f, 330.f), FVector(50.f), Colors::Dark);
+		UStaticMeshComponent* Lamp = AddShape(this, EShape::Sphere, FVector(200.f, 190.f + i * 80.f, 330.f), FVector(50.f), Colors::Dark);
 		Lamp->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 		TickLamps.Add(Lamp);
 	}
-	SpawnLabel(GetWorld(), TEXT("타이머 콜백 램프"), FVector(200.f, 0.f, 400.f), Colors::Ally, 18.f);
+	SpawnLabel(GetWorld(), TEXT("타이머 콜백 램프"), FVector(200.f, 350.f, 400.f), Colors::Ally, 18.f);
 	Panel = UD08_SidePanel::Create(GetPC(), TEXT("FTimerHandle PoisonTimer"), UD08_SidePanel::EPlace::TopRight, 440.f);
 	StartPoison();
 }

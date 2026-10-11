@@ -94,6 +94,7 @@ ADemo0604_HealthBar::ADemo0604_HealthBar()
 void ADemo0604_HealthBar::BeginPlay()
 {
 	Super::BeginPlay();
+	GlossaryUIKit::SetupFixedCamera(this, FVector(-650.f, 0.f, 260.f), FRotator(-12.f, 0.f, 0.f)); // 고정 카메라
 	Dummy = SpawnShape(GetWorld(), EShape::Cylinder, FVector(-100.f, 0.f, 90.f), FVector(100.f, 100.f, 180.f), Colors::Enemy);
 	SpawnLabel(GetWorld(), TEXT("훈련용 표적"), FVector(-100.f, 0.f, 230.f), FLinearColor::White, 18.f);
 

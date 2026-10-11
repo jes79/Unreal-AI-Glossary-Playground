@@ -8,12 +8,13 @@
 
 using namespace GlossaryKit;
 
-namespace
+namespace D0202Local
 {
 	const float BallLaneY = 380.f;
 	const float WallX = 700.f;
 	const float BallStartX = -350.f;
 }
+using namespace D0202Local;
 
 ADemo0202_HitOverlap::ADemo0202_HitOverlap()
 {

@@ -10,10 +10,11 @@
 
 using namespace GlossaryKit;
 
-namespace
+namespace D0208Local
 {
 	const FVector GridCenter(300.f, 350.f, 0.f);
 }
+using namespace D0208Local;
 
 ADemo0208_RadialForce::ADemo0208_RadialForce()
 {
@@ -60,7 +61,10 @@ void ADemo0208_RadialForce::SpawnBoxes()
 			const FVector Loc = GridCenter + FVector(X * 120.f, Y * 120.f, 31.f);
 			const float Dist = FVector2D(X * 120.f, Y * 120.f).Size();
 			const FLinearColor Color = FLinearColor::LerpUsingHSV(Colors::Accent, Colors::Player, FMath::Clamp(Dist / 700.f, 0.f, 1.f));
-			Boxes.Add(SpawnShape(GetWorld(), EShape::Cube, Loc, FVector(60.f), Color, FRotator::ZeroRotator, true));
+			AStaticMeshActor* Box = SpawnShape(GetWorld(), EShape::Cube, Loc, FVector(60.f), Color, FRotator::ZeroRotator, true);
+			// RadialForce 는 ObjectTypesToAffect(기본: WorldDynamic·PhysicsBody 등)에 든 타입만 민다 → PhysicsActor 프리셋(PhysicsBody)
+			Box->GetStaticMeshComponent()->SetCollisionProfileName(TEXT("PhysicsActor"));
+			Boxes.Add(Box);
 		}
 	}
 }

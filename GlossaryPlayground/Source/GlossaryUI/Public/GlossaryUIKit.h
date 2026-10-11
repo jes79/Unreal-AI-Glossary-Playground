@@ -30,3 +30,10 @@ namespace GlossaryUIKit
 	/** 고정 크기 상자로 감싼다 (Width/Height 가 0 이면 그 축은 자유) */
 	GLOSSARYUI_API USizeBox* WrapSize(UWidgetTree* Tree, UWidget* Content, float Width, float Height);
 }
+
+class AActor;
+namespace GlossaryUIKit
+{
+	/** 고정 카메라(ACameraActor)를 스폰해 플레이어 시점으로 지정한다. UI 데모처럼 폰이 필요 없는 레벨용 */
+	GLOSSARYUI_API void SetupFixedCamera(AActor* WorldContext, const FVector& Location, const FRotator& Rotation, float FOV = 90.f);
+}

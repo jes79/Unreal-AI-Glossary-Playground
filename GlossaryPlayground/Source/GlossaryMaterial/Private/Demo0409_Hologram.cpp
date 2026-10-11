@@ -20,7 +20,7 @@ ADemo0409_Hologram::ADemo0409_Hologram()
 void ADemo0409_Hologram::BeginPlay()
 {
 	Super::BeginPlay();
-	SetupFixedCamera(FVector(-560.f, -150.f, 190.f), FVector(0.f, -150.f, 110.f), 60.f);
+	SetupFixedCamera(FVector(-820.f, 20.f, 210.f), FVector(0.f, 20.f, 120.f), 60.f);
 
 	// 투사기 받침대 + 발광 링
 	SpawnShape(GetWorld(), EShape::Cylinder, FVector(0.f, 0.f, 10.f), FVector(170.f, 170.f, 20.f), Colors::Dark);

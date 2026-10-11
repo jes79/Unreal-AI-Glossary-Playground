@@ -18,6 +18,8 @@ const TCHAR* ADemo0805_DataTable::ItemsCSV =
 ADemo0805_DataTable::ADemo0805_DataTable()
 {
 	DemoId = TEXT("0805");
+	// 플레이어 컨트롤러(입력 처리) 다음에 Tick 해서 WasKeyPressed 를 놓치지 않게
+	PrimaryActorTick.TickGroup = TG_PostPhysics;
 	Controls = TEXT("1~5 : 해당 행 이름으로 FindRow · 6 : 없는 행 이름(\"Axe\") 찾기\n")
 		TEXT("관찰: 받침대의 아이템 이름·색·가격이 모두 표(CSV)에서 온다. 코드를 바꾸지 않고 표만 고치면 바뀐다");
 	Showcase = TEXT("CSV 로 만든 DataTable 의 5개 행을 받침대에 표시하고 FindRow 로 카드 조회");
@@ -46,13 +48,13 @@ void ADemo0805_DataTable::BeginPlay()
 		{
 			continue;
 		}
-		const FVector Base(300.f, StartY + i * Spacing, 0.f);
+		const FVector Base(500.f, StartY + i * Spacing, 0.f);
 		SpawnBlock(GetWorld(), Base, FVector(160.f, 160.f, 100.f), Colors::Platform);
 		const EShape Shape = (i % 3 == 0) ? EShape::Sphere : (i % 3 == 1 ? EShape::Cube : EShape::Cone);
 		UStaticMeshComponent* Item = AddShape(this, Shape, Base + FVector(0.f, 0.f, 170.f), FVector(80.f), Row->Color);
 		SetColor(Item, Row->Color, 0.3f, Row->Rarity == TEXT("Legendary") ? 0.8f : 0.f, 0.3f);
 		Pedestals.Add(Item);
-		SpawnLabel(GetWorld(), FString::Printf(TEXT("%d. %s\n%d G"), i + 1, *Row->DisplayName, Row->Price), Base + FVector(0.f, 0.f, 290.f), Row->Color, 18.f);
+		SpawnLabel(GetWorld(), FString::Printf(TEXT("%d. %s\n%d G"), i + 1, *Row->DisplayName, Row->Price), Base + FVector(0.f, 0.f, 250.f), Row->Color, 18.f);
 	}
 	if (RowNames.Num() > 0)
 	{

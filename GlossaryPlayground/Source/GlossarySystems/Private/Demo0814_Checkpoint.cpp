@@ -88,6 +88,8 @@ void AD0814_KillZone::OnOverlap(UPrimitiveComponent*, AActor* Other, UPrimitiveC
 ADemo0814_Checkpoint::ADemo0814_Checkpoint()
 {
 	DemoId = TEXT("0814");
+	// 플레이어 컨트롤러(입력 처리) 다음에 Tick 해서 WasKeyPressed 를 놓치지 않게
+	PrimaryActorTick.TickGroup = TG_PostPhysics;
 	Controls = TEXT("WASD 이동 · Space 점프로 용암(주황)을 건넌다 · 깃발을 지나면 체크포인트 저장(초록)\n")
 		TEXT("K : 즉사(테스트) · T : 다음 깃발로 순간이동(테스트)\n")
 		TEXT("관찰: 죽으면 1.5초 뒤 마지막으로 지난 깃발에서 RestartPlayerAtTransform 으로 새 폰이 생긴다");

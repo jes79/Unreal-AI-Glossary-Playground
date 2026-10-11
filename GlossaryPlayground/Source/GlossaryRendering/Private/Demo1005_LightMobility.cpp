@@ -107,7 +107,7 @@ void ADemo1005_LightMobility::BeginPlay()
 		SpawnLabel(World, TEXT("Movable"), SwingPivot + FVector(0.f, 0.f, -230.f), Colors::Item, 18.f);
 	}
 
-	RenderKit::SpawnLookAtCamera(this, FVector(-1150.f, 0.f, 330.f), FVector(0.f, 0.f, 150.f), 60.f);
+	RenderKit::SpawnLookAtCamera(this, FVector(-1300.f, 0.f, 330.f), FVector(0.f, -330.f, 170.f), 65.f);   // 왼쪽 정보 패널을 피해 방을 오른쪽으로
 }
 
 void ADemo1005_LightMobility::Tick(float DeltaSeconds)

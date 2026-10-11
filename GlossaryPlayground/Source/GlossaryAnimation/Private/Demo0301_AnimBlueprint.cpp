@@ -34,7 +34,7 @@ void ADemo0301_AnimBlueprint::BeginPlay()
 	}
 
 	SpawnLabel(World, TEXT("Event Graph (NativeUpdateAnimation)\nSpeed = Velocity.Size2D()\nIsFalling = Movement->IsFalling()"),
-		FVector(500.f, -350.f, 380.f), Colors::Item, 18.f);
+		FVector(700.f, 500.f, 420.f), Colors::Item, 18.f);
 	// 점프해 볼 낮은 단
 	SpawnBlock(World, FVector(-400.f, 700.f, 0.f), FVector(300.f, 300.f, 60.f), Colors::Platform);
 

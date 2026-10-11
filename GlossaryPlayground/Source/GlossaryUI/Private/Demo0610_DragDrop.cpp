@@ -183,6 +183,7 @@ ADemo0610_DragDrop::ADemo0610_DragDrop()
 void ADemo0610_DragDrop::BeginPlay()
 {
 	Super::BeginPlay();
+	GlossaryUIKit::SetupFixedCamera(this, FVector(-650.f, 0.f, 260.f), FRotator(-12.f, 0.f, 0.f)); // 고정 카메라
 	Inventory = CreateWidget<UDemo0610_Inventory>(GetPC(), UDemo0610_Inventory::StaticClass());
 	const TPair<const TCHAR*, FLinearColor> Seed[] = {
 		{ TEXT("검"), FLinearColor(0.7f, 0.7f, 0.8f) }, { TEXT("방패"), FLinearColor(0.3f, 0.45f, 0.9f) },

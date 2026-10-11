@@ -12,6 +12,8 @@ using namespace GlossaryKit;
 ADemo0806_DataAsset::ADemo0806_DataAsset()
 {
 	DemoId = TEXT("0806");
+	// 플레이어 컨트롤러(입력 처리) 다음에 Tick 해서 WasKeyPressed 를 놓치지 않게
+	PrimaryActorTick.TickGroup = TG_PostPhysics;
 	Controls = TEXT("1 권총 · 2 소총 · 3 샷건 (각각 다른 Data Asset) · F : 자동 사격 ON/OFF\n")
 		TEXT("관찰: 발사 코드는 하나인데 에셋의 데미지·연사속도·메시에 따라 손의 무기와 탄·초당 데미지가 달라진다");
 	Showcase = TEXT("무기 Primary Data Asset 3개(권총·소총·샷건)를 바꿔 끼우면 메시·데미지·연사속도가 바뀌어 표적에 사격");
@@ -27,7 +29,7 @@ void ADemo0806_DataAsset::BeginPlay()
 	Super::BeginPlay();
 	FActorSpawnParameters Params;
 	Params.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-	Target = GetWorld()->SpawnActor<AD08_Dummy>(FVector(200.f, 0.f, 90.f), FRotator::ZeroRotator, Params);
+	Target = GetWorld()->SpawnActor<AD08_Dummy>(FVector(200.f, 350.f, 90.f), FRotator::ZeroRotator, Params);
 	Target->RespawnDelay = 1.f;
 	Target->Configure(TEXT("표적"), 500.f, Colors::Enemy);
 
@@ -62,9 +64,12 @@ void ADemo0806_DataAsset::Equip(int32 Index)
 	{
 		// 소프트 참조라서 필요할 때 LoadSynchronous (큰 프로젝트는 비동기 로드)
 		WeaponMesh->SetStaticMesh(Current->Mesh.LoadSynchronous());
-		WeaponMesh->SetRelativeScale3D(Current->MeshSize / 100.f);
+		// 원기둥은 높이(Z)가 길이 방향이라 축을 바꿔 눕힌다 (MeshSize.X = 총신 길이)
+		const bool bCylinder = Current->Mesh.GetAssetName().Contains(TEXT("Cylinder"));
+		const FVector S = Current->MeshSize / 100.f;
+		WeaponMesh->SetRelativeScale3D(bCylinder ? FVector(S.Y, S.Z, S.X) : S);
 		WeaponMesh->SetRelativeLocation(FVector(0.f, Current->MeshSize.X * 0.3f, 0.f));
-		WeaponMesh->SetRelativeRotation(FRotator(0.f, 90.f, 0.f));
+		WeaponMesh->SetRelativeRotation(bCylinder ? FQuat::FindBetweenNormals(FVector::UpVector, FVector::RightVector).Rotator() : FRotator(0.f, 90.f, 0.f));
 		SetColor(WeaponMesh, Current->Color, 0.3f, 0.7f, 0.5f);
 	}
 }

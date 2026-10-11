@@ -92,6 +92,8 @@ void UD0818_DialogueWidget::OnChoice2() { if (Owner.IsValid()) { Owner->Choose(2
 ADemo0818_Dialogue::ADemo0818_Dialogue()
 {
 	DemoId = TEXT("0818");
+	// 플레이어 컨트롤러(입력 처리) 다음에 Tick 해서 WasKeyPressed 를 놓치지 않게
+	PrimaryActorTick.TickGroup = TG_PostPhysics;
 	Controls = TEXT("NPC 가까이에서 E : 말 걸기 · 선택지는 마우스 클릭 또는 1/2/3\n")
 		TEXT("관찰: 고른 선택지의 Next 행으로 이동한다. 대사·분기는 모두 Data Table(CSV)에 있다");
 	Showcase = TEXT("DataTable 의 대사·선택지·다음 ID 로 분기하는 대화창 (상점/마을 정보/작별 분기)");

@@ -128,7 +128,6 @@ void ADemo0601_WidgetBlueprint::RefreshHud()
 void ADemo0601_WidgetBlueprint::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
-	UE_LOG(LogTemp, Warning, TEXT("DBG0601 t=%.2f dt=%.3f one=%d two=%d h=%d"), GetWorld()->GetTimeSeconds(), DeltaSeconds, WasKeyPressed(EKeys::One), WasKeyPressed(EKeys::Two), WasKeyPressed(EKeys::H));
 	if (WasKeyPressed(EKeys::One))
 	{
 		Score += 100;

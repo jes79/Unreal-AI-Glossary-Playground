@@ -66,6 +66,16 @@ namespace
 		FGeometryCollectionEngineConversion::AppendStaticMesh(Cube, Materials, MeshTransform, GC,
 			/*bReindexMaterials*/ false, /*bAddInternalMaterials*/ false, /*bSplitComponents*/ false, /*bSetInternalFromMaterialIndex*/ false);
 		GC->InitializeMaterials(false);
+		// 바깥면 머티리얼(0번)을 벽 색으로 (InitializeMaterials 가 비워 두면 기본 격자 머티리얼로 보인다)
+		if (GC->Materials.Num() == 0)
+		{
+			GC->Materials.Add(Materials[0]);
+		}
+		else
+		{
+			GC->Materials[0] = Materials[0];
+		}
+		UE_LOG(LogGlossaryPhysicsAssets, Display, TEXT("[Glossary] GC_Wall 머티리얼 %d개"), GC->Materials.Num());
 
 		FGeometryCollection* Collection = GC->GetGeometryCollection().Get();
 		if (!Collection || Collection->NumElements(FGeometryCollection::TransformGroup) == 0)

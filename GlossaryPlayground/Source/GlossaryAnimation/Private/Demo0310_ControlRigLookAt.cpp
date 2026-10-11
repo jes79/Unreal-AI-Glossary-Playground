@@ -84,7 +84,19 @@ void ADemo0310_ControlRigLookAt::Tick(float DeltaSeconds)
 	// 한계 콘(빨강)과 현재 시선(초록) 표시
 	const FVector Head = Npc->GetMesh()->GetSocketLocation(TEXT("head"));
 	const FVector Fwd = Npc->GetActorForwardVector();
-	DrawDebugCone(GetWorld(), Head, Fwd, 160.f, FMath::DegreesToRadians(NpcAnim->LookAtClamp), FMath::DegreesToRadians(NpcAnim->LookAtClamp), 24, FColor(255, 60, 40), false, -1.f, 0, 1.5f);
+	// 수평면의 ±한계 각도 두 선 + 그 사이 호
+	{
+		const float Lim = FMath::Min(NpcAnim->LookAtClamp, 179.f);
+		FVector Prev = FVector::ZeroVector;
+		for (int32 k = 0; k <= 12; ++k)
+		{
+			const float A = FMath::Lerp(-Lim, Lim, k / 12.f);
+			const FVector P = Head + FRotator(0.f, A, 0.f).RotateVector(Fwd) * 110.f;
+			if (k == 0 || k == 12) { DrawDebugLine(GetWorld(), Head, P, FColor(255, 60, 40), false, -1.f, 0, 2.f); }
+			if (k > 0) { DrawDebugLine(GetWorld(), Prev, P, FColor(255, 60, 40), false, -1.f, 0, 1.f); }
+			Prev = P;
+		}
+	}
 	if (NpcAnim->bLookAt)
 	{
 		const FVector Look = NpcAnim->LookDeltaCS.IsIdentity() ? Fwd : Npc->GetMesh()->GetComponentQuat().RotateVector(NpcAnim->LookDeltaCS.RotateVector(NpcAnim->ForwardCS));

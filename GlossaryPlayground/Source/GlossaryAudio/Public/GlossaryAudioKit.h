@@ -74,6 +74,8 @@ public:
 	/** 현재(또는 마지막) 재생 중인 웨이브 */
 	const USoundWave* GetWave() const { return CurrentWave.Get(); }
 	float GetPercent() const { return LastPercent; }
+	/** ResetPitchSamples 이후 가장 컸던 Envelope (짧은 소리의 크기를 보여 줄 때) */
+	float GetPeakEnvelope() const { return PeakEnvelope; }
 
 	/** 재생 위치가 흐르는 속도로 실제 피치를 추정한다: 피치 = (재생 비율/초) × 웨이브 길이 */
 	bool EstimatePitch(float& OutPitch) const;
@@ -88,6 +90,7 @@ private:
 	UFUNCTION() void HandlePercent(const USoundWave* PlayingSoundWave, const float PlaybackPercent);
 
 	float Envelope = 0.f;
+	float PeakEnvelope = 0.f;
 	double EnvelopeTime = -1.0;
 	float LastPercent = 0.f;
 	TWeakObjectPtr<const USoundWave> CurrentWave;

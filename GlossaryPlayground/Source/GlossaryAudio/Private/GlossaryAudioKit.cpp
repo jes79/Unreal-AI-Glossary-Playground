@@ -205,6 +205,7 @@ float UGlossaryAudioProbe::GetEnvelope() const
 void UGlossaryAudioProbe::HandleEnvelope(const USoundWave* PlayingSoundWave, const float EnvelopeValue)
 {
 	Envelope = EnvelopeValue;
+	PeakEnvelope = FMath::Max(PeakEnvelope, EnvelopeValue);
 	EnvelopeTime = FPlatformTime::Seconds();
 }
 
@@ -225,6 +226,7 @@ void UGlossaryAudioProbe::ResetPitchSamples()
 	PitchSamples.Reset();
 	CurrentWave = nullptr;
 	LastPercent = 0.f;
+	PeakEnvelope = 0.f;
 }
 
 bool UGlossaryAudioProbe::EstimatePitch(float& OutPitch) const
@@ -326,7 +328,7 @@ void UGlossaryAudioPanel::BuildTree()
 		RowSlot->SetPadding(FMargin(0.f, 2.f));
 
 		USizeBox* LabelBox = WidgetTree->ConstructWidget<USizeBox>(USizeBox::StaticClass());
-		LabelBox->SetWidthOverride(130.f);
+		LabelBox->SetWidthOverride(150.f);
 		LabelBox->SetContent(MakeText(Def.Label, 14.f, FLinearColor(0.85f, 0.88f, 0.92f)));
 		Row->AddChildToHorizontalBox(LabelBox)->SetVerticalAlignment(VAlign_Center);
 

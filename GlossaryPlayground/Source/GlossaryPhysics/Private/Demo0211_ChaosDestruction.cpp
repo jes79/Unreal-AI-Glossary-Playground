@@ -16,10 +16,11 @@
 
 using namespace GlossaryKit;
 
-namespace
+namespace D0211Local
 {
 	const FVector WallLocation(400.f, 0.f, 0.f);
 }
+using namespace D0211Local;
 
 ADemo0211_ChaosDestruction::ADemo0211_ChaosDestruction()
 {
@@ -158,7 +159,7 @@ void ADemo0211_ChaosDestruction::Tick(float DeltaSeconds)
 	// 보험: 스윕이 GC 를 놓친 경우에도 벽 면을 지나는 순간 맞은 것으로 처리
 	for (AStaticMeshActor* Bullet : Bullets)
 	{
-		if (IsValid(Bullet) && Bullet->GetActorLocation().X >= WallLocation.X - 25.f)
+		if (IsValid(Bullet) && Bullet->GetActorLocation().X >= WallLocation.X - 60.f)
 		{
 			BreakAt(Bullet->GetActorLocation(), Bullet->GetVelocity().GetSafeNormal());
 			Bullet->Destroy();

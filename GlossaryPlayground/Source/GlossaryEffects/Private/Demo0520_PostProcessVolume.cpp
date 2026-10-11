@@ -12,10 +12,10 @@ using namespace GlossaryKit;
 
 namespace
 {
-	const FVector CaveCenter(1000.f, 0.f, 250.f);
-	const FVector CaveSize(1000.f, 700.f, 500.f);
-	const FName GlobalTag(TEXT("GlobalPP"));
-	const FName CaveTag(TEXT("CavePP"));
+	const FVector D0520CaveCenter(1000.f, 0.f, 250.f);
+	const FVector D0520CaveSize(1000.f, 700.f, 500.f);
+	const FName D0520GlobalTag(TEXT("GlobalPP"));
+	const FName D0520CaveTag(TEXT("CavePP"));
 }
 
 ADemo0520_PostProcessVolume::ADemo0520_PostProcessVolume()
@@ -35,7 +35,7 @@ void ADemo0520_PostProcessVolume::BuildLevel(UWorld* World)
 	APostProcessVolume* Global = World->SpawnActor<APostProcessVolume>(FVector(0.f, 0.f, 300.f), FRotator::ZeroRotator);
 	Global->bUnbound = true;
 	Global->Priority = 1.f;
-	Global->Tags.Add(GlobalTag);
+	Global->Tags.Add(D0520GlobalTag);
 	Global->Settings.bOverride_ColorSaturation = true;
 	Global->Settings.ColorSaturation = FVector4(1.1f, 1.1f, 1.1f, 1.f);
 	Global->Settings.bOverride_WhiteTemp = true;
@@ -43,12 +43,12 @@ void ADemo0520_PostProcessVolume::BuildLevel(UWorld* World)
 	Global->SetActorLabel(TEXT("PPV_Global_Unbound"));
 
 	// 2) 동굴 볼륨: 상자 브러시 안에서만, 경계 BlendRadius 만큼 서서히
-	if (APostProcessVolume* Cave = Cast<APostProcessVolume>(EffectsKit::SpawnBoxVolume(World, APostProcessVolume::StaticClass(), CaveCenter, CaveSize)))
+	if (APostProcessVolume* Cave = Cast<APostProcessVolume>(EffectsKit::SpawnBoxVolume(World, APostProcessVolume::StaticClass(), D0520CaveCenter, D0520CaveSize)))
 	{
 		Cave->bUnbound = false;
 		Cave->Priority = 2.f;          // 겹치는 곳에서는 Priority 가 높은 볼륨 값이 이긴다
 		Cave->BlendRadius = CaveBlendRadius;
-		Cave->Tags.Add(CaveTag);
+		Cave->Tags.Add(D0520CaveTag);
 		FPostProcessSettings& S = Cave->Settings;
 		S.bOverride_AutoExposureBias = true;   S.AutoExposureBias = -1.8f;            // 어둡게 (노출 보정)
 		S.bOverride_ColorSaturation = true;    S.ColorSaturation = FVector4(0.5f, 0.5f, 0.5f, 1.f);
@@ -65,21 +65,21 @@ void ADemo0520_PostProcessVolume::BeginPlay()
 	UWorld* World = GetWorld();
 	for (TActorIterator<APostProcessVolume> It(World); It; ++It)
 	{
-		if (It->ActorHasTag(GlobalTag)) GlobalVolume = *It;
-		if (It->ActorHasTag(CaveTag)) CaveVolume = *It;
+		if (It->ActorHasTag(D0520GlobalTag)) GlobalVolume = *It;
+		if (It->ActorHasTag(D0520CaveTag)) CaveVolume = *It;
 	}
 
 	// 동굴 모양: 양 벽 + 지붕 + 막힌 뒷벽 (입구는 -X 쪽)
 	const FLinearColor Rock(0.25f, 0.22f, 0.2f);
-	SpawnBlock(World, CaveCenter + FVector(0.f, -CaveSize.Y * 0.5f - 50.f, -CaveSize.Z * 0.5f), FVector(CaveSize.X, 100.f, CaveSize.Z), Rock);
-	SpawnBlock(World, CaveCenter + FVector(0.f, CaveSize.Y * 0.5f + 50.f, -CaveSize.Z * 0.5f), FVector(CaveSize.X, 100.f, CaveSize.Z), Rock);
-	SpawnBlock(World, CaveCenter + FVector(0.f, 0.f, CaveSize.Z * 0.5f), FVector(CaveSize.X, CaveSize.Y + 200.f, 100.f), Rock);
-	SpawnBlock(World, CaveCenter + FVector(CaveSize.X * 0.5f + 50.f, 0.f, -CaveSize.Z * 0.5f), FVector(100.f, CaveSize.Y + 200.f, CaveSize.Z), Rock);
+	SpawnBlock(World, D0520CaveCenter + FVector(0.f, -D0520CaveSize.Y * 0.5f - 50.f, -D0520CaveSize.Z * 0.5f), FVector(D0520CaveSize.X, 100.f, D0520CaveSize.Z), Rock);
+	SpawnBlock(World, D0520CaveCenter + FVector(0.f, D0520CaveSize.Y * 0.5f + 50.f, -D0520CaveSize.Z * 0.5f), FVector(D0520CaveSize.X, 100.f, D0520CaveSize.Z), Rock);
+	SpawnBlock(World, D0520CaveCenter + FVector(0.f, 0.f, D0520CaveSize.Z * 0.5f), FVector(D0520CaveSize.X, D0520CaveSize.Y + 200.f, 100.f), Rock);
+	SpawnBlock(World, D0520CaveCenter + FVector(D0520CaveSize.X * 0.5f + 50.f, 0.f, -D0520CaveSize.Z * 0.5f), FVector(100.f, D0520CaveSize.Y + 200.f, D0520CaveSize.Z), Rock);
 	// 동굴 안 소품 (색이 바뀌는 것을 보기 위한 컬러 상자)
-	SpawnBlock(World, CaveCenter + FVector(200.f, -150.f, -CaveSize.Z * 0.5f), FVector(100.f, 100.f, 100.f), Colors::Item);
-	SpawnBlock(World, CaveCenter + FVector(300.f, 150.f, -CaveSize.Z * 0.5f), FVector(100.f, 100.f, 150.f), Colors::Enemy);
+	SpawnBlock(World, D0520CaveCenter + FVector(200.f, -150.f, -D0520CaveSize.Z * 0.5f), FVector(100.f, 100.f, 100.f), Colors::Item);
+	SpawnBlock(World, D0520CaveCenter + FVector(300.f, 150.f, -D0520CaveSize.Z * 0.5f), FVector(100.f, 100.f, 150.f), Colors::Enemy);
 	SpawnBlock(World, FVector(200.f, -500.f, 0.f), FVector(120.f, 120.f, 120.f), Colors::Ally);
-	SpawnLabel(World, TEXT("동굴 — PPV_Cave (Priority 2, Blend Radius 4m)"), CaveCenter + FVector(-CaveSize.X * 0.5f, 0.f, CaveSize.Z * 0.5f + 80.f), Colors::Item, 20.f);
+	SpawnLabel(World, TEXT("동굴 — PPV_Cave (Priority 2, Blend Radius 4m)"), D0520CaveCenter + FVector(-D0520CaveSize.X * 0.5f, 0.f, D0520CaveSize.Z * 0.5f + 80.f), Colors::Item, 20.f);
 }
 
 void ADemo0520_PostProcessVolume::Tick(float DeltaSeconds)
@@ -91,8 +91,8 @@ void ADemo0520_PostProcessVolume::Tick(float DeltaSeconds)
 		if (Character) Character->TeleportTo(Loc, FRotator::ZeroRotator);
 		if (APlayerController* PC = Character ? Cast<APlayerController>(Character->GetController()) : nullptr) PC->SetControlRotation(FRotator::ZeroRotator);
 	};
-	if (WasKeyPressed(EKeys::One))   Teleport(FVector(CaveCenter.X - CaveSize.X * 0.5f - 150.f, 0.f, 100.f));
-	if (WasKeyPressed(EKeys::Two))   Teleport(FVector(CaveCenter.X + 100.f, 0.f, 100.f));
+	if (WasKeyPressed(EKeys::One))   Teleport(FVector(D0520CaveCenter.X - D0520CaveSize.X * 0.5f - 150.f, 0.f, 100.f));
+	if (WasKeyPressed(EKeys::Two))   Teleport(FVector(D0520CaveCenter.X + 100.f, 0.f, 100.f));
 	if (WasKeyPressed(EKeys::Three)) Teleport(FVector(-200.f, 0.f, 100.f));
 
 	// 카메라 위치 기준 동굴 볼륨 가중치: 안이면 1, 경계 밖 BlendRadius 안이면 거리에 따라 줄어든다

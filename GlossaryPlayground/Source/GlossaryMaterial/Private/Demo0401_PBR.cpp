@@ -20,7 +20,7 @@ void ADemo0401_PBR::BeginPlay()
 {
 	Super::BeginPlay();
 	UWorld* World = GetWorld();
-	SetupFixedCamera(FVector(-1150.f, -150.f, 330.f), FVector(0.f, -150.f, 300.f), 60.f);
+	SetupFixedCamera(FVector(-1450.f, -120.f, 340.f), FVector(0.f, -120.f, 300.f), 60.f);
 
 	// 반사에 비칠 거리: 뒤쪽 색 기둥
 	for (int32 I = 0; I < 6; ++I)
@@ -33,7 +33,7 @@ void ADemo0401_PBR::BeginPlay()
 	UMaterialInterface* PBR = LoadMaterial(TEXT("M_PBR"));
 	constexpr int32 N = 5;
 	constexpr float Spacing = 115.f;
-	const FVector Origin(0.f, 30.f, 560.f);
+	const FVector Origin(0.f, -40.f, 560.f);
 	for (int32 Row = 0; Row < N; ++Row)
 	{
 		for (int32 Col = 0; Col < N; ++Col)

@@ -130,7 +130,7 @@ void ADemo1014_Scalability::BeginPlay()
 		FRandomStream Rand(1014);
 		for (int32 i = 0; i < 300; ++i)
 		{
-			AStaticMeshActor* A = World->SpawnActor<AStaticMeshActor>(FVector(Rand.FRandRange(300.f, 6000.f), Rand.FRandRange(-3000.f, 3000.f), 0.f), FRotator(0.f, Rand.FRandRange(0.f, 360.f), 0.f));
+			AStaticMeshActor* A = World->SpawnActor<AStaticMeshActor>(FVector(Rand.FRandRange(900.f, 6000.f), Rand.FRandRange(-3000.f, 3000.f), 0.f), FRotator(0.f, Rand.FRandRange(0.f, 360.f), 0.f));
 			A->GetStaticMeshComponent()->SetMobility(EComponentMobility::Movable);
 			A->GetStaticMeshComponent()->SetStaticMesh(Tree);
 		}

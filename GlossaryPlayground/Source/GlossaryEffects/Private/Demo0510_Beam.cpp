@@ -12,7 +12,7 @@ ADemo0510_Beam::ADemo0510_Beam()
 	DemoId = TEXT("0510");
 	Controls = TEXT("C : 끝점 움직임 멈춤/재개\n")
 		TEXT("관찰: 빔 이미터는 시작·끝 위치를 User.BeamStart / User.BeamEnd 파라미터로 받는다.\n")
-		TEXT("C++ 가 매 프레임 SetVariablePosition 으로 두 구슬 위치를 넘기므로 빔이 구슬을 따라간다");
+		TEXT("C++ 가 매 프레임 SetVariableVec3 로 두 구슬 위치를 넘기므로 빔이 구슬을 따라간다");
 	Showcase = TEXT("두 구슬 사이를 잇는 번개 빔, 끝점을 User Parameter(BeamStart/BeamEnd)로 매 프레임 갱신");
 	PlayerPawnClass = nullptr;
 	Environment.Sky = EGlossarySky::Night;
@@ -48,9 +48,9 @@ void ADemo0510_Beam::Tick(float DeltaSeconds)
 
 	if (Beam)
 	{
-		// 핵심: 빔 끝점 = User 파라미터 (Position 타입)
-		Beam->SetVariablePosition(TEXT("BeamStart"), StartPos);
-		Beam->SetVariablePosition(TEXT("BeamEnd"), EndPos);
+		// 핵심: 빔 끝점 = User 파라미터 (Vector, Absolute Beam Start/End = 월드 좌표)
+		Beam->SetVariableVec3(TEXT("BeamStart"), StartPos);
+		Beam->SetVariableVec3(TEXT("BeamEnd"), EndPos);
 	}
 	SetStatus(FString::Printf(TEXT("BeamStart (%.0f, %.0f, %.0f) → BeamEnd (%.0f, %.0f, %.0f) · 길이 %.0f cm"),
 		StartPos.X, StartPos.Y, StartPos.Z, EndPos.X, EndPos.Y, EndPos.Z, FVector::Dist(StartPos, EndPos)));

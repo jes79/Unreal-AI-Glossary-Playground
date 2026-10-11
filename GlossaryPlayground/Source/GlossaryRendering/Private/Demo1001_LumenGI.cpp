@@ -43,6 +43,7 @@ void ADemo1001_LumenGI::BeginPlay()
 	ASpotLight* Spot = World->SpawnActor<ASpotLight>(FVector(-100.f, 200.f, 470.f), (FVector(0.f, -300.f, 170.f) - FVector(-100.f, 200.f, 470.f)).Rotation());
 	USpotLightComponent* SpotComp = Spot->SpotLightComponent;
 	SpotComp->SetMobility(EComponentMobility::Movable);
+	SpotComp->SetWorldRotation((FVector(0.f, -300.f, 170.f) - FVector(-100.f, 200.f, 470.f)).Rotation());
 	SpotComp->SetIntensityUnits(ELightUnits::Candelas);
 	SpotComp->SetIntensity(SpotIntensity);
 	SpotComp->SetInnerConeAngle(18.f);

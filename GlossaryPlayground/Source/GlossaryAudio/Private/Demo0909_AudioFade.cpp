@@ -30,7 +30,7 @@ void ADemo0909_AudioFade::BeginPlay()
 	Super::BeginPlay();
 	GlossaryAudioKit::PrepareAudioDemo();
 	UWorld* World = GetWorld();
-	Camera = GlossaryAudioKit::SpawnFixedCamera(World, FVector(-600.f, 0.f, 320.f), FRotator(-12.f, 0.f, 0.f), 72.f);
+	Camera = GlossaryAudioKit::SpawnFixedCamera(World, FVector(-1000.f, 0.f, 360.f), FRotator(-9.f, 0.f, 0.f), 70.f);
 
 	auto MakeSpeaker = [&](const FVector& Base, const FLinearColor& Color, const TCHAR* Label, TObjectPtr<UStaticMeshComponent>& OutCone, TObjectPtr<UStaticMeshComponent>& OutBar)
 	{
@@ -39,7 +39,7 @@ void ADemo0909_AudioFade::BeginPlay()
 		SetColor(OutCone, Color, 0.4f, 0.f, 2.f);
 		OutBar = AddShape(this, EShape::Cube, Base + FVector(-60.f, 170.f, 60.f), FVector(20.f, 34.f, 10.f), Color);
 		SetColor(OutBar, Color, 0.4f, 0.f, 3.f);
-		SpawnLabel(World, Label, Base + FVector(0.f, 0.f, 380.f), Color, 18.f);
+		SpawnLabel(World, Label, Base + FVector(-140.f, 0.f, 20.f), Color, 17.f);
 	};
 	MakeSpeaker(CalmPos, Colors::Cyan, TEXT("잔잔한 BGM (S_BGM_Calm_Loop)"), CalmSpeaker, CalmBar);
 	MakeSpeaker(BattlePos, Colors::Enemy, TEXT("전투 BGM (S_BGM_Battle_Loop)"), BattleSpeaker, BattleBar);

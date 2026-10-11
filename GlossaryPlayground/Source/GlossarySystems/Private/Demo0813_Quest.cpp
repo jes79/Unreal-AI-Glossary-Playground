@@ -9,6 +9,8 @@ using namespace GlossaryKit;
 ADemo0813_Quest::ADemo0813_Quest()
 {
 	DemoId = TEXT("0813");
+	// 플레이어 컨트롤러(입력 처리) 다음에 Tick 해서 WasKeyPressed 를 놓치지 않게
+	PrimaryActorTick.TickGroup = TG_PostPhysics;
 	Controls = TEXT("WASD 이동 · 슬라임(초록)·박쥐(보라)에 닿으면 처치 · K : 가장 가까운 슬라임 처치(테스트) · R : 퀘스트 초기화\n")
 		TEXT("관찰: 오른쪽 위 퀘스트 HUD 가 슬라임만 세고, 5마리가 되면 완료 + 보상 골드가 들어온다");
 	Showcase = TEXT("'슬라임 5마리 처치' 퀘스트 Data Asset, HUD 진행도 바, 완료 시 골드 보상 (박쥐는 집계 제외)");

@@ -24,7 +24,7 @@ ADemo0104_Acceleration::ADemo0104_Acceleration()
 		TEXT("두 러너가 같은 시간만 달리고 멈춘다: 가까운 줄 = 기본 값, 먼 줄(주황) = 미끄러운 값\n")
 		TEXT("관찰: 미끄러운 쪽은 출발이 느리고, 입력을 뗀 뒤에도 한참 미끄러진다(주황 기둥 = 멈춘 자리)");
 	Showcase = TEXT("Max Acceleration 1000 · Braking Deceleration 500 · Ground Friction 2 러너와 기본 값 러너의 출발·제동 거리 비교");
-	PlayerStartTransform = FTransform(FRotator::ZeroRotator, FVector(-650.f, 0.f, 100.f));
+	PlayerStartTransform = FTransform(FRotator::ZeroRotator, FVector(-250.f, -750.f, 100.f));
 }
 
 ACharacter* ADemo0104_Acceleration::SpawnRunner(const FVector& Location, bool bSlippery)
@@ -83,7 +83,7 @@ void ADemo0104_Acceleration::BeginPlay()
 			SpawnBlock(World, Lane + FVector(-90.f, Y, 0.f), FVector(20.f, 6.f, 4.f), FLinearColor::White);
 		}
 		SpawnLabel(World, bSlip ? TEXT("미끄러운 값 (가속 1000 · 제동 500 · 마찰 2)") : TEXT("기본 값 (가속 2048 · 제동 2000 · 마찰 8)"),
-			Lane + FVector(0.f, -LaneY - 250.f, 120.f), bSlip ? Colors::Accent : Colors::Cyan, 16.f);
+			Lane + FVector(0.f, -LaneY - 150.f, bSlip ? 330.f : 120.f), bSlip ? Colors::Accent : Colors::Cyan, 16.f);
 	}
 
 	SpawnRunner(LaneDefault + FVector(0.f, -LaneY + 100.f, 0.f), false);
@@ -160,7 +160,7 @@ void ADemo0104_Acceleration::Tick(float DeltaSeconds)
 		}
 		if (AGlossaryLabel* L = R.Label.Get())
 		{
-			L->SetActorLocation(C->GetActorLocation() + FVector(0.f, 0.f, 150.f));
+			L->SetActorLocation(C->GetActorLocation() + FVector(0.f, 0.f, R.bSlippery ? 330.f : 130.f));
 			L->SetText(FString::Printf(TEXT("%s\n속도 %3.0f · 최고속 도달 %.2fs\n뗀 뒤 미끄러짐 %.0fcm"),
 				R.bSlippery ? TEXT("미끄러움") : TEXT("기본"), Speed, R.TimeToTop, R.LastSlide));
 		}

@@ -19,7 +19,7 @@ ADemo1107_SoftReference::ADemo1107_SoftReference()
 		TEXT("2 : 보스 제거 + 핸들 해제 + GC → 메모리에서 내려감 (다시 1 로 로드)\n")
 		TEXT("관찰: 시작 직후 '메모리에 있음: 아니오' — 경로만 들고 있다가 필요할 때 불러온다");
 	Showcase = TEXT("TSoftObjectPtr 보스 메시를 RequestAsyncLoad 로 불러와 스폰, 로드 상태·시간·언로드 표시");
-	PlayerStartTransform = FTransform(FRotator::ZeroRotator, FVector(-500.f, 0.f, 100.f));
+	PlayerStartTransform = FTransform(FRotator::ZeroRotator, FVector(-600.f, -300.f, 100.f));
 
 	// 생성자에서는 경로만 넣는다. 이 줄은 아무것도 로드하지 않는다.
 	BossMesh = TSoftObjectPtr<USkeletalMesh>(FSoftObjectPath(TEXT("/Game/Characters/Mannequins/Meshes/SKM_Quinn_Simple.SKM_Quinn_Simple")));

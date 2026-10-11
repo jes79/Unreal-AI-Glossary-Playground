@@ -88,15 +88,20 @@ void UD0904VolumeOptions::SetValue(int32 Index, float Value, bool bSelected)
 {
 	if (Sliders.IsValidIndex(Index))
 	{
-		Sliders[Index]->SetValue(Value); // SetValue 는 OnValueChanged 를 부르지 않는다 (키 입력 → 슬라이더 표시만 맞춤)
+		// USlider::SetValue 는 OnValueChanged 를 다시 방송하므로 되먹임을 막는다 (키 입력 → 슬라이더 표시만 맞춤)
+		TGuardValue<bool> Guard(bSyncingFromCode, true);
+		if (!FMath::IsNearlyEqual(Sliders[Index]->GetValue(), Value))
+		{
+			Sliders[Index]->SetValue(Value);
+		}
 		ValueTexts[Index]->SetText(FText::FromString(FString::Printf(TEXT("%.0f%%"), Value * 100.f)));
 		Labels[Index]->SetText(FText::FromString(FString::Printf(TEXT("%s%s"), bSelected ? TEXT("▶ ") : TEXT(""), ClassNames[Index])));
 	}
 }
 
-void UD0904VolumeOptions::OnMusicChanged(float Value) { if (Demo.IsValid()) Demo->SetClassVolume(0, Value); }
-void UD0904VolumeOptions::OnSFXChanged(float Value)   { if (Demo.IsValid()) Demo->SetClassVolume(1, Value); }
-void UD0904VolumeOptions::OnVoiceChanged(float Value) { if (Demo.IsValid()) Demo->SetClassVolume(2, Value); }
+void UD0904VolumeOptions::OnMusicChanged(float Value) { if (!bSyncingFromCode && Demo.IsValid()) Demo->SetClassVolume(0, Value); }
+void UD0904VolumeOptions::OnSFXChanged(float Value)   { if (!bSyncingFromCode && Demo.IsValid()) Demo->SetClassVolume(1, Value); }
+void UD0904VolumeOptions::OnVoiceChanged(float Value) { if (!bSyncingFromCode && Demo.IsValid()) Demo->SetClassVolume(2, Value); }
 
 // ---------------------------------------------------------------- 데모
 
@@ -239,5 +244,5 @@ void ADemo0904_SoundClassMix::Tick(float DeltaSeconds)
 		VolumeBars[i]->SetRelativeLocation(FVector(360.f, SpeakerY[i] + 140.f, 60.f + BarHeight * 0.5f));
 		Line += FString::Printf(TEXT("%s %.0f%%  "), ClassNames[i], ClassVolumes[i] * 100.f);
 	}
-	SetStatus(FString::Printf(TEXT("SMix_Options 적용 중 · %s\n선택: %s (키 [ ] 로 조절)"), *Line, ClassNames[Selected]));
+	SetStatus(FString::Printf(TEXT("SMix_Options 적용 중 · %s\n선택: %s (키 ↓/↑ 또는 [ ] 로 조절)"), *Line, ClassNames[Selected]));
 }

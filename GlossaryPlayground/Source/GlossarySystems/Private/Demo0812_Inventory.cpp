@@ -213,6 +213,8 @@ void UD0812_InventoryWidget::Refresh(const UD0812_InventoryComponent* Inventory)
 ADemo0812_Inventory::ADemo0812_Inventory()
 {
 	DemoId = TEXT("0812");
+	// 플레이어 컨트롤러(입력 처리) 다음에 Tick 해서 WasKeyPressed 를 놓치지 않게
+	PrimaryActorTick.TickGroup = TG_PostPhysics;
 	Controls = TEXT("WASD 이동 · 바닥 아이템에 닿으면 줍기\n")
 		TEXT("1 물약+3 · 2 화살+45 · 3 검+1 · 4 보석+7 · U 물약 사용 · X 화살 10개 버리기\n")
 		TEXT("관찰: 물약 10·화살 99·보석 20 까지 한 칸에 겹치고, 넘치면 다음 칸. 20칸이 차면 남은 수를 돌려준다");

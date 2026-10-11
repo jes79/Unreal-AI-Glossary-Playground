@@ -5,17 +5,19 @@
 #include "Engine/StaticMeshActor.h"
 #include "GlossaryKit.h"
 #include "GlossaryLabel.h"
+#include "GameFramework/PlayerController.h"
 #include "Kismet/KismetSystemLibrary.h"
 
 using namespace GlossaryKit;
 
-namespace
+namespace D0204Local
 {
 	// 플레이어 시작(-600,0) 기준 앞쪽에 선 적들: 정면 / 옆 70 / 옆 -75 / 옆 160(범위 밖) / 멀리
 	const FVector EnemySpots[] = {
 		FVector(-430.f, 0.f, 90.f), FVector(-450.f, 70.f, 90.f), FVector(-420.f, -75.f, 90.f),
 		FVector(-470.f, 165.f, 90.f), FVector(-230.f, 0.f, 90.f) };
 }
+using namespace D0204Local;
 
 ADemo0204_ShapeTrace::ADemo0204_ShapeTrace()
 {
@@ -108,6 +110,12 @@ void ADemo0204_ShapeTrace::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
 
+	// 시작 시점: 캐릭터 뒤 위에서 적들을 내려다보게
+	if (!bViewInitialized && GetPC() && GetPlayerPawn())
+	{
+		GetPC()->SetControlRotation(FRotator(-25.f, 0.f, 0.f));
+		bViewInitialized = true;
+	}
 	if (WasKeyPressed(EKeys::One)) { bLineMode = !bLineMode; LastHitCount = -1; }
 	if (WasKeyPressed(EKeys::R)) { ResetEnemies(); }
 	AttackCooldown -= DeltaSeconds;

@@ -49,7 +49,7 @@ void ADemo1010_LOD::BeginPlay()
 		UStaticMeshComponent* Rock = NewObject<UStaticMeshComponent>(this);
 		Rock->SetStaticMesh(Mesh);
 		Rock->SetupAttachment(RootComponent);
-		const float Y = (i - 2) * (120.f + Distances[i] * 0.12f);
+		const float Y = (i - 1) * (120.f + Distances[i] * 0.12f);   // 왼쪽 정보 패널을 피해 오른쪽으로
 		Rock->SetRelativeLocation(FVector(Distances[i], Y, 90.f));
 		Rock->RegisterComponent();
 		Rocks.Add(Rock);

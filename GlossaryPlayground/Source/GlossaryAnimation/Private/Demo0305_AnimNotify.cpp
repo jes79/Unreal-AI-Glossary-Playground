@@ -20,11 +20,11 @@ using namespace GlossaryKit;
 ADemo0305_AnimNotify::ADemo0305_AnimNotify()
 {
 	DemoId = TEXT("0305");
-	Controls = TEXT("왼쪽 클릭 / F : 플레이어 공격 (허수아비 앞에서)   1 : AnimNotify 판정   2 : 시작 즉시 판정(나쁜 예)\n")
+	Controls = TEXT("1 : AnimNotify 판정   2 : 입력 즉시 판정(나쁜 예)   (공격자가 3.5초마다 3단 콤보)\n")
 		TEXT("관찰: 주먹이 다 뻗는 프레임(타임라인의 빨간 Hit 선)에서만 데미지·효과음·피격 리액션이 난다\n")
 		TEXT("2 로 바꾸면 휘두르기도 전에 맞아 버린다 — 타격 타이밍을 애니메이션에 맡기는 이유");
 	Showcase = TEXT("콤보 몽타주 각 섹션의 타격 프레임에 C++ AnimNotify, Notify 순간 Sphere Overlap 판정·효과음·피격 리액션, 즉시 판정과 비교");
-	PlayerStartTransform = FTransform(FRotator::ZeroRotator, FVector(-480.f, -40.f, 100.f));
+	PlayerPawnClass = nullptr;
 }
 
 void ADemo0305_AnimNotify::BeginPlay()
@@ -52,6 +52,7 @@ void ADemo0305_AnimNotify::BeginPlay()
 
 	// 전역 Notify 이벤트 구독: 어떤 캐릭터의 몽타주에서든 'Hit' 프레임을 지나면 불린다
 	HitHandle = UD0305_AnimNotify_Hit::OnHit.AddUObject(this, &ADemo0305_AnimNotify::OnAnimHit);
+	D03::SpawnViewCamera(World, GetPC(), FVector(-420.f, 60.f, 190.f), FVector(60.f, 10.f, 110.f), 55.f);
 
 	Graph = UD03_GraphWidget::Create(GetPC(), TEXT("AM_Attack_Combo · 빨간 선 = AnimNotify 'Hit'"));
 	if (Graph)

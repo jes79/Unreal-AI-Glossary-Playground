@@ -9,6 +9,7 @@
 #include "Engine/UserInterfaceSettings.h"
 #include "GameFramework/PlayerController.h"
 #include "GlossaryKit.h"
+#include "GlossaryUIKit.h"
 
 using namespace GlossaryKit;
 
@@ -51,8 +52,8 @@ void UDemo0602_AnchorHud::BuildTree()
 
 	// 나쁜 예: Anchor 를 신경 쓰지 않고 1920×1080 화면 기준 절대 좌표로 둔 상자
 	UBorder* Bad = MakeBorder(FLinearColor(0.5f, 0.1f, 0.4f, 0.9f), FMargin(8.f));
-	Bad->SetContent(MakeText(TEXT("나쁜 예: Anchor(0,0) + 절대 좌표 (1560, 620)\n해상도가 작아지고 DPI 를 끄면 화면 밖으로"), 14.f));
-	AddToCanvas(Canvas, Bad, FAnchors(0.f, 0.f), FVector2D(1560.f, 620.f), FVector2D(340.f, 70.f));
+	Bad->SetContent(MakeText(TEXT("나쁜 예: Anchor(0,0) + 절대 좌표 (1480, 620)\n해상도가 작아지고 DPI 를 끄면 화면 밖으로"), 14.f));
+	AddToCanvas(Canvas, Bad, FAnchors(0.f, 0.f), FVector2D(1480.f, 620.f), FVector2D(400.f, 70.f));
 
 	ScaleText = MakeText(TEXT(""), 16.f, FLinearColor(1.f, 0.9f, 0.4f), true);
 	UBorder* ScalePanel = MakeBorder(FLinearColor(0.f, 0.f, 0.f, 0.6f), FMargin(10.f, 6.f));
@@ -76,6 +77,7 @@ ADemo0602_AnchorDPI::ADemo0602_AnchorDPI()
 void ADemo0602_AnchorDPI::BeginPlay()
 {
 	Super::BeginPlay();
+	GlossaryUIKit::SetupFixedCamera(this, FVector(-650.f, 0.f, 260.f), FRotator(-12.f, 0.f, 0.f)); // 고정 카메라
 	SpawnShape(GetWorld(), EShape::Cube, FVector(-100.f, 0.f, 60.f), FVector(120.f), Colors::Platform);
 
 	UUserInterfaceSettings* UISettings = GetMutableDefault<UUserInterfaceSettings>();

@@ -10,11 +10,12 @@
 
 using namespace GlossaryKit;
 
-namespace
+namespace D0205Local
 {
 	const float LeftY = -150.f;   // Simulate Physics ON 더미
 	const float RightY = 550.f;   // OFF 더미
 }
+using namespace D0205Local;
 
 ADemo0205_SimulatePhysics::ADemo0205_SimulatePhysics()
 {
@@ -31,7 +32,7 @@ void ADemo0205_SimulatePhysics::BeginPlay()
 {
 	Super::BeginPlay();
 	// 화면 가운데가 왼쪽 더미를 향하도록 카메라를 둔다 (E 키 = 가운데 클릭)
-	Camera = PhysicsDemoUtil::SpawnFixedCamera(GetWorld(), FVector(-900.f, 120.f, 380.f), FRotator(-14.f, -12.f, 0.f), 75.f);
+	Camera = PhysicsDemoUtil::SpawnFixedCamera(GetWorld(), FVector(-1100.f, 150.f, 400.f), FRotator(-13.5f, -15.3f, 0.f), 85.f);
 	SpawnStacks();
 	SpawnLabel(GetWorld(), TEXT("Simulate Physics ON"), FVector(0.f, LeftY, 330.f), Colors::Ally, 20.f);
 	SpawnLabel(GetWorld(), TEXT("Simulate Physics OFF"), FVector(0.f, RightY, 330.f), Colors::Enemy, 20.f);

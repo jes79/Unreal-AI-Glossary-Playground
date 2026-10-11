@@ -51,7 +51,7 @@ void ADemo0706_Patrol::BeginPlay()
 	Enemy = D07::SpawnEnemy(World, FVector(Start.X, Start.Y, 0.f), 0.f, AAIController::StaticClass(), Colors::Enemy);
 	Enemy->GetCharacterMovement()->MaxWalkSpeed = 260.f;   // 순찰은 걷는 속도
 
-	OverviewCamera = D07::SetupOverviewCamera(this, FVector(-1300.f, 0.f, 1900.f), FRotator(-52.f, 0.f, 0.f));
+	OverviewCamera = D07::SetupOverviewCamera(this, FVector(-1300.f, -380.f, 1900.f), FRotator(-52.f, 8.f, 0.f));
 }
 
 void ADemo0706_Patrol::ArriveAtPoint()

@@ -24,7 +24,7 @@ void ADemo0309_FootIK::BeginPlay()
 	UWorld* World = GetWorld();
 
 	// 스테이션 3개: 캐릭터는 -X(카메라)를 보고, 왼발 쪽(+Y)에 StepHeight 높이 계단
-	const float Ys[] = { -230.f, 0.f, 230.f };
+	const float Ys[] = { -110.f, 110.f, 330.f };
 	AD03_Mannequin* Made[3] = {};
 	for (int32 i = 0; i < 3; ++i)
 	{
@@ -74,7 +74,7 @@ void ADemo0309_FootIK::BeginPlay()
 		Walker->AutoMoveScale = 0.35f;
 	}
 
-	D03::SpawnViewCamera(World, GetPC(), FVector(-430.f, 0.f, 175.f), FVector(80.f, 0.f, 40.f), 72.f);
+	D03::SpawnViewCamera(World, GetPC(), FVector(-700.f, 60.f, 240.f), FVector(80.f, 60.f, 50.f), 62.f);
 }
 
 void ADemo0309_FootIK::Tick(float DeltaSeconds)

@@ -9,6 +9,8 @@ using namespace GlossaryKit;
 ADemo0809_GameplayEffect::ADemo0809_GameplayEffect()
 {
 	DemoId = TEXT("0809");
+	// 플레이어 컨트롤러(입력 처리) 다음에 Tick 해서 WasKeyPressed 를 놓치지 않게
+	PrimaryActorTick.TickGroup = TG_PostPhysics;
 	Controls = TEXT("1 : 왼쪽 표적에 독 GE · 2 : 오른쪽 표적에 독 GE · 3 : 둘 다 회복 GE(+40)\n")
 		TEXT("관찰: 독을 걸면 1초마다 -10 씩 5번 깎이고, 걸려 있는 동안 State.Poisoned 태그(초록)가 붙는다");
 	Showcase = TEXT("Health·Mana AttributeSet 표적 2개에 독 GE(5초·Period 1·-10) 적용, 1초마다 틱과 남은 시간·태그 표시");

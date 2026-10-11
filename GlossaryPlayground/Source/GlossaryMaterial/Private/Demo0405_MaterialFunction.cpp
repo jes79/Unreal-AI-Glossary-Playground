@@ -21,7 +21,7 @@ void ADemo0405_MaterialFunction::BeginPlay()
 {
 	Super::BeginPlay();
 	UWorld* World = GetWorld();
-	SetupFixedCamera(FVector(-900.f, -200.f, 260.f), FVector(0.f, -200.f, 130.f), 60.f);
+	SetupFixedCamera(FVector(-1150.f, 20.f, 300.f), FVector(0.f, 20.f, 120.f), 60.f);
 
 	const FString Labels[] = { TEXT("M_Rim_Metal\n금속 + 주황 림"), TEXT("M_Rim_Stone\n돌 + 초록 림"), TEXT("M_Rim_Ghost\n유령 + 파랑 림") };
 	for (int32 I = 0; I < CallerMaterials.Num(); ++I)
@@ -37,7 +37,7 @@ void ADemo0405_MaterialFunction::BeginPlay()
 		}
 		else
 		{
-			AStaticMeshActor* Actor = SpawnWithMaterial(I == 0 ? EShape::Sphere : EShape::Cube, FVector(0.f, Y, 110.f), FVector(190.f), Material,
+			AStaticMeshActor* Actor = SpawnWithMaterial(EShape::Sphere, FVector(0.f, Y, 100.f), I == 0 ? FVector(190.f) : FVector(230.f, 200.f, 150.f), Material,
 				I == 1 ? FRotator(20.f, 35.f, 10.f) : FRotator::ZeroRotator);
 			Target = Actor->GetStaticMeshComponent();
 		}

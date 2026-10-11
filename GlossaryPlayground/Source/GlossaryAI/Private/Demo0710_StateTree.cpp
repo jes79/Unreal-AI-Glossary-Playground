@@ -19,6 +19,7 @@ ADemo0710_StateTree::ADemo0710_StateTree()
 		TEXT("200 이내면 Attack. 벽 뒤로 숨어 2초가 지나면 Idle 로 돌아간다. 오른쪽 패널 = 활성 상태");
 	Showcase = TEXT("코드로 작성·컴파일한 StateTree 에셋(Idle→Patrol→Chase→Attack, 보임·거리 조건 전환)을 StateTreeAIComponent 로 실행");
 	bNeedsNavMesh = true;
+	PlayerStartTransform = FTransform(FRotator::ZeroRotator, FVector(-300.f, -300.f, 100.f));
 }
 
 void ADemo0710_StateTree::BeginPlay()
@@ -47,7 +48,7 @@ void ADemo0710_StateTree::BeginPlay()
 	}
 
 	SidePanel = D07::CreateSidePanel(this);
-	OverviewCamera = D07::SetupOverviewCamera(this, FVector(-1500.f, 0.f, 1700.f), FRotator(-45.f, 0.f, 0.f));
+	OverviewCamera = D07::SetupOverviewCamera(this, FVector(-1300.f, -900.f, 1900.f), FRotator(-50.f, 22.f, 0.f));
 }
 
 void ADemo0710_StateTree::Tick(float DeltaSeconds)
@@ -81,8 +82,7 @@ void ADemo0710_StateTree::Tick(float DeltaSeconds)
 	// 시야 부채꼴과 공격 반경
 	UWorld* World = GetWorld();
 	const bool bSees = AIC->CanSeePlayer();
-	DrawDebugCone(World, Enemy->GetActorLocation() - FVector(0.f, 0.f, 60.f), Enemy->GetActorForwardVector(), AIC->SightRadius,
-		FMath::DegreesToRadians(AIC->SightHalfAngle), FMath::DegreesToRadians(5.f), 12, bSees ? FColor::Red : FColor(255, 220, 60), false, -1.f, 0, 2.f);
+	D07::DrawSightFan(World, Enemy->GetActorLocation() - FVector(0.f, 0.f, 85.f), Enemy->GetActorForwardVector(), AIC->SightRadius, AIC->SightHalfAngle, bSees ? FColor::Red : FColor(255, 220, 60));
 	DrawDebugCircle(World, Enemy->GetActorLocation() - FVector(0.f, 0.f, 90.f), AttackRange, 40, FColor::Orange, false, -1.f, 0, 3.f, FVector(1, 0, 0), FVector(0, 1, 0), false);
 	D07::DrawCurrentPath(AIC, FColor::Cyan, 4.f);
 

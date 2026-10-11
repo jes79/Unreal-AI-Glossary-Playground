@@ -4,6 +4,7 @@
 #include "Camera/CameraActor.h"
 #include "Components/AudioComponent.h"
 #include "Components/StaticMeshComponent.h"
+#include "GameFramework/PlayerController.h"
 #include "GlossaryAudioKit.h"
 #include "GlossaryKit.h"
 #include "Kismet/GameplayStatics.h"
@@ -31,7 +32,7 @@ void ADemo0905_Submix::BeginPlay()
 	Super::BeginPlay();
 	GlossaryAudioKit::PrepareAudioDemo();
 	UWorld* World = GetWorld();
-	Camera = GlossaryAudioKit::SpawnFixedCamera(World, FVector(-650.f, 0.f, 330.f), FRotator(-14.f, 0.f, 0.f), 72.f);
+	Camera = GlossaryAudioKit::SpawnFixedCamera(World, FVector(-1000.f, 0.f, 380.f), FRotator(-13.f, 0.f, 0.f), 72.f);
 
 	SFXSubmix = LoadAsset<USoundSubmix>(GlossaryAudioKit::AssetPath(TEXT("SSub_SFX")));
 	LowPass = LoadAsset<USubmixEffectFilterPreset>(GlossaryAudioKit::AssetPath(TEXT("SSFX_LowPass")));
@@ -59,10 +60,10 @@ void ADemo0905_Submix::BeginPlay()
 	}
 
 	// 소리 경로 그림: 소스 → (SSub_SFX: Low Pass) → Master
-	SpawnBlock(World, FVector(250.f, -650.f, 0.f), FVector(120.f, 120.f, 120.f), Colors::Accent);
-	SpawnLabel(World, TEXT("효과음 (차임·모닥불)\n→ SSub_SFX [Low Pass]"), FVector(250.f, -650.f, 230.f), Colors::Accent, 16.f);
-	SpawnBlock(World, FVector(250.f, 650.f, 0.f), FVector(120.f, 120.f, 120.f), Colors::Purple);
-	SpawnLabel(World, TEXT("음악 (BGM)\n→ Master (필터 없음)"), FVector(250.f, 650.f, 230.f), Colors::Purple, 16.f);
+	SpawnBlock(World, FVector(250.f, -560.f, 0.f), FVector(120.f, 120.f, 120.f), Colors::Accent);
+	SpawnLabel(World, TEXT("효과음 (차임·모닥불)\n→ SSub_SFX [Low Pass]"), FVector(120.f, -560.f, -20.f), Colors::Accent, 16.f);
+	SpawnBlock(World, FVector(250.f, 560.f, 0.f), FVector(120.f, 120.f, 120.f), Colors::Purple);
+	SpawnLabel(World, TEXT("음악 (BGM)\n→ Master (필터 없음)"), FVector(120.f, 560.f, -20.f), Colors::Purple, 16.f);
 
 	// SFX 서브믹스 스펙트럼 막대
 	for (int32 i = 0; i < BandFrequencies.Num(); ++i)
@@ -111,6 +112,15 @@ void ADemo0905_Submix::EndPlay(const EEndPlayReason::Type EndPlayReason)
 void ADemo0905_Submix::SetPaused(bool bPause)
 {
 	bPaused = bPause;
+	// 일시정지 중에도 플레이어 컨트롤러가 완전히 Tick 하게 한다 (메뉴 UI·F1/F2·자동 스크린샷이 계속 동작).
+	// 블루프린트 디테일에서 켜는 'Should Perform Full Tick When Paused' 와 같은 값 (C++ 에선 protected 라 리플렉션으로 설정)
+	if (APlayerController* PC = GetPC())
+	{
+		if (FBoolProperty* FullTick = FindFProperty<FBoolProperty>(APlayerController::StaticClass(), TEXT("bShouldPerformFullTickWhenPaused")))
+		{
+			FullTick->SetPropertyValue_InContainer(PC, true);
+		}
+	}
 	UGameplayStatics::SetGamePaused(this, bPause);
 	if (Banner)
 	{

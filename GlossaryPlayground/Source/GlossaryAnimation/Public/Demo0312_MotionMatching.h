@@ -37,10 +37,10 @@ protected:
 
 	/** 비용 가중치: 속도 / 발 위치 / 발 속도 */
 	UPROPERTY(EditAnywhere, Category = "Motion Matching")
-	float VelocityWeight = 1.f;
+	float VelocityWeight = 2.f;
 
 	UPROPERTY(EditAnywhere, Category = "Motion Matching")
-	float PoseWeight = 0.6f;
+	float PoseWeight = 0.3f;
 
 	/** 지금 클립을 계속 재생하면 비용을 이만큼 깎아 준다 (잦은 전환 방지) */
 	UPROPERTY(EditAnywhere, Category = "Motion Matching")

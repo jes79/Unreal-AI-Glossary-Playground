@@ -2,6 +2,7 @@
 
 #include "Components/StaticMeshComponent.h"
 #include "D08_Common.h"
+#include "D08_Tags.h" // State.* 를 네이티브 태그로 등록 (이름 요청이 성공하도록)
 #include "GlossaryKit.h"
 
 using namespace GlossaryKit;
@@ -9,6 +10,8 @@ using namespace GlossaryKit;
 ADemo0807_GameplayTags::ADemo0807_GameplayTags()
 {
 	DemoId = TEXT("0807");
+	// 플레이어 컨트롤러(입력 처리) 다음에 Tick 해서 WasKeyPressed 를 놓치지 않게
+	PrimaryActorTick.TickGroup = TG_PostPhysics;
 	Controls = TEXT("1 : State.Stunned · 2 : State.Burning · 3 : State.Poisoned · 4 : State.Invincible 붙이기/떼기\n")
 		TEXT("관찰: 기절이면 순찰을 멈추고, 화상·중독이면 체력이 깎이고, 무적이면 데미지를 무시한다 — 모두 HasTag 한 줄");
 	Showcase = TEXT("적 상태를 bool 대신 Gameplay Tag 컨테이너로 관리, 1~4로 State.* 태그를 붙이면 행동·색이 바뀜");
@@ -18,11 +21,12 @@ void ADemo0807_GameplayTags::BeginPlay()
 {
 	Super::BeginPlay();
 	// DefaultGame.ini 의 GameplayTagList 에 정의된 태그를 이름으로 얻는다
-	TagState = FGameplayTag::RequestGameplayTag(TEXT("State"));
 	TagStunned = FGameplayTag::RequestGameplayTag(TEXT("State.Stunned"));
 	TagBurning = FGameplayTag::RequestGameplayTag(TEXT("State.Burning"));
 	TagPoisoned = FGameplayTag::RequestGameplayTag(TEXT("State.Poisoned"));
 	TagInvincible = FGameplayTag::RequestGameplayTag(TEXT("State.Invincible"));
+	// "State" 는 ini 에 직접 적지 않은 암시적 부모 태그라 이름으로 요청하면 실패한다 → 자식에서 부모를 얻는다
+	TagState = TagStunned.RequestDirectParent();
 
 	FActorSpawnParameters Params;
 	Params.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;

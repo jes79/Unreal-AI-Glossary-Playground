@@ -10,9 +10,9 @@ using namespace GlossaryKit;
 
 namespace
 {
-	const FVector CaveCenter(0.f, 0.f, 0.f);
-	const FVector InsideSpot(-100.f, 0.f, 100.f);
-	const FVector OutsideSpot(-1300.f, 0.f, 100.f);
+	const FVector D0527CaveCenter(0.f, 0.f, 0.f);
+	const FVector D0527InsideSpot(-100.f, 0.f, 100.f);
+	const FVector D0527OutsideSpot(-1300.f, 0.f, 100.f);
 }
 
 ADemo0527_AutoExposure::ADemo0527_AutoExposure()
@@ -23,7 +23,7 @@ ADemo0527_AutoExposure::ADemo0527_AutoExposure()
 		TEXT("반대로 동굴에 들어가면 처음엔 깜깜했다가 Speed Down 2 로 빠르게 밝아진다. 범위는 Min/Max EV100 -2 ~ 14 로 고정");
 	Showcase = TEXT("어두운 동굴 ↔ 밝은 바깥 이동 시 Auto Exposure 눈 적응(Speed Up/Down, Min/Max EV100 고정), 고정 노출과 비교");
 	Environment.bFixedExposure = false;   // 노출 데모: 환경의 노출 고정을 끈다
-	PlayerStartTransform = FTransform(FRotator(0.f, 180.f, 0.f), InsideSpot);
+	PlayerStartTransform = FTransform(FRotator(0.f, 180.f, 0.f), D0527InsideSpot);
 }
 
 void ADemo0527_AutoExposure::BeginPlay()
@@ -62,7 +62,7 @@ void ADemo0527_AutoExposure::Teleport(bool bInside)
 	if (ACharacter* Character = GetPlayerCharacter())
 	{
 		const FRotator Facing(0.f, 180.f, 0.f);   // 항상 바깥(밝은 쪽)을 본다
-		Character->TeleportTo(bInside ? InsideSpot : OutsideSpot, Facing);
+		Character->TeleportTo(bInside ? D0527InsideSpot : D0527OutsideSpot, Facing);
 		if (APlayerController* PC = GetPC())
 		{
 			PC->SetControlRotation(FRotator(-5.f, Facing.Yaw, 0.f));

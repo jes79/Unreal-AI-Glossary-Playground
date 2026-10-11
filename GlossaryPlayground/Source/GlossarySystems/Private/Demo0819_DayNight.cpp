@@ -2,7 +2,7 @@
 
 #include "Components/DirectionalLightComponent.h"
 #include "Components/PointLightComponent.h"
-#include "Components/SkyLightComponent.h"
+#include "Components/PostProcessComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "D08_Common.h"
 #include "GlossaryEnvironment.h"
@@ -14,11 +14,11 @@ using namespace GlossaryKit;
 ADemo0819_DayNight::ADemo0819_DayNight()
 {
 	DemoId = TEXT("0819");
+	// 플레이어 컨트롤러(입력 처리) 다음에 Tick 해서 WasKeyPressed 를 놓치지 않게
+	PrimaryActorTick.TickGroup = TG_PostPhysics;
 	Controls = TEXT("T : 3시간 앞으로 · P : 일시정지 · F : 10배속 ON/OFF\n")
 		TEXT("관찰: 해(Directional Light)만 돌리는데 Sky Atmosphere 가 하늘색·노을·밤하늘을 알아서 바꾸고, 밤이면 가로등이 켜진다");
 	Showcase = TEXT("Directional Light 를 1분에 하루 회전, Sky Atmosphere 가 낮·노을·밤하늘로 자동 변화 + 밤에 가로등");
-	// 밤에도 무엇이 보이도록 자동 노출을 켠다
-	Environment.bFixedExposure = false;
 }
 
 void ADemo0819_DayNight::BeginPlay()
@@ -83,7 +83,13 @@ void ADemo0819_DayNight::ApplyTime()
 	const float LampFactor = FMath::Clamp(1.f - (SinElev + 0.05f) * 8.f, 0.f, 1.f);
 	for (UPointLightComponent* Lamp : Lamps)
 	{
-		Lamp->SetIntensity(LampFactor * 800.f);
+		Lamp->SetIntensity(LampFactor * 120.f);
+	}
+	// 고정 노출(EV100 10)에서는 밤이 새까맣게 보이므로, 밤에는 노출 보정을 조금 올려 사람 눈처럼 적응시킨다
+	if (UPostProcessComponent* PP = Env->GetPostProcess())
+	{
+		PP->Settings.bOverride_AutoExposureBias = true;
+		PP->Settings.AutoExposureBias = (Env->Settings.ExposureEV100 - 10.f) + LampFactor * 3.f;
 	}
 	for (UMaterialInstanceDynamic* MID : BulbMIDs)
 	{

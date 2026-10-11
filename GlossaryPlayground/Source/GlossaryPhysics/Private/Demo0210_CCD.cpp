@@ -9,12 +9,13 @@
 
 using namespace GlossaryKit;
 
-namespace
+namespace D0210Local
 {
 	const float WallX = 300.f;
 	const float StartX = -700.f;
 	const float LaneZ[2] = { 330.f, 120.f };   // 0 = CCD OFF(위), 1 = CCD ON(아래)
 }
+using namespace D0210Local;
 
 ADemo0210_CCD::ADemo0210_CCD()
 {
@@ -30,7 +31,7 @@ void ADemo0210_CCD::BeginPlay()
 	Super::BeginPlay();
 	UWorld* World = GetWorld();
 	// 옆에서 보는 카메라 (총알은 왼쪽 → 오른쪽)
-	Camera = PhysicsDemoUtil::SpawnFixedCamera(World, FVector(-50.f, -1150.f, 330.f), FRotator(-6.f, 90.f, 0.f), 75.f);
+	Camera = PhysicsDemoUtil::SpawnFixedCamera(World, FVector(-150.f, 1250.f, 330.f), FRotator(-6.f, -90.f, 0.f), 75.f);
 
 	// 얇은 벽 (WorldStatic, 두께 WallThickness)
 	AStaticMeshActor* Wall = SpawnShape(World, EShape::Cube, FVector(WallX, 0.f, 220.f), FVector(WallThickness, 300.f, 440.f), Colors::Wall);
@@ -98,7 +99,8 @@ void ADemo0210_CCD::Tick(float DeltaSeconds)
 				++Passed[Shot.Lane];
 				Shot.bCounted = true;
 			}
-			else if (Shot.Age > 0.4f)
+			// 벽 앞에서 속도를 잃었으면(멈추거나 튕김) 막힌 것
+			else if (Pos.X < WallX && Actor->GetVelocity().X < BulletSpeed * 0.3f && Shot.Age > 0.05f)
 			{
 				++Blocked[Shot.Lane];
 				Shot.bCounted = true;

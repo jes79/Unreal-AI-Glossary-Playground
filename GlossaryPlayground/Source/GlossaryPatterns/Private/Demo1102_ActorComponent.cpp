@@ -112,7 +112,7 @@ void ADemo1102_ActorComponent::BeginPlay()
 	// --- 적: 생성자에서 컴포넌트를 갖고 태어난다
 	FActorSpawnParameters Params;
 	Params.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-	Enemy = World->SpawnActor<AD1102_Enemy>(FVector(300.f, -350.f, 90.f), FRotator::ZeroRotator, Params);
+	Enemy = World->SpawnActor<AD1102_Enemy>(FVector(300.f, -250.f, 90.f), FRotator::ZeroRotator, Params);
 
 	// --- 상자: 평범한 StaticMeshActor 에 실행 중 컴포넌트를 추가한다 (방법 2: NewObject + RegisterComponent)
 	Crate = SpawnShape(World, EShape::Cube, FVector(300.f, 350.f, 60.f), FVector(120.f), FLinearColor(0.55f, 0.35f, 0.15f));
@@ -145,7 +145,7 @@ void ADemo1102_ActorComponent::BeginPlay()
 		Labels.Add(SpawnLabel(World, TEXT(""), OwnerActor->GetActorLocation() + FVector(0.f, 0.f, 160.f), FLinearColor::White, 18.f));
 	}
 
-	SpawnLabel(World, TEXT("적 (생성자에서 CreateDefaultSubobject)"), FVector(300.f, -350.f, 330.f), Colors::Enemy, 15.f);
+	SpawnLabel(World, TEXT("적 (생성자에서 CreateDefaultSubobject)"), FVector(300.f, -250.f, 260.f), Colors::Enemy, 15.f);
 	SpawnLabel(World, TEXT("상자 (실행 중 NewObject)"), FVector(300.f, 350.f, 290.f), Colors::Item, 15.f);
 
 	Panel = UD11_SidePanel::Create(GetPC(), TEXT("UD1102_HealthComponent 인스턴스"), FVector2D(1.f, 0.f), 13.f);

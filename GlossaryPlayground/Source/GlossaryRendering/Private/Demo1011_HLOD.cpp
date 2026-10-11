@@ -54,7 +54,7 @@ void ADemo1011_HLOD::BeginPlay()
 	ProxyMID = SetColor(Proxy, Colors::Purple, 0.7f);
 
 	SpawnLabel(World, TEXT("마을 (건물 25채)"), TownCenter + FVector(0.f, 0.f, 1600.f), Colors::Item, 20.f);
-	Camera = RenderKit::SpawnViewCamera(this, FVector(-3000.f, -1200.f, 900.f), FRotator(-10.f, 20.f, 0.f), 60.f);
+	Camera = RenderKit::SpawnLookAtCamera(this, FVector(-6200.f, -2600.f, 1800.f), FVector(0.f, -900.f, 300.f), 50.f);   // 전환 거리(80m) 바로 안쪽
 }
 
 void ADemo1011_HLOD::Tick(float DeltaSeconds)

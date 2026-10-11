@@ -67,7 +67,7 @@ void ADemo0901_SoundCue::BeginPlay()
 	Foot = AddShape(this, EShape::Cube, FVector(150.f, 0.f, 40.f), FVector(110.f, 60.f, 40.f), Colors::Player);
 	for (int32 i = 0; i < 4; ++i)
 	{
-		SpawnLabel(World, FString::Printf(TEXT("S_Footstep_%02d"), i + 1), FVector(500.f, -450.f + i * 300.f, 560.f), WaveColors[i], 16.f);
+		SpawnLabel(World, FString::Printf(TEXT("S_Footstep_%02d"), i + 1), FVector(500.f, -330.f + i * 220.f, 540.f), WaveColors[i], 16.f);
 	}
 
 	// 오디오 컴포넌트: 프로브는 Play 전에 바인딩해야 Envelope·재생 위치를 받는다
@@ -84,7 +84,7 @@ void ADemo0901_SoundCue::BeginPlay()
 	{
 		Panel->AddRow(TEXT("골린 웨이브"), Colors::Cyan);
 		Panel->AddRow(TEXT("측정 피치"), Colors::Accent);
-		Panel->AddRow(TEXT("Envelope"), Colors::Ally);
+		Panel->AddRow(TEXT("Envelope 최대"), Colors::Ally);
 		Panel->SetFooter(TEXT("피치는 OnAudioPlaybackPercent 의 재생 속도로 측정 (≈)"));
 		Panel->AddToViewport(1);
 	}
@@ -212,7 +212,7 @@ void ADemo0901_SoundCue::Tick(float DeltaSeconds)
 			LiveWave = i;
 		}
 	}
-	const float Envelope = Probe ? Probe->GetEnvelope() : 0.f;
+	const float Envelope = Probe ? Probe->GetPeakEnvelope() : 0.f; // 짧은 발소리라 이번 발소리의 최대값
 	if (Panel)
 	{
 		Panel->SetRow(0, LiveWave >= 0 ? (LiveWave + 1) / 4.f : 0.f, LiveWave >= 0 ? FString::Printf(TEXT("S_Footstep_%02d"), LiveWave + 1) : TEXT("-"));

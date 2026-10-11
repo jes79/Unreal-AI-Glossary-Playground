@@ -217,6 +217,7 @@ ADemo0607_WidgetAnimation::ADemo0607_WidgetAnimation()
 void ADemo0607_WidgetAnimation::BeginPlay()
 {
 	Super::BeginPlay();
+	GlossaryUIKit::SetupFixedCamera(this, FVector(-650.f, 0.f, 260.f), FRotator(-12.f, 0.f, 0.f)); // 고정 카메라
 	SpawnShape(GetWorld(), EShape::Sphere, FVector(-100.f, -150.f, 60.f), FVector(120.f), Colors::Purple);
 	Menu = CreateWidget<UDemo0607_Menu>(GetPC(), UDemo0607_Menu::StaticClass());
 	Menu->SlideDistance = SlideDistance;

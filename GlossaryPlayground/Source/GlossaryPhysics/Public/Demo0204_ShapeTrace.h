@@ -50,4 +50,5 @@ private:
 	bool bLineMode = false;
 	int32 LastHitCount = -1;
 	float AttackCooldown = 0.f;
+	bool bViewInitialized = false;
 };

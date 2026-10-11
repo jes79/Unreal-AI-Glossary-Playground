@@ -124,7 +124,7 @@ ADemo1101_UPropertyUFunction::ADemo1101_UPropertyUFunction()
 		TEXT("F : Fire 를 블루프린트처럼 ProcessEvent 로 호출   A : bAutoFire 켜기/끄기\n")
 		TEXT("관찰: 오른쪽 패널은 리플렉션이 기록한 실제 플래그. ClampMin 은 에디터 입력만 막고 C++ 대입은 못 막는다");
 	Showcase = TEXT("Speed·Fire 를 노출한 대포, 실행 중 값 조절 + 리플렉션으로 읽은 지정자 플래그 목록");
-	PlayerStartTransform = FTransform(FRotator::ZeroRotator, FVector(-700.f, 0.f, 100.f));
+	PlayerStartTransform = FTransform(FRotator::ZeroRotator, FVector(-700.f, -300.f, 100.f));
 }
 
 void ADemo1101_UPropertyUFunction::BeginPlay()

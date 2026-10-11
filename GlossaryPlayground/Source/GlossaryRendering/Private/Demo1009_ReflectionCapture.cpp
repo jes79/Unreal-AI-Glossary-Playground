@@ -81,6 +81,8 @@ void ADemo1009_ReflectionCapture::BeginPlay()
 	SpawnLabel(World, TEXT("주황 방"), FVector(-300.f, -RoomOffsetY, 420.f), Colors::Accent, 18.f);
 	SpawnLabel(World, TEXT("파란 방"), FVector(-300.f, RoomOffsetY, 420.f), Colors::Cyan, 18.f);
 
+	// bRuntimeCapture 캡처는 r.ReflectionCapture.Runtime 1 일 때만 그려진다 (0 = 구워 둔 캡처만)
+	CVars.Set(TEXT("r.ReflectionCapture.Runtime"), 1);
 	for (TActorIterator<ASphereReflectionCapture> It(World); It; ++It)
 	{
 		Captures.Add(It->GetCaptureComponent());
@@ -137,4 +139,10 @@ void ADemo1009_ReflectionCapture::Tick(float DeltaSeconds)
 	SetStatus(FString::Printf(TEXT("Reflection Capture %s (%d개, Runtime Capture) · Lumen %s\nGI %s · Reflection %s\n%s"),
 		bCapturesEnabled ? TEXT("ON") : TEXT("OFF"), Captures.Num(), bLumen ? TEXT("ON") : TEXT("OFF (모바일 설정)"),
 		bLumen ? TEXT("Lumen") : TEXT("None"), bLumen ? TEXT("Lumen") : TEXT("None (캡처 + 스카이라이트)"), *Stats.ToString(false)));
+}
+
+void ADemo1009_ReflectionCapture::EndPlay(const EEndPlayReason::Type Reason)
+{
+	CVars.RestoreAll();
+	Super::EndPlay(Reason);
 }

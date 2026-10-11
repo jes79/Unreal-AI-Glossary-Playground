@@ -18,6 +18,8 @@ const TCHAR* ADemo0815_LevelStreaming::SubLevelB = TEXT("/Game/Glossary/08_Syste
 ADemo0815_LevelStreaming::ADemo0815_LevelStreaming()
 {
 	DemoId = TEXT("0815");
+	// 플레이어 컨트롤러(입력 처리) 다음에 Tick 해서 WasKeyPressed 를 놓치지 않게
+	PrimaryActorTick.TickGroup = TG_PostPhysics;
 	Controls = TEXT("WASD 이동 · 바닥의 파란/보라 트리거 칸에 들어가면 서브레벨 Load, 나오면 Unload\n")
 		TEXT("1 : A 칸으로 순간이동 · 2 : B 칸으로 · 3 : 시작 지점으로 (테스트)\n")
 		TEXT("관찰: 트리거 너머의 건물·나무(서브레벨 액터)가 들어갈 때 나타나고 나오면 사라진다");

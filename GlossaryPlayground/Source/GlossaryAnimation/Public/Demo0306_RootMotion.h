@@ -26,7 +26,7 @@ protected:
 
 	/** 대시 반복 간격(초) */
 	UPROPERTY(EditAnywhere, Category = "Root Motion")
-	float DashInterval = 3.f;
+	float DashInterval = 3.5f;
 
 private:
 	void StartDash();

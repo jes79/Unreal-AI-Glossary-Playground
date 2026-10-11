@@ -195,6 +195,14 @@ namespace
 	void BuildEngineMetaSound()
 	{
 		const FString Path = GlossaryAudioKit::AssetPath(TEXT("MS_EngineRPM"));
+		// 주의: 기존 MetaSound 에셋을 지우고 같은 이름으로 BuildToAsset 하면 MetaSound 문서 빌더 레지스트리에
+		// 지운 객체가 남아 에디터가 크래시한다(UE 5.8 확인). 그래서 이미 있으면 그대로 둔다.
+		// 그래프(CreateEngineRPMBuilder)를 바꿨다면 Content/Glossary/09_Audio/MS_EngineRPM.uasset 을 지우고 다시 빌드.
+		if (UEditorAssetLibrary::DoesAssetExist(Path))
+		{
+			UE_LOG(LogGlossaryAudioAssets, Display, TEXT("[Glossary] MS_EngineRPM 이미 있음 — 유지 (그래프를 바꿨으면 파일을 지우고 다시 빌드)"));
+			return;
+		}
 		FString Log;
 		UMetaSoundSourceBuilder* Builder = GlossaryAudioKit::CreateEngineRPMBuilder(TEXT("GlossaryEngineRPM_Asset"), Log);
 		UE_LOG(LogGlossaryAudioAssets, Display, TEXT("[Glossary] MetaSound 빌더: %s"), *Log);

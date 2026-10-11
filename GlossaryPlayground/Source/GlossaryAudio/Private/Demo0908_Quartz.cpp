@@ -19,7 +19,8 @@ namespace
 	constexpr float PadX = 600.f;
 	// 마디 위치(0~4 박) → Y 좌표
 	float BarToY(float BarPosition) { return -600.f + BarPosition * 300.f; }
-	const FLinearColor PressColor(0.6f, 0.6f, 0.65f);
+	const FLinearColor PressColor(0.25f, 0.25f, 0.28f);
+	const FLinearColor PadColor(0.12f, 0.14f, 0.18f);
 }
 
 ADemo0908_Quartz::ADemo0908_Quartz()
@@ -43,9 +44,9 @@ void ADemo0908_Quartz::BeginPlay()
 	// 4박 패드 + 박 경계선
 	for (int32 i = 0; i < 4; ++i)
 	{
-		UStaticMeshComponent* Pad = AddShape(this, EShape::Cube, FVector(PadX, BarToY(i + 0.5f), 40.f), FVector(220.f, 270.f, 80.f), Colors::Platform);
+		UStaticMeshComponent* Pad = AddShape(this, EShape::Cube, FVector(PadX, BarToY(i + 0.5f), 40.f), FVector(220.f, 270.f, 80.f), PadColor);
 		Pads.Add(Pad);
-		PadMats.Add(SetColor(Pad, Colors::Platform, 0.5f, 0.f, 0.f));
+		PadMats.Add(SetColor(Pad, PadColor, 0.5f, 0.f, 0.f));
 		SpawnLabel(World, FString::Printf(TEXT("%d박"), i + 1), FVector(PadX - 140.f, BarToY(i + 0.5f), 10.f), FLinearColor::White, 18.f);
 	}
 	for (int32 i = 0; i <= 4; ++i)
@@ -57,7 +58,7 @@ void ADemo0908_Quartz::BeginPlay()
 	SetColor(Playhead, Colors::Cyan, 0.5f, 0.f, 6.f);
 	for (int32 i = 0; i < MarkerCount; ++i)
 	{
-		UStaticMeshComponent* Marker = AddShape(this, EShape::Sphere, FVector(PadX - 40.f, 0.f, -200.f), FVector(36.f, 36.f, 36.f), PressColor);
+		UStaticMeshComponent* Marker = AddShape(this, EShape::Sphere, FVector(PadX - 40.f, 0.f, -200.f), FVector(50.f, 50.f, 50.f), PressColor);
 		Marker->SetVisibility(false);
 		Marker->SetCastShadow(false);
 		Markers.Add(Marker);
@@ -144,8 +145,8 @@ void ADemo0908_Quartz::AddMarker(float BarPosition, bool bPlayed)
 	UStaticMeshComponent* Marker = Markers[MarkerCursor];
 	MarkerCursor = (MarkerCursor + 1) % Markers.Num();
 	Marker->SetVisibility(true);
-	Marker->SetRelativeLocation(FVector(PadX - 140.f, BarToY(BarPosition), bPlayed ? 120.f : 280.f));
-	SetColor(Marker, bPlayed ? Colors::Accent : PressColor, 0.5f, 0.f, bPlayed ? 4.f : 0.5f);
+	Marker->SetRelativeLocation(FVector(PadX - 140.f, BarToY(BarPosition), bPlayed ? 170.f : 300.f));
+	SetColor(Marker, bPlayed ? Colors::Accent : PressColor, 0.5f, 0.f, bPlayed ? 0.8f : 0.f);
 }
 
 void ADemo0908_Quartz::Trigger()
@@ -240,7 +241,7 @@ void ADemo0908_Quartz::Tick(float DeltaSeconds)
 	{
 		PadFlash[i] = FMath::Max(0.f, PadFlash[i] - DeltaSeconds * 3.f);
 		const bool bCurrent = (i == LastBeat - 1);
-		const FLinearColor Color = FMath::Lerp(bCurrent ? Colors::Cyan * 0.6f : Colors::Platform, Colors::Cyan, PadFlash[i]);
+		const FLinearColor Color = FMath::Lerp(bCurrent ? Colors::Cyan * 0.4f : PadColor, Colors::Cyan, PadFlash[i]);
 		PadMats[i]->SetVectorParameterValue(TEXT("Color"), Color);
 		PadMats[i]->SetScalarParameterValue(TEXT("Emissive"), PadFlash[i] * 4.f + (bCurrent ? 0.4f : 0.f));
 		Pads[i]->SetRelativeScale3D(FVector(2.2f, 2.7f, 0.8f + PadFlash[i] * 0.6f));

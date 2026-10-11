@@ -159,7 +159,7 @@ void ADemo0713_Mass::BeginPlay()
 			ISM->SetupAttachment(Root);
 			ISM->RegisterComponent();
 			AddInstanceComponent(ISM);
-			SetColor(ISM, GroupColors[Group], 0.6f);
+			D07::SetAgentColor(ISM, 0, GroupColors[Group]);
 		}
 	}
 

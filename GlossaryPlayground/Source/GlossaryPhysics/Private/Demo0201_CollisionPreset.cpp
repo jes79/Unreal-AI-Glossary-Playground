@@ -10,7 +10,7 @@
 
 using namespace GlossaryKit;
 
-namespace
+namespace D0201Local
 {
 	const float LaneY[3] = { 100.f, 500.f, 900.f };
 	const float TargetX = 600.f;
@@ -19,6 +19,7 @@ namespace
 	const FLinearColor TargetColors[3] = { Colors::Player, Colors::Neutral, Colors::Accent };
 	const TCHAR* TargetNames[3] = { TEXT("Pawn"), TEXT("WorldDynamic"), TEXT("Projectile") };
 }
+using namespace D0201Local;
 
 ADemo0201_CollisionPreset::ADemo0201_CollisionPreset()
 {

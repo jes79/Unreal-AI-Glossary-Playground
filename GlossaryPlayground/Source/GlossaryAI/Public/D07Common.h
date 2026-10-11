@@ -13,6 +13,8 @@ class UAnimSequence;
 class UBTCompositeNode;
 class UBTNode;
 class UStaticMeshComponent;
+class UMaterialInterface;
+class UPrimitiveComponent;
 class UTextBlock;
 
 /**
@@ -83,6 +85,14 @@ protected:
 /** 07 분야 공통 헬퍼 */
 namespace D07
 {
+	/** 07 전용 단색 머티리얼 M_AgentColor (스켈레탈·인스턴스 메시 Usage 켜짐). 없으면 공통 M_Color */
+	GLOSSARYAI_API UMaterialInterface* GetAgentMaterial();
+	/** M_AgentColor 로 컴포넌트의 MaterialIndex 슬롯을 칠한다 */
+	GLOSSARYAI_API void SetAgentColor(UPrimitiveComponent* Component, int32 MaterialIndex, const FLinearColor& Color, float Emissive = 0.f);
+
+	/** 바닥 높이의 평면 시야 부채꼴 (반경, 좌우 반각) */
+	GLOSSARYAI_API void DrawSightFan(UWorld* World, const FVector& Origin, const FVector& Forward, float Radius, float HalfAngleDeg, const FColor& Color, float Thickness = 4.f);
+
 	/** 바닥(z=0) 위에 AI 캐릭터를 스폰한다. ControllerClass 를 AIControllerClass 로 끼운 뒤 스폰을 마치므로 바로 빙의된다. */
 	GLOSSARYAI_API AD07Enemy* SpawnEnemy(UWorld* World, const FVector& GroundLocation, float Yaw,
 		TSubclassOf<AAIController> ControllerClass, const FLinearColor& BodyColor, TSubclassOf<AD07Enemy> PawnClass = nullptr);

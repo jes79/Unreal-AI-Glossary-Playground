@@ -472,7 +472,7 @@ namespace
 		Link(Dist->B, PlayerXY);
 		auto* Falloff = Sat(Grass, E<UMaterialExpressionOneMinus>(Grass, -700, 250), -550, 250);
 		Link(Cast<UMaterialExpressionOneMinus>(Falloff->Input.Expression)->Input, Div(Grass, Dist, Radius, -850, 250));
-		auto* Height = Sat(Grass, Div(Grass, WP, nullptr, -1000, -150, 90.f, 2 /*Z*/), -850, -150);
+		auto* Height = Sat(Grass, Div(Grass, WP, nullptr, -1000, -150, 55.f, 2 /*Z*/), -850, -150);
 		auto* Dir = E<UMaterialExpressionNormalize>(Grass, -850, 100);
 		Link(Dir->VectorInput, Delta);
 		auto* K = Mul(Grass, Mul(Grass, Falloff, Height, -400, 250), Strength, -250, 300);
@@ -570,7 +570,7 @@ namespace
 	{
 		UMaterialFunction* Rim = BuildRimFunction();
 		BuildRimMaterial(Rim, TEXT("M_Rim_Metal"), FLinearColor(0.75f, 0.75f, 0.78f), 1.f, 0.3f, FLinearColor(1.f, 0.45f, 0.05f), 4.f, 6.f);
-		BuildRimMaterial(Rim, TEXT("M_Rim_Stone"), FLinearColor(0.25f, 0.2f, 0.16f), 0.f, 0.9f, FLinearColor(0.2f, 1.f, 0.3f), 2.5f, 4.f);
+		BuildRimMaterial(Rim, TEXT("M_Rim_Stone"), FLinearColor(0.25f, 0.2f, 0.16f), 0.f, 0.9f, FLinearColor(0.2f, 1.f, 0.3f), 3.f, 3.f);
 		BuildRimMaterial(Rim, TEXT("M_Rim_Ghost"), FLinearColor(0.05f, 0.03f, 0.1f), 0.f, 0.5f, FLinearColor(0.3f, 0.6f, 1.f), 1.5f, 6.f);
 	}
 

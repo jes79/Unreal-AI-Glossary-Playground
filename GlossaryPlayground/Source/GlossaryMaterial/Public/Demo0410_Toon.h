@@ -31,7 +31,7 @@ protected:
 
 	/** 그림자 단계의 밝기 */
 	UPROPERTY(EditAnywhere, Category = "Toon", meta = (ClampMin = 0, ClampMax = 1))
-	float ShadowTone = 0.3f;
+	float ShadowTone = 0.2f;
 
 	/** 포스트 프로세스 방식 (Unbound, 블렌더블 M_ToonPostProcess) */
 	UPROPERTY(VisibleAnywhere, Category = "Toon")
@@ -59,5 +59,5 @@ private:
 
 	bool bToonMaterial = true;
 	bool bPostProcess = false;
-	float SunYaw = -40.f;
+	float SunYaw = 70.f;
 };

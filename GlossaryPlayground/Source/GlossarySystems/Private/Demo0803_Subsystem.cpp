@@ -73,6 +73,8 @@ void UD0803_LevelStatsSubsystem::Initialize(FSubsystemCollectionBase& Collection
 ADemo0803_Subsystem::ADemo0803_Subsystem()
 {
 	DemoId = TEXT("0803");
+	// 플레이어 컨트롤러(입력 처리) 다음에 Tick 해서 WasKeyPressed 를 놓치지 않게
+	PrimaryActorTick.TickGroup = TG_PostPhysics;
 	Controls = TEXT("WASD 이동 · Space 점프 · 코인에 닿으면 획득 (C : 가장 가까운 코인 줍기)\n")
 		TEXT("N : 레벨 다시 열기\n")
 		TEXT("관찰: 업적(GameInstanceSubsystem)은 레벨을 넘어 남고, 레벨 통계(WorldSubsystem)는 새로 시작");

@@ -11,12 +11,13 @@
 
 using namespace GlossaryKit;
 
-namespace
+namespace D0209Local
 {
 	const int32 NumDummies = 4;
 	const float DummyY0 = 0.f;
 	const float DummySpacing = 220.f;
 }
+using namespace D0209Local;
 
 ADemo0209_Ragdoll::ADemo0209_Ragdoll()
 {

@@ -26,7 +26,7 @@ protected:
 	virtual void Tick(float DeltaSeconds) override;
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
-	UPROPERTY(EditAnywhere, Category = "Possess") float PossessDistance = 500.f;
+	UPROPERTY(EditAnywhere, Category = "Possess") float PossessDistance = 650.f;
 
 private:
 	UPROPERTY(Transient) TObjectPtr<AD0115_Drone> Drone;

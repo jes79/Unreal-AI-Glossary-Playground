@@ -10,14 +10,15 @@
 
 using namespace GlossaryKit;
 
-namespace
+namespace D0207Local
 {
 	const FVector HingeBase(0.f, -100.f, 0.f);    // 문 경첩 아래 끝
 	const float DoorWidth = 140.f;
 	const float DoorHeight = 220.f;
-	const FVector ChainAnchor(100.f, 650.f, 520.f);
-	const float LinkSpacing = 42.f;
+	const FVector ChainAnchor(100.f, 650.f, 430.f);
+	const float LinkSpacing = 50.f;
 }
+using namespace D0207Local;
 
 ADemo0207_PhysicsConstraint::ADemo0207_PhysicsConstraint()
 {
@@ -66,15 +67,16 @@ void ADemo0207_PhysicsConstraint::BeginPlay()
 	SpawnLabel(World, TEXT("문 경첩 (Swing1 ±90°)"), HingeBase + FVector(0.f, DoorWidth * 0.5f, DoorHeight + 90.f), Colors::Item, 18.f);
 
 	// ---------- 체인: 고정 앵커 + 고리 N 개 ----------
-	AStaticMeshActor* Anchor = SpawnShape(World, EShape::Cube, ChainAnchor + FVector(0.f, 0.f, 30.f), FVector(60.f), Colors::Dark);
+	AStaticMeshActor* Anchor = SpawnShape(World, EShape::Cube, ChainAnchor + FVector(0.f, 0.f, 30.f), FVector(40.f), Colors::Dark);
 	UPrimitiveComponent* Prev = Anchor->GetStaticMeshComponent();
 	FVector PrevLoc = ChainAnchor + FVector(0.f, 0.f, 30.f);
 	for (int32 i = 0; i < ChainLinks; ++i)
 	{
 		const bool bLast = i == ChainLinks - 1;
 		// 처음엔 옆으로 뻗어 있게 놓아 떨어지며 흔들리게 한다
-		const FVector Loc = ChainAnchor + FVector(0.f, (i + 1) * LinkSpacing, -10.f);
-		AStaticMeshActor* Link = SpawnShape(World, EShape::Sphere, Loc, FVector(bLast ? 70.f : 28.f),
+		// 고리끼리 겹치지 않게 간격을 두고, 마지막 큰 추는 조금 더 떨어뜨린다 (겹치면 스폰 순간 튕겨 나감)
+		const FVector Loc = ChainAnchor + FVector(0.f, (i + 1) * LinkSpacing + (bLast ? 25.f : 0.f), 30.f);
+		AStaticMeshActor* Link = SpawnShape(World, EShape::Sphere, Loc, FVector(bLast ? 60.f : 28.f),
 			bLast ? Colors::Enemy : Colors::Neutral, FRotator::ZeroRotator, true);
 		Link->GetStaticMeshComponent()->SetLinearDamping(0.05f);
 		Links.Add(Link);

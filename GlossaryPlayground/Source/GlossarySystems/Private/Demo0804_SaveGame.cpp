@@ -11,6 +11,8 @@ using namespace GlossaryKit;
 ADemo0804_SaveGame::ADemo0804_SaveGame()
 {
 	DemoId = TEXT("0804");
+	// 플레이어 컨트롤러(입력 처리) 다음에 Tick 해서 WasKeyPressed 를 놓치지 않게
+	PrimaryActorTick.TickGroup = TG_PostPhysics;
 	Controls = TEXT("WASD 이동 · H : 체력 -10 · C : 코인 +1\n")
 		TEXT("1 : 저장 (SaveGameToSlot) · 2 : 불러오기 (LoadGameFromSlot) · 3 : 슬롯 삭제\n")
 		TEXT("관찰: 저장 후 움직이고 체력을 깎은 뒤 2 를 누르면 저장 시점의 위치·체력·코인으로 돌아간다");

@@ -20,7 +20,7 @@ ADemo0406_Fresnel::ADemo0406_Fresnel()
 void ADemo0406_Fresnel::BeginPlay()
 {
 	Super::BeginPlay();
-	SetupFixedCamera(FVector(-850.f, -230.f, 230.f), FVector(0.f, -230.f, 130.f), 60.f);
+	SetupFixedCamera(FVector(-1150.f, 60.f, 260.f), FVector(0.f, 60.f, 120.f), 60.f);
 
 	UMaterialInterface* Fresnel = LoadMaterial(TEXT("M_Fresnel"));
 	TArray<UPrimitiveComponent*> Targets;
@@ -34,7 +34,7 @@ void ADemo0406_Fresnel::BeginPlay()
 			Materials.Add(Target->CreateDynamicMaterialInstance(Slot, Fresnel));
 		}
 	}
-	SpawnLabel(GetWorld(), TEXT("M_Fresnel — Fresnel → Emissive"), FVector(0.f, 170.f, 290.f), Colors::Cyan, 18.f);
+	SpawnLabel(GetWorld(), TEXT("M_Fresnel — Fresnel → Emissive"), FVector(0.f, 170.f, 330.f), Colors::Cyan, 18.f);
 	Apply();
 }
 

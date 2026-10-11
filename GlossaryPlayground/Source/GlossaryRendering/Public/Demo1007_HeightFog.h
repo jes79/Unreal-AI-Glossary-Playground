@@ -28,7 +28,7 @@ protected:
 	bool bVolumetricFog = true;
 
 	UPROPERTY(EditAnywhere, Category = "Height Fog")
-	float FogDensity = 0.04f;
+	float FogDensity = 0.08f;
 
 	/** 0 = 사방으로 고르게, 0.9 = 빛 방향으로 강하게 (빛을 마주 볼 때 빛줄기가 밝다) */
 	UPROPERTY(EditAnywhere, Category = "Height Fog", meta = (ClampMin = 0, ClampMax = 0.9))
@@ -36,7 +36,7 @@ protected:
 
 	/** Directional Light > Volumetric Scattering Intensity */
 	UPROPERTY(EditAnywhere, Category = "Height Fog")
-	float SunScatteringIntensity = 4.f;
+	float SunScatteringIntensity = 12.f;
 
 	UPROPERTY(Transient) TObjectPtr<ACameraActor> Camera;
 

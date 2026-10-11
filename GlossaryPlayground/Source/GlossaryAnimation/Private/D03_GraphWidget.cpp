@@ -45,7 +45,7 @@ int32 UD03_GraphWidget::NativePaint(const FPaintArgs& Args, const FGeometry& G, 
 	const FSlateBrush* White = FCoreStyle::Get().GetBrush(TEXT("GenericWhiteBox"));
 
 	// 그래프 영역 (제목·축 이름 자리 제외)
-	const FVector2D PlotMin = Origin + FVector2D(52.f, 34.f);
+	const FVector2D PlotMin = Origin + FVector2D(52.f, 46.f);
 	const FVector2D PlotMax = Origin + PanelSize - FVector2D(16.f, 34.f);
 	auto ToScreen = [&](const FVector2D& P)
 	{

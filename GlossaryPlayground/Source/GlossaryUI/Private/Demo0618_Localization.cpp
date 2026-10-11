@@ -137,6 +137,7 @@ void ADemo0618_Localization::RegisterStringTable()
 void ADemo0618_Localization::BeginPlay()
 {
 	Super::BeginPlay();
+	GlossaryUIKit::SetupFixedCamera(this, FVector(-650.f, 0.f, 260.f), FRotator(-12.f, 0.f, 0.f)); // 고정 카메라
 	SpawnShape(GetWorld(), EShape::Cube, FVector(-100.f, -250.f, 60.f), FVector(120.f), Colors::Accent);
 	OriginalCulture = FInternationalization::Get().GetCurrentCulture()->GetName();
 	RegisterStringTable();

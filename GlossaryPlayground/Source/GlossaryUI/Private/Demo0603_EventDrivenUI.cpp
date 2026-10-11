@@ -103,6 +103,7 @@ ADemo0603_EventDrivenUI::ADemo0603_EventDrivenUI()
 void ADemo0603_EventDrivenUI::BeginPlay()
 {
 	Super::BeginPlay();
+	GlossaryUIKit::SetupFixedCamera(this, FVector(-650.f, 0.f, 260.f), FRotator(-12.f, 0.f, 0.f)); // 고정 카메라
 	SpawnShape(GetWorld(), EShape::Cube, FVector(-100.f, 0.f, 60.f), FVector(120.f), Colors::Enemy);
 	Health = MaxHealth;
 	Hud = CreateWidget<UDemo0603_CompareHud>(GetPC(), UDemo0603_CompareHud::StaticClass());

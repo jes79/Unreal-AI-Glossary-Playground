@@ -92,6 +92,8 @@ void AD0801_GameMode::EndMatch(bool bWon)
 ADemo0801_GameFramework::ADemo0801_GameFramework()
 {
 	DemoId = TEXT("0801");
+	// 플레이어 컨트롤러(입력 처리) 다음에 Tick 해서 WasKeyPressed 를 놓치지 않게
+	PrimaryActorTick.TickGroup = TG_PostPhysics;
 	Controls = TEXT("WASD 이동 · 노란 코인에 닿으면 획득 · C : 가장 가까운 코인 줍기(테스트) · R : 경기 다시 시작\n")
 		TEXT("관찰: 60초·10개 규칙은 GameMode, 남은 시간은 GameState, 내 점수는 PlayerState 에 따로 들어 있다");
 	Showcase = TEXT("60초 안에 코인 10개 모으기: 규칙=GameMode, 남은 시간=GameState, 점수=PlayerState 로 나눠 표시");

@@ -5,6 +5,8 @@ public class GlossaryPhysics : ModuleRules
 	public GlossaryPhysics(ReadOnlyTargetRules Target) : base(Target)
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
+		// 데모마다 파일 안 익명 namespace 상수(WallX 등)를 쓰므로 Unity 빌드로 합쳐지면 이름이 겹친다
+		bUseUnity = false;
 
 		PublicDependencyModuleNames.AddRange(new string[]
 		{

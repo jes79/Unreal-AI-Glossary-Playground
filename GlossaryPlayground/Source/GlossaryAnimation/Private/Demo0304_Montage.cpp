@@ -25,8 +25,8 @@ void ADemo0304_Montage::BeginPlay()
 	Super::BeginPlay();
 	UWorld* World = GetWorld();
 	Combo = D03::LoadMontage(TEXT("AM_Attack_Combo"));
-	Npc = D03::SpawnMannequin(World, FVector(0.f, -260.f, 0.f), 180.f);
-	SpawnLabel(World, TEXT("NPC: 3.5초마다 3단 콤보"), FVector(0.f, -260.f, 250.f), Colors::Item, 18.f);
+	Npc = D03::SpawnMannequin(World, FVector(0.f, 260.f, 0.f), 180.f);
+	SpawnLabel(World, TEXT("NPC: 3.5초마다 3단 콤보"), FVector(0.f, 260.f, 250.f), Colors::Item, 18.f);
 	Graph = UD03_GraphWidget::Create(GetPC(), TEXT("AM_Attack_Combo 섹션 (플레이어)"));
 	if (Graph)
 	{
@@ -136,6 +136,8 @@ void ADemo0304_Montage::Tick(float DeltaSeconds)
 	{
 		NpcTimer = 0.f;
 		NpcPresses = 0;
+		// 공격 시퀀스의 Root Motion 으로 조금씩 앞으로 나가므로 주기마다 제자리로
+		if (Npc) { Npc->SetActorLocationAndRotation(FVector(0.f, 260.f, 97.f), FRotator(0.f, 180.f, 0.f)); }
 	}
 
 	DrawMontageTimeline(Graph, Combo, GetPlayerCharacter(), false);
@@ -143,5 +145,16 @@ void ADemo0304_Montage::Tick(float DeltaSeconds)
 	{
 		Npc->SetHeadLabel(Describe(Npc), Colors::Item, 15.f);
 	}
-	SetStatus(FString::Printf(TEXT("플레이어  %s\nNPC      %s"), *Describe(GetPlayerCharacter()), *Describe(Npc)));
+	// 플레이어 섹션이 바뀔 때마다 기록
+	if (ACharacter* P = GetPlayerCharacter())
+	{
+		UAnimInstance* PA = P->GetMesh()->GetAnimInstance();
+		const FName Sec = PA && Combo && PA->Montage_IsActive(Combo) ? PA->Montage_GetCurrentSection(Combo) : NAME_None;
+		if (Sec != PlayerLastSection && !Sec.IsNone())
+		{
+			PlayerHistory = (Sec == TEXT("Attack1") ? FString() : PlayerHistory + TEXT(" → ")) + Sec.ToString();
+		}
+		PlayerLastSection = Sec;
+	}
+	SetStatus(FString::Printf(TEXT("플레이어  %s\n플레이어 콤보 기록: %s\nNPC      %s"), *Describe(GetPlayerCharacter()), PlayerHistory.IsEmpty() ? TEXT("-") : *PlayerHistory, *Describe(Npc)));
 }

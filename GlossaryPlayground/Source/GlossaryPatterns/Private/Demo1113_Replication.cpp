@@ -24,7 +24,7 @@ AD1113_NetDummy::AD1113_NetDummy()
 
 	Body = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Body"));
 	RootComponent = Body;
-	InitShapeComponent(Body, EShape::Cylinder, FVector(140.f, 140.f, 200.f));
+	InitShapeComponent(Body, EShape::Cylinder, FVector(260.f, 260.f, 200.f));
 	Body->SetCollisionProfileName(TEXT("BlockAllDynamic"));
 }
 
@@ -65,7 +65,7 @@ void AD1113_NetDummy::OnRep_Health(float OldHealth)
 	// 연출: 피격 플래시 + 체력 비율로 크기
 	Flash = 1.f;
 	const float Ratio = Health / 100.f;
-	SetActorScale3D(FVector(1.4f, 1.4f, 0.4f + 1.6f * Ratio));
+	SetActorScale3D(FVector(2.6f, 2.6f, 0.4f + 1.6f * Ratio));
 }
 
 void AD1113_NetDummy::Tick(float DeltaSeconds)

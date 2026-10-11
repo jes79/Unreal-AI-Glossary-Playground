@@ -45,9 +45,9 @@ void ADemo0404_ParameterCollection::BeginPlay()
 	{
 		for (float Y = -FieldSize.Y * 0.5f; Y <= FieldSize.Y * 0.5f; Y += BladeSpacing)
 		{
-			const float Height = Random.FRandRange(55.f, 95.f);
+			const float Height = Random.FRandRange(35.f, 60.f);
 			const FVector Location(X - 300.f + Random.FRandRange(-10.f, 10.f), Y + Random.FRandRange(-10.f, 10.f), Height * 0.5f);
-			Blades.Add(FTransform(FRotator(0.f, Random.FRandRange(0.f, 360.f), 0.f), Location, FVector(0.07f, 0.07f, Height / 100.f)));
+			Blades.Add(FTransform(FRotator(0.f, Random.FRandRange(0.f, 360.f), 0.f), Location, FVector(0.05f, 0.05f, Height / 100.f)));
 		}
 	}
 	Grass->AddInstances(Blades, false, true);

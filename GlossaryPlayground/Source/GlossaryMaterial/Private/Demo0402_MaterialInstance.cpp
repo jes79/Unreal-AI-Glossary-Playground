@@ -19,7 +19,7 @@ void ADemo0402_MaterialInstance::BeginPlay()
 {
 	Super::BeginPlay();
 	UWorld* World = GetWorld();
-	SetupFixedCamera(FVector(-1000.f, -250.f, 420.f), FVector(0.f, -250.f, 170.f), 60.f);
+	SetupFixedCamera(FVector(-1500.f, -150.f, 480.f), FVector(0.f, -150.f, 130.f), 60.f);
 
 	// 부모 머티리얼 견본 (왼쪽 아래)
 	SpawnWithMaterial(EShape::Cube, FVector(0.f, -700.f, 80.f), FVector(140.f), LoadMaterial(TEXT("M_Base")));

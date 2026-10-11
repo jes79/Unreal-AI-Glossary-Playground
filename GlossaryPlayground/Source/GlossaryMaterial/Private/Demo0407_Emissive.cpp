@@ -24,7 +24,7 @@ ADemo0407_Emissive::ADemo0407_Emissive()
 void ADemo0407_Emissive::BeginPlay()
 {
 	Super::BeginPlay();
-	SetupFixedCamera(FVector(-800.f, -250.f, 260.f), FVector(0.f, -250.f, 120.f), 60.f);
+	SetupFixedCamera(FVector(-1100.f, -20.f, 300.f), FVector(0.f, -20.f, 120.f), 60.f);
 
 	UMaterialInterface* Emissive = LoadMaterial(TEXT("M_Emissive"));
 	auto AddGlow = [&](EShape Shape, const FVector& Location, const FVector& Size, const FRotator& Rotation = FRotator::ZeroRotator)

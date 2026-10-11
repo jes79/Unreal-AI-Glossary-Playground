@@ -70,7 +70,14 @@ void ADemo0702_NavMeshMoveTo::Tick(float DeltaSeconds)
 	if (!bDemoMoveIssued && DemoTimer > 1.5f)
 	{
 		bDemoMoveIssued = true;
+		DemoTimer = 0.f;
 		MoveAgentTo(DemoGoal);
+	}
+	// 클릭하기 전까지는 시연 지점 두 곳을 오간다
+	if (bDemoMoveIssued && ClickCount == 0 && Agent && FVector::Dist2D(Agent->GetActorLocation(), LastGoal) < 100.f && DemoTimer > 1.f)
+	{
+		DemoTimer = 0.f;
+		MoveAgentTo(LastGoal.Equals(DemoGoal, 1.f) ? FVector(-1300.f, -200.f, 0.f) : DemoGoal);
 	}
 
 	if (WasKeyPressed(EKeys::LeftMouseButton))

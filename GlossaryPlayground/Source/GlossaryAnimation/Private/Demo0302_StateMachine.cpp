@@ -25,8 +25,8 @@ void ADemo0302_StateMachine::BeginPlay()
 {
 	Super::BeginPlay();
 	UWorld* World = GetWorld();
-	Npc = D03::SpawnMannequin(World, FVector(-150.f, -250.f, 0.f), 90.f);
-	SpawnLabel(World, TEXT("State Machine: Idle ⇄ Locomotion → Jump → Fall → Land"), FVector(200.f, 0.f, 320.f), Colors::Item, 20.f);
+	Npc = D03::SpawnMannequin(World, FVector(100.f, -350.f, 0.f), 90.f);
+	SpawnLabel(World, TEXT("State Machine: Idle ⇄ Locomotion → Jump → Fall → Land"), FVector(400.f, 0.f, 420.f), Colors::Item, 20.f);
 	Diagram = UD03_GraphWidget::Create(GetPC(), TEXT("ABP_Unarmed State Machine (실시간)"));
 	if (Diagram)
 	{
@@ -123,13 +123,13 @@ void ADemo0302_StateMachine::Tick(float DeltaSeconds)
 	{
 		CycleTime = 0.f;
 		bJumpedMoving = bJumpedIdle = false;
-		if (Npc) { Npc->SetActorLocation(FVector(-150.f, -250.f, 97.f)); }
+		if (Npc) { Npc->SetActorLocation(FVector(100.f, -350.f, 97.f)); }
 	}
 	if (Npc)
 	{
 		const bool bMove = CycleTime >= 1.5f && CycleTime < 4.5f;
 		Npc->AutoMoveDirection = bMove ? FVector(0.f, 1.f, 0.f) : FVector::ZeroVector;
-		Npc->AutoMoveScale = 0.8f;
+		Npc->AutoMoveScale = 0.45f;
 		if (!bJumpedMoving && CycleTime >= 2.6f) { bJumpedMoving = true; Npc->Jump(); }
 		if (!bJumpedIdle && CycleTime >= 5.4f) { bJumpedIdle = true; Npc->Jump(); }
 	}

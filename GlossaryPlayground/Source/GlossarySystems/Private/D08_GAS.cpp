@@ -1,4 +1,5 @@
 #include "D08_GAS.h"
+#include "D08_Tags.h"
 
 #include "Components/StaticMeshComponent.h"
 #include "D08_Common.h"
@@ -11,12 +12,12 @@ using namespace GlossaryKit;
 
 FGameplayTag D08GAS::CooldownFireballTag()
 {
-	return FGameplayTag::RequestGameplayTag(TEXT("Ability.Cooldown.Fireball"), false);
+	return D08Tags::Ability_Cooldown_Fireball;
 }
 
 FGameplayTag D08GAS::PoisonedTag()
 {
-	return FGameplayTag::RequestGameplayTag(TEXT("State.Poisoned"), false);
+	return D08Tags::State_Poisoned;
 }
 
 FActiveGameplayEffectHandle D08GAS::ApplyEffect(UAbilitySystemComponent* Source, UAbilitySystemComponent* Target, TSubclassOf<UGameplayEffect> Effect)
@@ -157,7 +158,7 @@ UD0808_GA_Fireball::UD0808_GA_Fireball(const FObjectInitializer& ObjectInitializ
 	CostGameplayEffectClass = UD0808_GE_FireballCost::StaticClass();
 	CooldownGameplayEffectClass = UD0808_GE_FireballCooldown::StaticClass();
 	FGameplayTagContainer AssetTags;
-	AssetTags.AddTag(FGameplayTag::RequestGameplayTag(TEXT("Ability.Fireball"), false));
+	AssetTags.AddTag(D08Tags::Ability_Fireball);
 	SetAssetTags(AssetTags);
 }
 

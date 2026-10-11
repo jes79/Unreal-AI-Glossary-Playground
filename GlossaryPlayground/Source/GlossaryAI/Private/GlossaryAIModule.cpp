@@ -9,6 +9,10 @@
 #include "Demo0703_BehaviorTree.h"
 #include "Demo0711_SmartObjects.h"
 #include "GlossaryAssetKit.h"
+#include "Materials/Material.h"
+#include "Materials/MaterialExpressionMultiply.h"
+#include "Materials/MaterialExpressionScalarParameter.h"
+#include "Materials/MaterialExpressionVectorParameter.h"
 #include "SmartObjectDefinition.h"
 #include "StateTree.h"
 #include "StateTreeCompilerLog.h"
@@ -115,9 +119,32 @@ static void BuildSmartObjectAsset()
 	UE_LOG(LogGlossaryAI, Display, TEXT("[Glossary] 07: SOD_Bench 생성 (슬롯 %d개)"), Definition->GetSlots().Num());
 }
 
+/**
+ * 07 전용 단색 머티리얼: 공통 M_Color 와 같은 파라미터지만 스켈레탈 메시(Manny)·인스턴스 메시(0713)에도 쓸 수 있게
+ * Usage 플래그를 켠다 (게임 실행 중에는 Usage 를 새로 컴파일할 수 없어서 미리 켜 둬야 한다).
+ */
+static void BuildAgentMaterial()
+{
+	using namespace GlossaryAssetKit;
+	UMaterial* Material = CreateMaterial(TEXT("/Game/Glossary/07_AI/M_AgentColor"));
+	Material->bUsedWithSkeletalMesh = true;
+	Material->bUsedWithInstancedStaticMeshes = true;
+	auto* Color = AddVectorParam(Material, TEXT("Color"), FLinearColor(0.8f, 0.8f, 0.8f), -600, -200);
+	auto* Roughness = AddScalarParam(Material, TEXT("Roughness"), 0.6f, -600, 0);
+	auto* Emissive = AddScalarParam(Material, TEXT("Emissive"), 0.f, -600, 200);
+	auto* EmissiveColor = AddExpression<UMaterialExpressionMultiply>(Material, -300, 200);
+	Connect(Color, TEXT(""), EmissiveColor, TEXT("A"));
+	Connect(Emissive, TEXT(""), EmissiveColor, TEXT("B"));
+	ConnectToPin(Color, MP_BaseColor);
+	ConnectToPin(Roughness, MP_Roughness);
+	ConnectToPin(EmissiveColor, MP_EmissiveColor);
+	FinishMaterial(Material);
+}
+
 /** 07_AI 분야 데모가 쓰는 생성 에셋 (/Game/Glossary/07_AI) */
 static void BuildGlossaryAIAssets()
 {
+	BuildAgentMaterial();
 	BuildBehaviorTreeAssets();
 	BuildStateTreeAsset();
 	BuildSmartObjectAsset();

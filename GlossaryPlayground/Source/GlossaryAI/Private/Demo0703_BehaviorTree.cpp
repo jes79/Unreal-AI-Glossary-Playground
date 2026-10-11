@@ -203,6 +203,7 @@ ADemo0703_BehaviorTree::ADemo0703_BehaviorTree()
 		TEXT("200 이내면 공격. 오른쪽 패널의 >> 가 지금 실행 중인 BT 노드");
 	Showcase = TEXT("BT_Enemy(순찰→추격→200 이내 공격) + BB_Enemy(TargetActor·PatrolLocation), 실행 중 노드와 Blackboard 값 표시");
 	bNeedsNavMesh = true;
+	PlayerStartTransform = FTransform(FRotator::ZeroRotator, FVector(-300.f, -300.f, 100.f));
 }
 
 void ADemo0703_BehaviorTree::BeginPlay()
@@ -235,7 +236,7 @@ void ADemo0703_BehaviorTree::BeginPlay()
 	}
 
 	SidePanel = D07::CreateSidePanel(this);
-	OverviewCamera = D07::SetupOverviewCamera(this, FVector(-1500.f, 0.f, 1700.f), FRotator(-45.f, 0.f, 0.f));
+	OverviewCamera = D07::SetupOverviewCamera(this, FVector(-1300.f, -900.f, 1900.f), FRotator(-50.f, 22.f, 0.f));
 }
 
 void ADemo0703_BehaviorTree::Tick(float DeltaSeconds)
@@ -257,9 +258,8 @@ void ADemo0703_BehaviorTree::Tick(float DeltaSeconds)
 	// 시야 부채꼴(1200, ±45°)과 공격 반경(200)
 	UWorld* World = GetWorld();
 	const AActor* Target = Cast<AActor>(BB->GetValueAsObject(TEXT("TargetActor")));
-	const FVector Eye = Enemy->GetActorLocation() + FVector(0.f, 0.f, -60.f);
 	const FColor ConeColor = Target ? FColor::Red : FColor(255, 220, 60);
-	DrawDebugCone(World, Eye, Enemy->GetActorForwardVector(), 1200.f, FMath::DegreesToRadians(45.f), FMath::DegreesToRadians(5.f), 12, ConeColor, false, -1.f, 0, 2.f);
+	D07::DrawSightFan(World, Enemy->GetActorLocation() - FVector(0.f, 0.f, 85.f), Enemy->GetActorForwardVector(), 1200.f, 45.f, ConeColor);
 	DrawDebugCircle(World, Enemy->GetActorLocation() - FVector(0.f, 0.f, 90.f), AttackRange, 40, FColor::Orange, false, -1.f, 0, 3.f, FVector(1, 0, 0), FVector(0, 1, 0), false);
 	D07::DrawCurrentPath(AIC, Target ? FColor::Red : FColor::Cyan, 4.f);
 

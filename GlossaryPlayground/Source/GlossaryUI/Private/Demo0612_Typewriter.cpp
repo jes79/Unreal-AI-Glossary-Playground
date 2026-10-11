@@ -8,6 +8,7 @@
 #include "Components/VerticalBox.h"
 #include "Components/VerticalBoxSlot.h"
 #include "GlossaryKit.h"
+#include "GlossaryUIKit.h"
 
 using namespace GlossaryKit;
 
@@ -115,6 +116,7 @@ ADemo0612_Typewriter::ADemo0612_Typewriter()
 void ADemo0612_Typewriter::BeginPlay()
 {
 	Super::BeginPlay();
+	GlossaryUIKit::SetupFixedCamera(this, FVector(-650.f, 0.f, 260.f), FRotator(-12.f, 0.f, 0.f)); // 고정 카메라
 	SpawnShape(GetWorld(), EShape::Cylinder, FVector(-100.f, -120.f, 90.f), FVector(80.f, 80.f, 180.f), Colors::Ally);
 	SpawnShape(GetWorld(), EShape::Cylinder, FVector(-100.f, 120.f, 90.f), FVector(80.f, 80.f, 180.f), Colors::Player);
 	Box = CreateWidget<UDemo0612_DialogueBox>(GetPC(), UDemo0612_DialogueBox::StaticClass());

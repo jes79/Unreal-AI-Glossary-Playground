@@ -8,6 +8,7 @@
 #include "Engine/StaticMeshActor.h"
 #include "GameFramework/PlayerController.h"
 #include "GlossaryKit.h"
+#include "GlossaryUIKit.h"
 
 using namespace GlossaryKit;
 
@@ -93,6 +94,7 @@ ADemo0605_DamageNumbers::ADemo0605_DamageNumbers()
 void ADemo0605_DamageNumbers::BeginPlay()
 {
 	Super::BeginPlay();
+	GlossaryUIKit::SetupFixedCamera(this, FVector(-650.f, 0.f, 260.f), FRotator(-12.f, 0.f, 0.f)); // 고정 카메라
 	for (int32 i = 0; i < 3; ++i)
 	{
 		const FVector Loc(200.f, -350.f + 350.f * i, 90.f);

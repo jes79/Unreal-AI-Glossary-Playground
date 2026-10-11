@@ -19,7 +19,7 @@ ADemo0403_DynamicMaterial::ADemo0403_DynamicMaterial()
 void ADemo0403_DynamicMaterial::BeginPlay()
 {
 	Super::BeginPlay();
-	SetupFixedCamera(FVector(-520.f, -60.f, 170.f), FVector(0.f, -230.f, 110.f), 55.f);
+	SetupFixedCamera(FVector(-600.f, -120.f, 150.f), FVector(0.f, -120.f, 100.f), 55.f);
 
 	Enemy = SpawnMannequin(FVector(0.f, 0.f, 0.f), FRotator(0.f, 90.f, 0.f), LoadMaterial(TEXT("M_HitFlash")));
 	USkeletalMeshComponent* Mesh = Enemy->GetSkeletalMeshComponent();

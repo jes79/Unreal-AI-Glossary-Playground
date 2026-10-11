@@ -11,6 +11,7 @@ using namespace GlossaryKit;
 ADemo1003_Nanite::ADemo1003_Nanite()
 {
 	DemoId = TEXT("1003");
+	Environment.bFixedExposure = false;   // 시각화 화면(Triangles·Clusters)도 자동 노출로 보이게
 	Controls = TEXT("1 : 일반 화면   2 : Nanite Visualize Triangles   3 : Clusters\n")
 		TEXT("4 : 같은 바위를 Nanite 끈 메시로 바꾸기(프레임 시간 비교)   WASD·QE·←→↑↓ 카메라\n")
 		TEXT("관찰: 삼각형 33만 개짜리 바위 20개(650만)인데도 Nanite 는 화면 크기에 맞춰 클러스터 단위로 자동 LOD.\n")

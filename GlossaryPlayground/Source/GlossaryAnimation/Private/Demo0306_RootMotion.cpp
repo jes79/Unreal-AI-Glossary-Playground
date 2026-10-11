@@ -12,7 +12,7 @@ using namespace GlossaryKit;
 ADemo0306_RootMotion::ADemo0306_RootMotion()
 {
 	DemoId = TEXT("0306");
-	Controls = TEXT("E : 지금 대시 재생 (3초마다 자동 반복)\n")
+	Controls = TEXT("E : 지금 대시 재생 (3.5초마다 자동 반복)\n")
 		TEXT("관찰: 파란 원판 = 캡슐(실제 캐릭터 위치). 왼쪽은 애니메이션 이동량만큼 캡슐이 따라가고,\n")
 		TEXT("오른쪽은 메시만 앞으로 갔다가 끝나면 캡슐 자리로 '툭' 돌아온다 (Root Motion 미사용)");
 	Showcase = TEXT("같은 대시 몽타주를 Root Motion 사용/미사용 두 캐릭터로 동시에 재생, 캡슐 위치 원판으로 차이 표시");
@@ -46,7 +46,7 @@ void ADemo0306_RootMotion::BeginPlay()
 	}
 
 	// 거리 눈금 (1m 간격)
-	for (int32 i = 0; i <= 8; ++i)
+	for (int32 i = 0; i <= 10; ++i)
 	{
 		for (float Y : { -220.f, 220.f })
 		{
@@ -57,7 +57,7 @@ void ADemo0306_RootMotion::BeginPlay()
 	SpawnLabel(World, TEXT("Root Motion ON\n(RootMotionFromMontagesOnly)"), StartA + FVector(0, 0, 260.f), Colors::Ally, 17.f);
 	SpawnLabel(World, TEXT("Root Motion OFF\n(NoRootMotionExtraction)"), StartB + FVector(0, 0, 260.f), Colors::Enemy, 17.f);
 
-	D03::SpawnViewCamera(World, GetPC(), FVector(-50.f, -1150.f, 380.f), FVector(-50.f, 0.f, 60.f), 60.f);
+	D03::SpawnViewCamera(World, GetPC(), FVector(180.f, -1500.f, 480.f), FVector(180.f, 0.f, 40.f), 72.f);
 	StartDash();
 }
 

@@ -39,7 +39,7 @@ void ADemo0311_IKRetargeter::BeginPlay()
 	};
 	for (int32 i = 0; i < 4; ++i)
 	{
-		AD03_Mannequin* M = D03::SpawnMannequin(World, FVector(-360.f + i * 240.f, 0.f, 0.f), 0.f);
+		AD03_Mannequin* M = D03::SpawnMannequin(World, FVector(i * 210.f, 0.f, 0.f), 0.f);
 		if (!M) { continue; }
 		if (Setups[i].bQuinn && Quinn)
 		{
@@ -59,8 +59,8 @@ void ADemo0311_IKRetargeter::BeginPlay()
 		Anims.Add(A);
 	}
 	// 바닥 기준선
-	SpawnShape(World, EShape::Cube, FVector(0.f, 0.f, 1.f), FVector(1100.f, 6.f, 2.f), Colors::Item);
-	D03::SpawnViewCamera(World, GetPC(), FVector(0.f, -760.f, 150.f), FVector(0.f, 0.f, 95.f), 70.f);
+	SpawnShape(World, EShape::Cube, FVector(300.f, 0.f, 1.f), FVector(1200.f, 6.f, 2.f), Colors::Item);
+	D03::SpawnViewCamera(World, GetPC(), FVector(160.f, 900.f, 160.f), FVector(160.f, 0.f, 95.f), 70.f);
 }
 
 void ADemo0311_IKRetargeter::Tick(float DeltaSeconds)

@@ -28,7 +28,7 @@ ADemo0410_Toon::ADemo0410_Toon()
 void ADemo0410_Toon::BeginPlay()
 {
 	Super::BeginPlay();
-	SetupFixedCamera(FVector(-900.f, -200.f, 330.f), FVector(0.f, -200.f, 110.f), 60.f);
+	SetupFixedCamera(FVector(-1350.f, 60.f, 420.f), FVector(0.f, 60.f, 90.f), 60.f);
 
 	UMaterialInterface* Toon = LoadMaterial(TEXT("M_Toon"));
 	const FLinearColor Palette[] = { FLinearColor(0.9f, 0.3f, 0.2f), FLinearColor(0.2f, 0.55f, 0.95f), FLinearColor(0.95f, 0.75f, 0.2f), FLinearColor(0.3f, 0.8f, 0.4f) };

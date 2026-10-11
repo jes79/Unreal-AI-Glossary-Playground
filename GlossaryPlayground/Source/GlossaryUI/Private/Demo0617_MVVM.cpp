@@ -161,6 +161,7 @@ ADemo0617_MVVM::ADemo0617_MVVM()
 void ADemo0617_MVVM::BeginPlay()
 {
 	Super::BeginPlay();
+	GlossaryUIKit::SetupFixedCamera(this, FVector(-650.f, 0.f, 260.f), FRotator(-12.f, 0.f, 0.f)); // 고정 카메라
 	SpawnShape(GetWorld(), EShape::Cylinder, FVector(-100.f, 0.f, 90.f), FVector(100.f, 100.f, 180.f), Colors::Player);
 	// Model 쪽(여기서는 데모 액터)이 뷰모델을 만들어 View 들에게 나눠 준다
 	HealthViewModel = NewObject<UDemo0617_HealthViewModel>(this);

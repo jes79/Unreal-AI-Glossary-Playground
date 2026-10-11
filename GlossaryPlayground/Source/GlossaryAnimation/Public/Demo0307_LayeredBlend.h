@@ -33,7 +33,7 @@ protected:
 	FName UpperBodySlot = TEXT("UpperBody");
 
 	UPROPERTY(EditAnywhere, Category = "Layered Blend")
-	float AttackInterval = 1.6f;
+	float AttackInterval = 1.4f;
 
 private:
 	void Attack(class ACharacter* Who);

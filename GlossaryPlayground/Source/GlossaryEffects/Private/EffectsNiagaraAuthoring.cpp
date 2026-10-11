@@ -124,6 +124,8 @@ FNiagaraSystemViewModel& FGlossaryNiagaraBuilder::GetViewModel()
 		Options.bCompileForEdit = false;
 		Options.bIsForDataProcessingOnly = true;
 		Options.EditMode = ENiagaraSystemViewModelEditMode::SystemAsset;
+		// 메시지 매니저 구독 키가 비어 있으면 assert → 새 시스템은 에셋 GUID 가 없을 수 있어 임시 GUID 사용
+		Options.MessageLogGuid = System->GetAssetGuid().IsValid() ? System->GetAssetGuid() : FGuid::NewGuid();
 		ViewModel = MakeShared<FNiagaraSystemViewModel>();
 		ViewModel->Initialize(*System, Options);
 	}

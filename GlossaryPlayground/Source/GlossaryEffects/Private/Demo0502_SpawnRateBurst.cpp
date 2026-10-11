@@ -29,9 +29,9 @@ void ADemo0502_SpawnRateBurst::BeginPlay()
 	// 오른쪽: Spawn Burst Instantaneous (시작 순간 100개, 반복 없음)
 	Debris = EffectsKit::AddNiagara(this, TEXT("NS_DebrisBurst"), FVector(0.f, 350.f, 60.f));
 
-	SpawnLabel(World, TEXT("Spawn Rate 50 /초 — 계속"), FVector(0.f, -350.f, 520.f), Colors::Cyan, 22.f);
-	SpawnLabel(World, TEXT("Spawn Burst 100 — 한꺼번에"), FVector(0.f, 350.f, 520.f), Colors::Accent, 22.f);
-	EffectsKit::SetupFixedCamera(this, FVector(-1100.f, 0.f, 330.f), FVector(0.f, 0.f, 220.f), 65.f);
+	SpawnLabel(World, TEXT("Spawn Rate 50 /초 — 계속"), FVector(0.f, -350.f, 420.f), Colors::Cyan, 22.f);
+	SpawnLabel(World, TEXT("Spawn Burst 100 — 한꺼번에"), FVector(0.f, 350.f, 420.f), Colors::Accent, 22.f);
+	EffectsKit::SetupFixedCamera(this, FVector(-1100.f, -250.f, 330.f), FVector(0.f, -100.f, 220.f), 65.f);
 	if (Smoke)
 	{
 		Smoke->SetVariableFloat(TEXT("SmokeSpawnRate"), SpawnRate);

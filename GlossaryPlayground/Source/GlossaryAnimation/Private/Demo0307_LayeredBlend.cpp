@@ -34,11 +34,11 @@ namespace
 ADemo0307_LayeredBlend::ADemo0307_LayeredBlend()
 {
 	DemoId = TEXT("0307");
-	Controls = TEXT("WASD 이동 · E : 플레이어 상체 공격 · C : 플레이어 레이어 ON/OFF\n")
+	Controls = TEXT("두 NPC 가 1.4초마다 같은 공격을 UpperBody 슬롯으로 재생 (PlaySlotAnimationAsDynamicMontage)\n")
 		TEXT("관찰: 두 NPC 가 걸으면서 같은 공격을 재생한다. 왼쪽(초록)은 spine_01 위만 공격하고 다리는 계속 걷는다,\n")
 		TEXT("오른쪽(빨강)은 Layered Blend 없이 슬롯이 전신을 덮어 다리가 멈춘 채 미끄러진다");
 	Showcase = TEXT("C++ AnimInstance 에서 UpperBody 슬롯 + spine_01 Layered Blend per Bone, 걸으며 상체만 공격 vs 전신 덮어쓰기 비교");
-	PlayerStartTransform = FTransform(FRotator::ZeroRotator, FVector(-750.f, 0.f, 100.f));
+	PlayerPawnClass = nullptr;
 }
 
 void ADemo0307_LayeredBlend::BeginPlay()
@@ -63,7 +63,7 @@ void ADemo0307_LayeredBlend::BeginPlay()
 		FullBody->AutoMoveScale = 0.45f;
 		FullBody->SetHeadLabel(TEXT("OFF: 슬롯이 전신을 덮음"), Colors::Enemy, 16.f);
 	}
-	SetupLayered(GetPlayerCharacter(), UpperBodySlot, LayerBone, true);
+	D03::SpawnViewCamera(World, GetPC(), FVector(-650.f, -650.f, 260.f), FVector(50.f, 0.f, 90.f), 55.f);
 }
 
 void ADemo0307_LayeredBlend::Attack(ACharacter* Who)
@@ -108,6 +108,6 @@ void ADemo0307_LayeredBlend::Tick(float DeltaSeconds)
 		return A ? A->GetSlotMontageGlobalWeight(UpperBodySlot) : 0.f;
 	};
 	auto LegSpeed = [](ACharacter* C) { return C ? C->GetVelocity().Size2D() : 0.f; };
-	SetStatus(FString::Printf(TEXT("왼쪽 ON : UpperBody 슬롯 가중치 %.2f · 이동 %.0f cm/s (다리는 Blend Space 걷기)\n오른쪽 OFF: UpperBody 슬롯 가중치 %.2f · 이동 %.0f cm/s (다리도 공격 포즈)\n플레이어 레이어 %s"),
-		SlotWeight(Layered), LegSpeed(Layered), SlotWeight(FullBody), LegSpeed(FullBody), bPlayerLayered ? TEXT("ON") : TEXT("OFF")));
+	SetStatus(FString::Printf(TEXT("왼쪽 ON : UpperBody 슬롯 가중치 %.2f · 이동 %.0f cm/s (다리는 Blend Space 걷기)\n오른쪽 OFF: UpperBody 슬롯 가중치 %.2f · 이동 %.0f cm/s (다리도 공격 포즈)"),
+		SlotWeight(Layered), LegSpeed(Layered), SlotWeight(FullBody), LegSpeed(FullBody)));
 }

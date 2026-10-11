@@ -12,7 +12,7 @@ ADemo0408_Dissolve::ADemo0408_Dissolve()
 {
 	DemoId = TEXT("0408");
 	Controls = TEXT("Space : 1초 디졸브 (사라짐 ↔ 나타남)    A : 자동 반복 ON/OFF\n")
-		TEXT("[ / ] : DissolveAmount 를 0.1 씩 직접 조절 (자동 반복 멈춤)\n")
+		TEXT("[ / ] : DissolveAmount ±0.1 · 1 : 0.5 에서 멈춤 (자동 반복 멈춤)\n")
 		TEXT("관찰: 노이즈 값이 낮은 곳부터 구멍이 나고, 잘린 경계는 주황 Emissive 로 타들어간다");
 	Showcase = TEXT("노이즈 + Opacity Mask 로 1초 디졸브, 경계선 주황 Emissive, 자동 반복·수동 조절");
 	Environment.Sky = EGlossarySky::Sunset;
@@ -21,7 +21,7 @@ ADemo0408_Dissolve::ADemo0408_Dissolve()
 void ADemo0408_Dissolve::BeginPlay()
 {
 	Super::BeginPlay();
-	SetupFixedCamera(FVector(-800.f, -230.f, 230.f), FVector(0.f, -230.f, 120.f), 60.f);
+	SetupFixedCamera(FVector(-1050.f, 30.f, 260.f), FVector(0.f, 30.f, 110.f), 60.f);
 
 	UMaterialInterface* Dissolve = LoadMaterial(TEXT("M_Dissolve"));
 	TArray<UPrimitiveComponent*> Targets;
@@ -49,6 +49,7 @@ void ADemo0408_Dissolve::Tick(float DeltaSeconds)
 		Direction = Amount < 0.5f ? 1.f : -1.f;
 	}
 	if (WasKeyPressed(EKeys::A)) { bAutoLoop = !bAutoLoop; }
+	if (WasKeyPressed(EKeys::One)) { bAutoLoop = false; Direction = 0.f; Amount = 0.5f; }   // 절반에서 멈춰 경계선 관찰
 	if (WasKeyPressed(EKeys::LeftBracket))  { bAutoLoop = false; Direction = 0.f; Amount = FMath::Clamp(Amount - 0.1f, 0.f, 1.f); }
 	if (WasKeyPressed(EKeys::RightBracket)) { bAutoLoop = false; Direction = 0.f; Amount = FMath::Clamp(Amount + 0.1f, 0.f, 1.f); }
 

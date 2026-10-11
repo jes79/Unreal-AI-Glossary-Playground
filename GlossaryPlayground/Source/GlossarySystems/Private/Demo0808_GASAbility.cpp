@@ -9,6 +9,8 @@ using namespace GlossaryKit;
 ADemo0808_GASAbility::ADemo0808_GASAbility()
 {
 	DemoId = TEXT("0808");
+	// 플레이어 컨트롤러(입력 처리) 다음에 Tick 해서 WasKeyPressed 를 놓치지 않게
+	PrimaryActorTick.TickGroup = TG_PostPhysics;
 	Controls = TEXT("1 또는 왼쪽 클릭 : 파이어볼 (마나 20 · 쿨타임 2초) · R : 마나 재생 ON/OFF\n")
 		TEXT("관찰: 쿨타임 중이거나 마나가 20 미만이면 TryActivateAbility 가 실패한다 — 검사 코드는 직접 쓰지 않았다");
 	Showcase = TEXT("GAS 파이어볼: 마나 20 Cost GE, 2초 Cooldown GE(태그), 명중 시 데미지 GE — 실패 이유 표시");
@@ -20,7 +22,7 @@ void ADemo0808_GASAbility::BeginPlay()
 	Super::BeginPlay();
 	FActorSpawnParameters Params;
 	Params.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-	Target = GetWorld()->SpawnActor<AD08_GASDummy>(FVector(300.f, 0.f, 90.f), FRotator::ZeroRotator, Params);
+	Target = GetWorld()->SpawnActor<AD08_GASDummy>(FVector(300.f, 350.f, 90.f), FRotator::ZeroRotator, Params);
 	Target->SetDisplayName(TEXT("허수아비"));
 
 	if (AD08_GASCharacter* Player = Cast<AD08_GASCharacter>(GetPlayerPawn()))

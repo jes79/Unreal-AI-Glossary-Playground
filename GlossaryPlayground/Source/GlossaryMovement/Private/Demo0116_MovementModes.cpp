@@ -24,7 +24,7 @@ using namespace GlossaryKit;
 ADemo0116_MovementModes::ADemo0116_MovementModes()
 {
 	DemoId = TEXT("0116");
-	Controls = TEXT("WASD 이동 · Space 점프 · F : 비행 모드 ON/OFF\n")
+	Controls = TEXT("WASD 이동 · Space 점프 · F : 비행 모드 ON/OFF · G : 물속으로 순간이동\n")
 		TEXT("수영·비행 중: 보는 방향으로 이동, Space 상승 · Ctrl 하강\n")
 		TEXT("관찰: 파란 물(Water Volume)에 들어가면 자동으로 Swimming, 탑에서 뛰어내리면 Falling, F 는 Flying");
 	Showcase = TEXT("Physics Volume(Water Volume) 에 들어가면 Swimming, F 키로 Flying 토글, 탑에서 Falling — 머리 위 모드 라벨과 전환 기록");
@@ -124,6 +124,11 @@ void ADemo0116_MovementModes::Tick(float DeltaSeconds)
 	if (WasKeyPressed(EKeys::F))
 	{
 		Character->ToggleFlying();
+	}
+	if (WasKeyPressed(EKeys::G))
+	{
+		// 편의: 물 한가운데로 순간이동 (들어가자마자 Swimming 으로 바뀌는 것 확인용)
+		Character->SetActorLocation(WaterCenter, false, nullptr, ETeleportType::TeleportPhysics);
 	}
 
 	const UCharacterMovementComponent* Move = Character->GetCharacterMovement();

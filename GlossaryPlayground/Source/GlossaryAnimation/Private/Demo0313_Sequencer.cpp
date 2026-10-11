@@ -1,6 +1,7 @@
 #include "Demo0313_Sequencer.h"
 
 #include "CineCameraActor.h"
+#include "CineCameraComponent.h"
 #include "Components/BoxComponent.h"
 #include "D03_Mannequin.h"
 #include "Engine/TriggerBox.h"
@@ -78,6 +79,7 @@ void ADemo0313_Sequencer::BeginPlay()
 		{
 			// 이름이 Cam_* 인 Possessable 마다 시네 카메라 하나
 			ACineCameraActor* Cam = World->SpawnActor<ACineCameraActor>(FVector(0, 0, 300.f), FRotator::ZeroRotator);
+			if (Cam) { Cam->GetCineCameraComponent()->SetCurrentFocalLength(16.f); }   // 넓은 화각 (기본 35mm 는 망원에 가깝다)
 			Cameras.Add(Cam);
 			Bound = Cam;
 		}
@@ -85,6 +87,7 @@ void ADemo0313_Sequencer::BeginPlay()
 		{
 			// 에셋의 Possessable(Guid) 을 이 레벨의 실제 액터로 연결 (Binding Override)
 			SequenceActor->SetBinding(FMovieSceneObjectBindingID(UE::MovieScene::FRelativeObjectBindingID(P.GetGuid())), { Bound });
+			UE_LOG(LogTemp, Display, TEXT("[Glossary] 0313 바인딩 %s -> %s"), *P.GetName(), *GetNameSafe(Bound));
 		}
 	}
 }
@@ -122,6 +125,9 @@ void ADemo0313_Sequencer::Tick(float DeltaSeconds)
 	const float T = bPlaying ? Player->GetCurrentTime().AsSeconds() : 0.f;
 	const TCHAR* Shot = !bPlaying ? TEXT("-") : T < 1.7f ? TEXT("Cam_Wide (와이드)") : T < 3.4f ? TEXT("Cam_Close (클로즈업)") : TEXT("Cam_Orbit (하이앵글)");
 	const AActor* View = GetPC() ? GetPC()->GetViewTarget() : nullptr;
+	if (bPlaying && View)
+	{
+	}
 	SetStatus(FString::Printf(TEXT("LS_Cutscene %s · %.2f / 5.00 초 · 재생 %d회\n카메라 컷: %s · 뷰 타깃 %s"),
 		bPlaying ? TEXT("재생 중") : TEXT("대기"), T, PlayCount, Shot, *GetNameSafe(View)));
 }

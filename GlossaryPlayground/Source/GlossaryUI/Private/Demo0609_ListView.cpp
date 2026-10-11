@@ -108,6 +108,7 @@ ADemo0609_ListView::ADemo0609_ListView()
 void ADemo0609_ListView::BeginPlay()
 {
 	Super::BeginPlay();
+	GlossaryUIKit::SetupFixedCamera(this, FVector(-650.f, 0.f, 260.f), FRotator(-12.f, 0.f, 0.f)); // 고정 카메라
 	UDemo0609_Entry::NumCreated = 0;
 	UDemo0609_Entry::NumItemSets = 0;
 

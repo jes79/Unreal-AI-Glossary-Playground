@@ -36,6 +36,9 @@ protected:
 	UPROPERTY(Transient) TArray<TObjectPtr<USlider>> Sliders;
 	UPROPERTY(Transient) TArray<TObjectPtr<UTextBlock>> Labels;
 	UPROPERTY(Transient) TArray<TObjectPtr<UTextBlock>> ValueTexts;
+
+	/** 코드에서 슬라이더 값을 맞출 때 OnValueChanged 가 다시 데모를 부르지 않게 막는다 */
+	bool bSyncingFromCode = false;
 };
 
 /**

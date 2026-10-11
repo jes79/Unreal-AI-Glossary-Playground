@@ -10,7 +10,7 @@ using namespace GlossaryKit;
 
 namespace
 {
-	constexpr float TrackRadius = 2000.f;
+	constexpr float D0525TrackRadius = 2000.f;
 }
 
 ADemo0525_MotionBlur::ADemo0525_MotionBlur()
@@ -33,8 +33,8 @@ void ADemo0525_MotionBlur::BeginPlay()
 	{
 		const float A = i * 5.f * PI / 180.f;
 		const FLinearColor Color = i % 2 == 0 ? Colors::Item : Colors::Enemy;
-		SpawnBlock(World, FVector(FMath::Cos(A), FMath::Sin(A), 0.f) * (TrackRadius + 400.f), FVector(60.f, 60.f, 300.f), Color);
-		SpawnBlock(World, FVector(FMath::Cos(A), FMath::Sin(A), 0.f) * (TrackRadius - 400.f), FVector(60.f, 60.f, 200.f), Colors::Wall);
+		SpawnBlock(World, FVector(FMath::Cos(A), FMath::Sin(A), 0.f) * (D0525TrackRadius + 400.f), FVector(60.f, 60.f, 300.f), Color);
+		SpawnBlock(World, FVector(FMath::Cos(A), FMath::Sin(A), 0.f) * (D0525TrackRadius - 400.f), FVector(60.f, 60.f, 200.f), Colors::Wall);
 	}
 
 	// 차: 몸통 + 지붕 (한 액터에 묶음)
@@ -62,10 +62,10 @@ void ADemo0525_MotionBlur::Tick(float DeltaSeconds)
 	if (WasKeyPressed(EKeys::LeftBracket))  CarSpeed = FMath::Max(500.f, CarSpeed - 500.f);
 	if (WasKeyPressed(EKeys::RightBracket)) CarSpeed = FMath::Min(6000.f, CarSpeed + 500.f);
 
-	Angle += CarSpeed / TrackRadius * DeltaSeconds;
+	Angle += CarSpeed / D0525TrackRadius * DeltaSeconds;
 	const FVector Dir(FMath::Cos(Angle), FMath::Sin(Angle), 0.f);
 	const FVector Forward(-FMath::Sin(Angle), FMath::Cos(Angle), 0.f);
-	const FVector CarPos = Dir * TrackRadius + FVector(0.f, 0.f, 60.f);
+	const FVector CarPos = Dir * D0525TrackRadius + FVector(0.f, 0.f, 60.f);
 	if (Car)
 	{
 		Car->SetActorLocationAndRotation(CarPos, Forward.Rotation());
