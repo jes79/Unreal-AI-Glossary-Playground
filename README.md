@@ -8,6 +8,7 @@
 - 레벨 187개 + 허브 레벨 1개
 - 구현 방식: 런타임 데모 170 · 설명 + 대체 구현 14 · 에디터 도구 데모 3
 - 레벨·머티리얼·Niagara·사운드·Behavior Tree·StateTree·Level Sequence 등 **에셋을 코드로 생성** (손으로 만든 레벨 없음)
+- [위키](https://github.com/jes79/Unreal-AI-Glossary-Playground/wiki): 시작하기 · 분야별 용어 187개 상세
 - 용어집 문서: [Claude Docs](https://claude.ai/code/artifact/e551ba89-bc77-4986-a284-ef21c7552635) · Notion DB "언리얼 용어 DB"
 
 ![허브 레벨: 분야를 고르고 용어를 누르면 해당 예제 레벨로 이동](docs/images/0000_Hub.jpg)
