@@ -1,0 +1,18 @@
+# Unreal
+GlossaryPlayground/Binaries/
+GlossaryPlayground/Intermediate/
+GlossaryPlayground/Saved/
+GlossaryPlayground/DerivedDataCache/
+GlossaryPlayground/.vs/
+GlossaryPlayground/*.sln
+GlossaryPlayground/*.slnx
+GlossaryPlayground/Platforms/
+*.VC.db
+*.opensdf
+*.sdf
+*.suo
+*.xcworkspace
+# Packaged builds
+Builds/
+shots/
+.build-lock/
