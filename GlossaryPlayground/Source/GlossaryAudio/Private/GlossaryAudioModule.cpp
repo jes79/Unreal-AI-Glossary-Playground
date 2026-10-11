@@ -3,10 +3,8 @@
 #if WITH_EDITOR
 #include "GlossaryAssetKit.h"
 
-/** 09_Audio 분야 데모가 쓰는 생성 에셋 (/Game/Glossary/09_Audio). 없으면 비워 둔다. */
-static void BuildGlossaryAudioAssets()
-{
-}
+/** 09_Audio 분야 데모가 쓰는 생성 에셋 (/Game/Glossary/09_Audio). 구현은 GlossaryAudioAssets.cpp */
+void BuildGlossaryAudioAssets();
 #endif
 
 class FGlossaryAudioModule : public IModuleInterface

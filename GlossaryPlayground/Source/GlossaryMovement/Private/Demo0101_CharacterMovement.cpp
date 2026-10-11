@@ -1,5 +1,6 @@
 #include "Demo0101_CharacterMovement.h"
 
+#include "Engine/StaticMeshActor.h"
 #include "GameFramework/Character.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GlossaryKit.h"
@@ -11,8 +12,8 @@ ADemo0101_CharacterMovement::ADemo0101_CharacterMovement()
 	DemoId = TEXT("0101");
 	Controls = TEXT("WASD 이동 · 마우스 시점 · Space 점프\n")
 		TEXT("[ / ] : Walkable Floor Angle -5° / +5°   ,  . : Max Step Height -15 / +15\n")
-		TEXT("관찰: 45° 이하 경사만 걸어서 오르고, Max Step Height 보다 낮은 턱만 계단처럼 넘는다");
-	Showcase = TEXT("30°·45°·50° 램프와 30·45·60cm 턱, Walkable Floor Angle·Max Step Height 실시간 조절");
+		TEXT("관찰: 초록 램프·턱만 오른다. 값을 바꾸면 색이 바로 바뀌고 실제로 오를 수 있는지도 바뀐다");
+	Showcase = TEXT("30°·45°·50° 램프와 30·45·60cm 턱, Walkable Floor Angle·Max Step Height 실시간 조절(색으로 오를 수 있는지 표시)");
 	PlayerStartTransform = FTransform(FRotator::ZeroRotator, FVector(-700.f, 0.f, 100.f));
 }
 
@@ -43,8 +44,8 @@ void ADemo0101_CharacterMovement::SpawnRamp(float Angle, const FVector& Base)
 	constexpr float Length = 700.f, Width = 400.f, Thickness = 20.f;
 	const float Rad = FMath::DegreesToRadians(Angle);
 	const FVector Center = Base + FVector(FMath::Cos(Rad) * Length * 0.5f, 0.f, FMath::Sin(Rad) * Length * 0.5f);
-	const FLinearColor Color = Angle <= WalkableFloorAngle ? Colors::Ally : Colors::Enemy;
-	SpawnShape(GetWorld(), EShape::Cube, Center, FVector(Length, Width, Thickness), Color, FRotator(Angle, 0.f, 0.f));
+	AStaticMeshActor* Ramp = SpawnShape(GetWorld(), EShape::Cube, Center, FVector(Length, Width, Thickness), Colors::Neutral, FRotator(Angle, 0.f, 0.f));
+	Ramps.Add({ Ramp, Angle });
 
 	// 꼭대기 평판
 	const FVector Top = Base + FVector(FMath::Cos(Rad) * Length, 0.f, FMath::Sin(Rad) * Length);
@@ -54,7 +55,8 @@ void ADemo0101_CharacterMovement::SpawnRamp(float Angle, const FVector& Base)
 
 void ADemo0101_CharacterMovement::SpawnStep(float Height, const FVector& Base)
 {
-	SpawnBlock(GetWorld(), Base + FVector(150.f, 0.f, 0.f), FVector(300.f, 300.f, Height), Colors::Platform);
+	AStaticMeshActor* Step = SpawnBlock(GetWorld(), Base + FVector(150.f, 0.f, 0.f), FVector(300.f, 300.f, Height), Colors::Neutral);
+	Steps.Add({ Step, Height });
 	SpawnLabel(GetWorld(), FString::Printf(TEXT("턱 %.0fcm"), Height), Base + FVector(-60.f, 0.f, Height + 100.f), FLinearColor::White, 22.f);
 }
 
@@ -66,6 +68,25 @@ void ADemo0101_CharacterMovement::ApplyMovementSettings()
 		// 핵심 두 줄: 경사 한계와 계단 높이 한계
 		Move->SetWalkableFloorAngle(WalkableFloorAngle);
 		Move->MaxStepHeight = MaxStepHeight;
+	}
+	RefreshColors();
+}
+
+void ADemo0101_CharacterMovement::RefreshColors()
+{
+	for (const FRamp& Ramp : Ramps)
+	{
+		if (AStaticMeshActor* Actor = Ramp.Actor.Get())
+		{
+			SetColor(Actor->GetStaticMeshComponent(), Ramp.Angle <= WalkableFloorAngle ? Colors::Ally : Colors::Enemy);
+		}
+	}
+	for (const FStep& Step : Steps)
+	{
+		if (AStaticMeshActor* Actor = Step.Actor.Get())
+		{
+			SetColor(Actor->GetStaticMeshComponent(), Step.Height <= MaxStepHeight ? Colors::Ally : Colors::Enemy);
+		}
 	}
 }
 

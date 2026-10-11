@@ -4,6 +4,8 @@
 #include "GlossaryDemoBase.h"
 #include "Demo0101_CharacterMovement.generated.h"
 
+class AStaticMeshActor;
+
 /**
  * 0101 Character Movement Component
  * 경사 30° / 45° / 50° 램프와 높이가 다른 계단(30cm·45cm·60cm)을 놓고,
@@ -31,6 +33,13 @@ protected:
 
 private:
 	void ApplyMovementSettings();
+	/** 램프·턱 색을 현재 값 기준으로 다시 칠한다 (초록 = 오를 수 있음, 빨강 = 못 오름) */
+	void RefreshColors();
 	void SpawnRamp(float Angle, const FVector& Base);
 	void SpawnStep(float Height, const FVector& Base);
+
+	struct FRamp { TWeakObjectPtr<AStaticMeshActor> Actor; float Angle = 0.f; };
+	struct FStep { TWeakObjectPtr<AStaticMeshActor> Actor; float Height = 0.f; };
+	TArray<FRamp> Ramps;
+	TArray<FStep> Steps;
 };

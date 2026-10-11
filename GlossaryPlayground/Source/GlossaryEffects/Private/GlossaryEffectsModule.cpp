@@ -2,11 +2,7 @@
 
 #if WITH_EDITOR
 #include "GlossaryAssetKit.h"
-
-/** 05_Effects 분야 데모가 쓰는 생성 에셋 (/Game/Glossary/05_Effects). 없으면 비워 둔다. */
-static void BuildGlossaryEffectsAssets()
-{
-}
+#include "EffectsAssets.h"   // BuildGlossaryEffectsAssets: /Game/Glossary/05_Effects 의 머티리얼·텍스처·Niagara System
 #endif
 
 class FGlossaryEffectsModule : public IModuleInterface

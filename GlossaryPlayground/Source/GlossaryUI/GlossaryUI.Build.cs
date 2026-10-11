@@ -9,7 +9,7 @@ public class GlossaryUI : ModuleRules
 		PublicDependencyModuleNames.AddRange(new string[]
 		{
 			"Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput", "UMG", "Slate", "SlateCore",
-			"GlossaryCore", "CommonUI", "CommonInput", "ModelViewViewModel", "FieldNotification",
+			"GlossaryCore", "CommonUI", "CommonInput", "ModelViewViewModel", "FieldNotification", "MovieScene", "MovieSceneTracks",
 		});
 	}
 }

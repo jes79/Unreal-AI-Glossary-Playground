@@ -2,11 +2,7 @@
 
 #if WITH_EDITOR
 #include "GlossaryAssetKit.h"
-
-/** 10_Rendering 분야 데모가 쓰는 생성 에셋 (/Game/Glossary/10_Rendering). 없으면 비워 둔다. */
-static void BuildGlossaryRenderingAssets()
-{
-}
+#include "RenderingAssets.h"   // BuildGlossaryRenderingAssets (RenderingAssets.cpp)
 #endif
 
 class FGlossaryRenderingModule : public IModuleInterface
