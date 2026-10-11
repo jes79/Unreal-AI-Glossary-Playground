@@ -18,7 +18,7 @@ ADemo0515_Aura::ADemo0515_Aura()
 		TEXT("몸을 감싸며 위로 올라가는 Niagara 입자. 캐릭터가 움직이면 같이 따라간다");
 	Showcase = TEXT("캐릭터 발밑 회전 마법진 + 위로 올라가는 입자 버프 오라, C 키로 켜고 끄기");
 	Environment.Sky = EGlossarySky::Night;
-	Environment.ExposureEV100 = 3.f;
+	Environment.ExposureEV100 = 12.f;   // 환경 노출 보정 = EV100-10 이라 값이 클수록 밝다 (밤 장면을 조금 밝게)
 	PlayerStartTransform = FTransform(FRotator::ZeroRotator, FVector(-200.f, 0.f, 100.f));
 }
 

@@ -16,7 +16,7 @@ ADemo0503_GPUSim::ADemo0503_GPUSim()
 	Showcase = TEXT("10만 입자 이미터 GPU Compute Sim(Fixed Bounds) ↔ CPU Sim 전환, 프레임 시간 비교");
 	PlayerPawnClass = nullptr;
 	Environment.Sky = EGlossarySky::Night;
-	Environment.ExposureEV100 = 3.f;
+	Environment.ExposureEV100 = 12.f;   // 환경 노출 보정 = EV100-10 이라 값이 클수록 밝다 (밤 장면을 조금 밝게)
 }
 
 void ADemo0503_GPUSim::BeginPlay()
@@ -26,7 +26,7 @@ void ADemo0503_GPUSim::BeginPlay()
 	GPUSystem = EffectsKit::AddNiagara(this, TEXT("NS_GPU100k"), FVector(0.f, 0.f, 500.f));
 	CPUSystem = EffectsKit::AddNiagara(this, TEXT("NS_CPU100k"), FVector(0.f, 0.f, 500.f), nullptr, false);
 	SpawnLabel(GetWorld(), TEXT("입자 100,000개"), FVector(0.f, 0.f, 1050.f), Colors::Item, 22.f);
-	EffectsKit::SetupFixedCamera(this, FVector(-1500.f, 0.f, 650.f), FVector(0.f, 0.f, 480.f), 70.f);
+	EffectsKit::SetupFixedCamera(this, FVector(-2300.f, -300.f, 700.f), FVector(0.f, -100.f, 480.f), 60.f);
 	ApplyMode();
 }
 

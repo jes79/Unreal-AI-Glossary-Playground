@@ -65,10 +65,13 @@ void ADemo0211_ChaosDestruction::SpawnWall()
 	GC->ObjectType = EObjectStateTypeEnum::Chaos_Object_Dynamic;
 	GC->bNotifyBreaks = true;
 	GC->SetNotifyBreaks(true);
+	GC->BodyInstance.bSimulatePhysics = true;   // 조각이 물리로 움직이게 (Dynamic)
 	GC->OnChaosBreakEvent.AddDynamic(this, &ADemo0211_ChaosDestruction::OnWallBreak);
 	GCActor->FinishSpawning(Xf);
 	WallActor = GCActor;
 	WallComponent = GC;
+	UE_LOG(LogTemp, Display, TEXT("[Glossary0211] GC 스폰: Sim=%d PhysState=%d Transforms=%d Mat=%s"), GC->IsSimulatingPhysics(), GC->IsPhysicsStateCreated(),
+		GC->GetNumElements(FGeometryCollection::TransformGroup), *GetNameSafe(GC->GetMaterial(0)));
 
 	if (const TSharedPtr<FGeometryCollection, ESPMode::ThreadSafe> Collection = WallCollection->GetGeometryCollection())
 	{
@@ -80,6 +83,7 @@ void ADemo0211_ChaosDestruction::SpawnWall()
 		}
 	}
 	BreakEvents = 0;
+	InitialPieceLocations.Reset();
 }
 
 void ADemo0211_ChaosDestruction::FireBullet(const FVector& Target)
@@ -123,6 +127,12 @@ void ADemo0211_ChaosDestruction::BreakAt(const FVector& Location, const FVector&
 {
 	// 1) External Strain: 반경 안 클러스터 연결에 변형(Strain)을 걸어 Damage Threshold 를 넘기면 조각으로 분리
 	FieldSystem->ApplyStrainField(true, Location, FieldRadius, StrainMagnitude, 2);
+	if (WallComponent)
+	{
+		// 같은 Strain 을 컴포넌트 API 로도 루트 클러스터(0번)에 건다 — 잠든(Sleeping) 클러스터도 확실히 깨우기 위해
+		WallComponent->WakeAllRigidBodies();
+		WallComponent->ApplyExternalStrain(0, Location, FieldRadius, 1, 1.f, StrainMagnitude);
+	}
 
 	// 2) Radial Velocity: 떨어진 조각을 맞은 지점에서 바깥으로 밀기 (반경 밖은 Culling 으로 제외)
 	URadialFalloff* Mask = NewObject<URadialFalloff>(this);
@@ -133,6 +143,7 @@ void ADemo0211_ChaosDestruction::BreakAt(const FVector& Location, const FVector&
 	Culled->SetCullingField(Mask, Push, EFieldCullingOperationType::Field_Culling_Outside);
 	FieldSystem->ApplyPhysicsField(true, EFieldPhysicsType::Field_LinearVelocity, nullptr, Culled);
 
+	UE_LOG(LogTemp, Display, TEXT("[Glossary0211] BreakAt %s"), *Location.ToString());
 	LastBreak = Location;
 	BreakFlash = 1.f;
 }
@@ -173,8 +184,26 @@ void ADemo0211_ChaosDestruction::Tick(float DeltaSeconds)
 		DrawDebugSphere(GetWorld(), LastBreak, FieldRadius, 20, FColor::Orange, false, -1.f, 0, 1.5f);
 	}
 
-	SetStatus(FString::Printf(TEXT("GC_Wall: Voronoi %d조각 · 사격 %d회 · 떨어져 나간 조각(Break 이벤트) %d\nField: External Strain %.0f (반경 %.0f) + Radial Velocity %.0f"),
-		NumPieces, Shots, BreakEvents, StrainMagnitude, FieldRadius, PushVelocity));
+	// 부서진 정도: 처음 자리에서 30cm 이상 움직인 조각 수 (Break 이벤트는 엔진 설정에 따라 오지 않을 수 있어 직접 센다)
+	int32 Moved = 0;
+	if (WallComponent)
+	{
+		const TArray<FMatrix>& Globals = WallComponent->GetGlobalMatrices();
+		if (InitialPieceLocations.Num() != Globals.Num())
+		{
+			InitialPieceLocations.Reset();
+			for (const FMatrix& M : Globals)
+			{
+				InitialPieceLocations.Add(M.GetOrigin());
+			}
+		}
+		for (int32 i = 0; i < Globals.Num(); ++i)
+		{
+			Moved += FVector::Dist(Globals[i].GetOrigin(), InitialPieceLocations[i]) > 30.f ? 1 : 0;
+		}
+	}
+	SetStatus(FString::Printf(TEXT("GC_Wall: Voronoi %d조각 · 사격 %d회 · 움직인 조각 %d · Break 이벤트 %d\nField: External Strain %.0f (반경 %.0f) + Radial Velocity %.0f"),
+		NumPieces, Shots, Moved, BreakEvents, StrainMagnitude, FieldRadius, PushVelocity));
 }
 
 void ADemo0211_ChaosDestruction::OnWallBreak(const FChaosBreakEvent& BreakEvent)

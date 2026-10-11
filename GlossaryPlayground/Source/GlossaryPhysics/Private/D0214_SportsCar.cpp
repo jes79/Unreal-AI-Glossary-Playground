@@ -8,6 +8,8 @@
 #include "EnhancedInputSubsystems.h"
 #include "Engine/LocalPlayer.h"
 #include "Engine/SkeletalMesh.h"
+#include "Engine/StaticMesh.h"
+#include "Components/StaticMeshComponent.h"
 #include "GameFramework/PlayerController.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "InputAction.h"
@@ -56,6 +58,31 @@ AD0214_SportsCar::AD0214_SportsCar()
 	}
 	GetMesh()->SetSimulatePhysics(true);
 	GetMesh()->SetCollisionProfileName(TEXT("Vehicle"));
+
+	// 보이는 차체 (충돌·물리는 스켈레탈 메시의 Physics Asset 이 담당)
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> BodyMesh(TEXT("/Game/Vehicles/SportsCar/SM_SportsCar"));
+	BodyVisual = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("BodyVisual"));
+	BodyVisual->SetupAttachment(GetMesh());
+	BodyVisual->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	if (BodyMesh.Succeeded())
+	{
+		BodyVisual->SetStaticMesh(BodyMesh.Object);
+	}
+
+	// 바퀴 4개: 스켈레탈 메시의 바퀴 뼈(소켓)에 붙인다 → ABP_SportsCar 가 뼈를 굴리고 꺾으면 같이 움직인다
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> WheelMesh(TEXT("/Game/Vehicles/SportsCar/SM_SportsCar_Wheel"));
+	const TCHAR* WheelBones[4] = { TEXT("Phys_Wheel_FL"), TEXT("Phys_Wheel_FR"), TEXT("Phys_Wheel_BL"), TEXT("Phys_Wheel_BR") };
+	for (int32 i = 0; i < 4; ++i)
+	{
+		UStaticMeshComponent* Wheel = CreateDefaultSubobject<UStaticMeshComponent>(*FString::Printf(TEXT("WheelVisual%d"), i));
+		Wheel->SetupAttachment(GetMesh(), FName(WheelBones[i]));
+		Wheel->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		Wheel->SetRelativeRotation(FRotator(0.f, (i % 2 == 1) ? 180.f : 0.f, 0.f));   // 오른쪽 바퀴는 바깥면이 반대
+		if (WheelMesh.Succeeded())
+		{
+			Wheel->SetStaticMesh(WheelMesh.Object);
+		}
+	}
 
 	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
 	SpringArm->SetupAttachment(GetMesh());

@@ -75,6 +75,12 @@ UDemo0609_ItemListView::UDemo0609_ItemListView(const FObjectInitializer& ObjectI
 {
 	// WBP 디테일 패널의 'Entry Widget Class' 와 같은 값
 	EntryWidgetClass = UDemo0609_Entry::StaticClass();
+#if WITH_EDITOR
+	// UListViewBase::RebuildWidget(final) 은 에디터 빌드에서 EntryWidgetClass 가 WBP 인지 검사하고, 아니면 오류 문구만 그린다
+	// (쿠킹된 클래스는 검사 생략). WBP 를 만들 수 없는 이 예제는 C++ 엔트리 클래스를 '쿠킹됨' 으로 표시해 검사를 건너뛴다.
+	// 실제 프로젝트에서는 엔트리를 WBP 로 만들면 필요 없다.
+	UDemo0609_Entry::StaticClass()->bCooked = true;
+#endif
 }
 
 // ---------------------------------------------------------------- 패널
@@ -87,6 +93,7 @@ void UDemo0609_Panel::BuildTree()
 	UVerticalBox* Col = WidgetTree->ConstructWidget<UVerticalBox>(UVerticalBox::StaticClass());
 	Frame->SetContent(Col);
 	Header = MakeText(TEXT(""), 16.f, FLinearColor(1.f, 0.85f, 0.35f), true);
+	Header->SetAutoWrapText(true);
 	Col->AddChildToVerticalBox(Header)->SetPadding(FMargin(0.f, 0.f, 0.f, 8.f));
 	List = WidgetTree->ConstructWidget<UDemo0609_ItemListView>(UDemo0609_ItemListView::StaticClass());
 	UVerticalBoxSlot* ListSlot = Col->AddChildToVerticalBox(List);

@@ -34,7 +34,7 @@ public:
 	void SpawnNumber(const FVector& WorldLocation, int32 Damage, bool bCritical);
 
 	float Lifetime = 1.0f;
-	float RiseSpeed = 120.f;  // cm/s
+	float RiseSpeed = 80.f;  // cm/s
 	int32 GetAliveCount() const { return Numbers.Num(); }
 
 protected:

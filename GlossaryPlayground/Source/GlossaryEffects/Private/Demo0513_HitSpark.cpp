@@ -17,7 +17,7 @@ ADemo0513_HitSpark::ADemo0513_HitSpark()
 	Showcase = TEXT("Line Trace 히트 지점에 표면 노멀 방향으로 불꽃 SpawnSystemAtLocation, 기울어진 판·구·벽 비교");
 	PlayerPawnClass = nullptr;
 	Environment.Sky = EGlossarySky::Night;
-	Environment.ExposureEV100 = 4.f;
+	Environment.ExposureEV100 = 12.f;   // 환경 노출 보정 = EV100-10 이라 값이 클수록 밝다 (밤 장면을 조금 밝게)
 }
 
 void ADemo0513_HitSpark::BeginPlay()

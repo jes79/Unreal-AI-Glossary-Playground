@@ -16,7 +16,7 @@ ADemo0528_FilmGrain::ADemo0528_FilmGrain()
 	Showcase = TEXT("깜빡이는 전구 하나뿐인 어두운 복도에 Film Grain Intensity 0.3, ON/OFF 비교");
 	PlayerPawnClass = nullptr;
 	Environment.Sky = EGlossarySky::Indoor;
-	Environment.ExposureEV100 = 3.f;
+	Environment.ExposureEV100 = 10.f;
 }
 
 void ADemo0528_FilmGrain::BeginPlay()
@@ -34,7 +34,7 @@ void ADemo0528_FilmGrain::BeginPlay()
 		SpawnBlock(World, FVector(200.f + i * 400.f, 220.f, 0.f), FVector(40.f, 40.f, 350.f), Colors::Dark);
 	}
 	SpawnShape(World, EShape::Cube, FVector(1200.f, 120.f, 60.f), FVector(80.f, 80.f, 120.f), FLinearColor(0.4f, 0.05f, 0.05f));
-	Bulb = EffectsKit::AddPointLight(this, FVector(700.f, 0.f, 320.f), FLinearColor(1.f, 0.85f, 0.6f), 30.f, 1500.f);
+	Bulb = EffectsKit::AddPointLight(this, FVector(700.f, 0.f, 320.f), FLinearColor(1.f, 0.85f, 0.6f), 8.f, 1500.f);
 
 	Volume = EffectsKit::SpawnUnboundPostProcess(World);
 	Volume->Settings.bOverride_FilmGrainIntensity = true;
@@ -55,7 +55,7 @@ void ADemo0528_FilmGrain::Tick(float DeltaSeconds)
 	if (Bulb)
 	{
 		const bool bOff = FMath::Fmod(Time, 3.1f) > 2.8f || FMath::Fmod(Time, 1.7f) > 1.62f;
-		Bulb->SetIntensity(bOff ? 2.f : 30.f);
+		Bulb->SetIntensity(bOff ? 0.5f : 8.f);
 	}
 	SetStatus(FString::Printf(TEXT("Film Grain %s · Intensity %.1f"), bGrain ? TEXT("ON") : TEXT("OFF"), bGrain ? FilmGrainIntensity : 0.f));
 }

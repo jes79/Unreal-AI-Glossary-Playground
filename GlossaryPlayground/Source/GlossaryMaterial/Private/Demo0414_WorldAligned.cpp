@@ -17,7 +17,7 @@ ADemo0414_WorldAligned::ADemo0414_WorldAligned()
 void ADemo0414_WorldAligned::BeginPlay()
 {
 	Super::BeginPlay();
-	SetupFixedCamera(FVector(-1000.f, -200.f, 420.f), FVector(0.f, -150.f, 120.f), 60.f);
+	SetupFixedCamera(FVector(-1250.f, -40.f, 480.f), FVector(100.f, -40.f, 120.f), 60.f);
 
 	UMaterialInterface* UVMat = LoadMaterial(TEXT("M_Rock_UV"));
 	WorldAlignedMaterial = UMaterialInstanceDynamic::Create(LoadMaterial(TEXT("M_Rock_WorldAligned")), this);

@@ -15,7 +15,7 @@ ADemo0518_Portal::ADemo0518_Portal()
 	Showcase = TEXT("Vortex Velocity + Point Attraction 으로 입자가 돌면서 중심으로 빨려 드는 소용돌이 포탈");
 	PlayerPawnClass = nullptr;
 	Environment.Sky = EGlossarySky::Night;
-	Environment.ExposureEV100 = 2.f;
+	Environment.ExposureEV100 = 12.f;   // 환경 노출 보정 = EV100-10 이라 값이 클수록 밝다 (밤 장면을 조금 밝게)
 }
 
 void ADemo0518_Portal::BeginPlay()
@@ -30,7 +30,7 @@ void ADemo0518_Portal::BeginPlay()
 		SpawnShape(World, EShape::Sphere, Center + FVector(0.f, FMath::Cos(A) * 250.f, FMath::Sin(A) * 250.f), FVector(70.f), Colors::Wall);
 	}
 	// 포탈 축 = 액터 로컬 X (카메라 쪽). 시스템은 로컬 공간 시뮬레이션
-	Portal = EffectsKit::AddNiagara(this, TEXT("NS_Portal"), Center, nullptr, true, FRotator(0.f, 0.f, 0.f));
+	Portal = EffectsKit::AddNiagara(this, TEXT("NS_Portal"), Center, nullptr, true, FRotator(90.f, 0.f, 0.f));   // Pitch 90: 로컬 Z(소용돌이 축) → 월드 -X(카메라 쪽)
 	Glow = EffectsKit::AddPointLight(this, Center + FVector(-60.f, 0.f, 0.f), FLinearColor(0.5f, 0.2f, 1.f), 80.f, 900.f);
 	EffectsKit::SetupFixedCamera(this, FVector(-900.f, -250.f, 300.f), Center, 60.f);
 }

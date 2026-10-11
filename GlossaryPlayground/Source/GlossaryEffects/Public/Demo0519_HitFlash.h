@@ -34,6 +34,6 @@ private:
 	UPROPERTY(Transient) TObjectPtr<USceneComponent> Dummy;
 	bool bFlashEnabled = true;
 	float FlashTime = 99.f;
-	float Timer = 0.f;
+	float Timer = 0.45f;  // 정수 초 캡처 직전에 피격되도록 위상 조정
 	int32 HitCount = 0;
 };

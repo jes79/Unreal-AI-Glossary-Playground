@@ -101,7 +101,7 @@ void ADemo1008_LightTypes::BeginPlay()
 		C->SetMobility(EComponentMobility::Movable);
 		C->SetWorldRotation((FVector(650.f, 0.f, 0.f) - Loc).Rotation());
 		C->SetIntensityUnits(ELightUnits::Candelas);
-		C->SetIntensity(400.f);
+		C->SetIntensity(3000.f);
 		C->SetInnerConeAngle(SpotInnerConeAngle);
 		C->SetOuterConeAngle(SpotOuterConeAngle);
 		C->SetAttenuationRadius(2000.f);

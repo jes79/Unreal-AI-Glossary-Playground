@@ -71,7 +71,7 @@ protected:
 	virtual void Tick(float DeltaSeconds) override;
 
 	/** 죽은 뒤 부활까지 */
-	UPROPERTY(EditAnywhere, Category = "Checkpoint") float RespawnDelay = 1.5f;
+	UPROPERTY(EditAnywhere, Category = "Checkpoint") float RespawnDelay = 1.0f;
 
 private:
 	void Respawn();

@@ -140,7 +140,8 @@ void AD1114_Guard::GrabDebugSnapshot(FVisualLogEntry* Snapshot) const
 	TArray<FVector> Loop = Waypoints;
 	if (Loop.Num() > 0)
 	{
-		Loop.Add(Loop[0]);
+		const FVector First = Loop[0]; // Loop.Add(Loop[0]) 는 재할당 중 자기 원소 참조 → 어서트
+		Loop.Add(First);
 	}
 	Snapshot->AddPath(Loop, LogGlossaryPatterns.GetCategoryName(), ELogVerbosity::Log, FColor::Cyan, TEXT("Patrol"));
 }

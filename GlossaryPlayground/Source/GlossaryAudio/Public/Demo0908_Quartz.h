@@ -58,6 +58,7 @@ private:
 	UPROPERTY(Transient) TArray<TObjectPtr<UStaticMeshComponent>> Markers;
 
 	TArray<double> PendingPressTimes;  // PlayQuantized 를 요청한 시각 (시작 이벤트가 오면 앞에서부터 꺼낸다)
+	TArray<float> PendingPressPositions; // 요청 순간의 마디 위치(0~4)
 	double LastBeatTime = -1.0;
 	int32 LastBeat = 0;                // 1~4
 	int32 BeatCount = 0;

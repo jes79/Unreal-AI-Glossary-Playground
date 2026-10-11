@@ -115,7 +115,12 @@ void AGlossaryEnvironment::ApplySettings()
 		break;
 	}
 
-	// 실내는 하늘이 없으니 Sky Light 가 캡처할 게 없다 → 단색 큐브맵 대신 낮은 강도의 하늘색을 쓴다
+	// 실시간 하늘 캡처는 Sky Atmosphere 가 있을 때만 쓴다 (실내에서 켜 두면 "Real Time Capture" 경고가 화면에 뜬다)
+	SkyLight->SetRealTimeCaptureEnabled(bOutdoor);
+	if (!bOutdoor)
+	{
+		SkyLight->RecaptureSky();
+	}
 	SkyLight->SetLowerHemisphereColor(FLinearColor(0.05f, 0.05f, 0.06f));
 	if (Clouds->IsVisible() && !Clouds->GetMaterial())
 	{

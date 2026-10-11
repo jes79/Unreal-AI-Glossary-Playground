@@ -53,4 +53,7 @@ protected:
 private:
 	bool bPausedNow = false;
 	int32 PauseCount = 0;
+	/** 자동 캡처(-GlossaryShot) 보조: 일시정지 중에는 PlayerController 의 캡처 타이머가 멈추므로 실제 시간으로 대신 찍는다 */
+	float PausedRealTime = 0.f;
+	int32 PausedShotStage = 0;
 };

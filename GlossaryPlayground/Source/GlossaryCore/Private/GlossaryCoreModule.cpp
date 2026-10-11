@@ -12,6 +12,10 @@ static void BuildCommonAssets()
 {
 	using namespace GlossaryAssetKit;
 	UMaterial* Material = CreateMaterial(TEXT("/Game/Glossary/Common/M_Color"));
+	// 캐릭터(스켈레탈)·인스턴스 메시에도 쓰므로 Usage 를 미리 켠다 (안 켜면 실행 중 기본 회색 머티리얼로 바뀜)
+	Material->bUsedWithSkeletalMesh = true;
+	Material->bUsedWithInstancedStaticMeshes = true;
+	Material->bUsedWithNiagaraMeshParticles = true;
 	auto* Color = AddVectorParam(Material, TEXT("Color"), FLinearColor(0.8f, 0.8f, 0.8f), -600, -200);
 	auto* Roughness = AddScalarParam(Material, TEXT("Roughness"), 0.6f, -600, 0);
 	auto* Metallic = AddScalarParam(Material, TEXT("Metallic"), 0.f, -600, 100);

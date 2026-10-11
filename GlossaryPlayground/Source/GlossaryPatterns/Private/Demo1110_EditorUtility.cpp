@@ -1,6 +1,8 @@
 #include "Demo1110_EditorUtility.h"
 
+#include "Camera/CameraActor.h"
 #include "Engine/StaticMeshActor.h"
+#include "GameFramework/PlayerController.h"
 #include "Engine/World.h"
 #include "EngineUtils.h"
 #include "GlossaryKit.h"
@@ -51,7 +53,7 @@ ADemo1110_EditorUtility::ADemo1110_EditorUtility()
 	Showcase = TEXT("선택 액터 격자 정렬·일괄 이름 변경 에디터 도구(메뉴+Slate 창)와 같은 계산의 실행 중 미리보기");
 	Implementation = EGlossaryImplementation::EditorTool;
 	AlternativeNote = TEXT("Editor Utility Widget(WBP)은 C++ 로 만들 수 없어, 같은 기능을 ToolMenus 메뉴 + Slate 탭 + UEditorActorSubsystem 으로 구현");
-	PlayerStartTransform = FTransform(FRotator::ZeroRotator, FVector(-700.f, 0.f, 100.f));
+	PlayerPawnClass = nullptr; // 고정 카메라로 위에서 내려다본다
 }
 
 #if WITH_EDITOR
@@ -118,6 +120,10 @@ void ADemo1110_EditorUtility::BeginPlay()
 		NameLabels.Add(SpawnLabel(World, OriginalNames.Last(), Found[i]->GetActorLocation() + FVector(0.f, 0.f, 110.f), FLinearColor::White, 13.f));
 	}
 
+	if (APlayerController* PC = GetPC())
+	{
+		PC->SetViewTarget(World->SpawnActor<ACameraActor>(FVector(-700.f, 0.f, 1300.f), FRotator(-52.f, 0.f, 0.f)));
+	}
 	Panel = UD11_SidePanel::Create(GetPC(), TEXT("에디터 도구 사용법"), FVector2D(1.f, 0.f), 13.f);
 }
 

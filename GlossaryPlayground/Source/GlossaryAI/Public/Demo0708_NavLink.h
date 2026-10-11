@@ -23,6 +23,10 @@ class GLOSSARYAI_API ADemo0708_NavLink : public AGlossaryDemoBase
 public:
 	ADemo0708_NavLink();
 
+#if WITH_EDITOR
+	virtual void BuildLevel(UWorld* World) override;
+#endif
+
 protected:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaSeconds) override;
@@ -47,7 +51,7 @@ protected:
 	bool bGoingDown = true;
 	bool bJumping = false;
 	float JumpElapsed = 0.f;
-	float WaitTimer = 1.f;
+	float WaitTimer = 2.5f;   // 실행 중 스폰한 고지대가 NavMesh 에 반영된 뒤 출발
 	int32 JumpCount = 0;
 	int32 RampTrips = 0;
 	bool bUsedLinkThisTrip = false;

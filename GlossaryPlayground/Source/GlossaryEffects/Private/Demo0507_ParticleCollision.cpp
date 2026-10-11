@@ -14,7 +14,7 @@ ADemo0507_ParticleCollision::ADemo0507_ParticleCollision()
 	Showcase = TEXT("불똥 분수: Collision 모듈(Restitution 0.5)로 바닥에 튕김 vs 충돌 없음(바닥 통과)");
 	PlayerPawnClass = nullptr;
 	Environment.Sky = EGlossarySky::Night;
-	Environment.ExposureEV100 = 3.f;
+	Environment.ExposureEV100 = 12.f;   // 환경 노출 보정 = EV100-10 이라 값이 클수록 밝다 (밤 장면을 조금 밝게)
 }
 
 void ADemo0507_ParticleCollision::BeginPlay()
@@ -25,9 +25,9 @@ void ADemo0507_ParticleCollision::BeginPlay()
 	WithCollision = EffectsKit::AddNiagara(this, TEXT("NS_SparksCollision"), FVector(0.f, 350.f, 260.f));
 	SpawnShape(World, EShape::Cylinder, FVector(0.f, -350.f, 130.f), FVector(20.f, 20.f, 260.f), Colors::Wall);
 	SpawnShape(World, EShape::Cylinder, FVector(0.f, 350.f, 130.f), FVector(20.f, 20.f, 260.f), Colors::Wall);
-	SpawnLabel(World, TEXT("Collision 없음 → 바닥 통과"), FVector(0.f, -350.f, 460.f), FLinearColor::White, 20.f);
-	SpawnLabel(World, TEXT("Collision (Restitution 0.5) → 튕김"), FVector(0.f, 350.f, 460.f), Colors::Item, 20.f);
-	EffectsKit::SetupFixedCamera(this, FVector(-1000.f, 0.f, 120.f), FVector(0.f, 0.f, 120.f), 70.f);
+	SpawnLabel(World, TEXT("Collision 없음 → 바닥 통과"), FVector(0.f, -350.f, 360.f), FLinearColor::White, 20.f);
+	SpawnLabel(World, TEXT("Collision (Restitution 0.5) → 튕김"), FVector(0.f, 350.f, 360.f), Colors::Item, 20.f);
+	EffectsKit::SetupFixedCamera(this, FVector(-1100.f, -420.f, 160.f), FVector(0.f, -260.f, 150.f), 70.f);
 }
 
 void ADemo0507_ParticleCollision::Tick(float DeltaSeconds)

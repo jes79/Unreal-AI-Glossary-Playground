@@ -33,7 +33,7 @@ void ADemo0514_Explosion::BeginPlay()
 		SpawnBlock(World, FVector(FMath::Cos(A) * 600.f, FMath::Sin(A) * 600.f, 0.f), FVector(120.f, 120.f, 120.f + (i % 3) * 60.f), Colors::Wall);
 	}
 	EffectsKit::SetupFixedCamera(this, FVector(-1300.f, -300.f, 380.f), FVector(0.f, 0.f, 220.f), 70.f);
-	Timer = AutoInterval - 1.f;
+	Timer = AutoInterval - 0.8f;   // 0.8초, 4.8초, 8.8초… 에 폭발
 }
 
 void ADemo0514_Explosion::Explode()

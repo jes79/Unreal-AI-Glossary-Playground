@@ -19,7 +19,7 @@ void ADemo0418_DepthFade::BeginPlay()
 {
 	Super::BeginPlay();
 	UWorld* World = GetWorld();
-	SetupFixedCamera(FVector(-700.f, -250.f, 420.f), FVector(150.f, -50.f, 50.f), 60.f);
+	SetupFixedCamera(FVector(-1050.f, -100.f, 560.f), FVector(150.f, -20.f, 100.f), 60.f);
 
 	// 물 아래 지형: 모래 경사(물속으로 들어가는 해변), 바위, 기둥
 	const FLinearColor Sand(0.75f, 0.65f, 0.45f);

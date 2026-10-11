@@ -108,7 +108,7 @@ void UD0904VolumeOptions::OnVoiceChanged(float Value) { if (!bSyncingFromCode &&
 ADemo0904_SoundClassMix::ADemo0904_SoundClassMix()
 {
 	DemoId = TEXT("0904");
-	Controls = TEXT("오른쪽 아래 슬라이더를 마우스로 끌기 · 또는 1/2/3 으로 Music/SFX/Voice 고르고 [ / ] 또는 ↓/↑ 로 -/+ 10%, M : 0%↔100%\n")
+	Controls = TEXT("오른쪽 아래 슬라이더를 마우스로 끌기 · 또는 1/2/3 으로 Music/SFX/Voice 고르고 4/5 (또는 ↓/↑, [ ]) 로 -/+ 10%, M : 0%↔100%\n")
 		TEXT("관찰: 슬라이더가 Sound Class 그룹 볼륨을 바꾸면 그 그룹 스피커만 작아진다(Envelope 막대도 같이)");
 	Showcase = TEXT("Music·SFX·Voice Sound Class + SMix_Options, 옵션 슬라이더 → SetSoundMixClassOverride, 그룹별 스피커·Envelope");
 	PlayerPawnClass = nullptr;
@@ -177,6 +177,7 @@ void ADemo0904_SoundClassMix::BeginPlay()
 	{
 		SetClassVolume(i, ClassVolumes.IsValidIndex(i) ? ClassVolumes[i] : 1.f);
 	}
+	Selected = 1; // 처음엔 SFX 를 고른 상태
 }
 
 void ADemo0904_SoundClassMix::EndPlay(const EEndPlayReason::Type EndPlayReason)
@@ -202,6 +203,7 @@ void ADemo0904_SoundClassMix::SetClassVolume(int32 Index, float Volume)
 		return;
 	}
 	ClassVolumes[Index] = FMath::Clamp(Volume, 0.f, 1.f);
+	UE_LOG(LogTemp, Display, TEXT("[0904] SetClassVolume %d -> %.2f"), Index, ClassVolumes[Index]);
 	Selected = Index;
 	// 핵심 한 줄: 믹스 안의 이 Sound Class 볼륨을 덮어쓴다 (FadeInTime 동안 부드럽게)
 	if (OptionsMix && Classes[Index])
@@ -219,8 +221,8 @@ void ADemo0904_SoundClassMix::Tick(float DeltaSeconds)
 	if (WasKeyPressed(EKeys::One))   { Selected = 0; }
 	if (WasKeyPressed(EKeys::Two))   { Selected = 1; }
 	if (WasKeyPressed(EKeys::Three)) { Selected = 2; }
-	if (WasKeyPressed(EKeys::LeftBracket) || WasKeyPressed(EKeys::Down))  { SetClassVolume(Selected, ClassVolumes[Selected] - 0.1f); }
-	if (WasKeyPressed(EKeys::RightBracket) || WasKeyPressed(EKeys::Up)) { SetClassVolume(Selected, ClassVolumes[Selected] + 0.1f); }
+	if (WasKeyPressed(EKeys::LeftBracket) || WasKeyPressed(EKeys::Down) || WasKeyPressed(EKeys::Four))  { SetClassVolume(Selected, ClassVolumes[Selected] - 0.1f); }
+	if (WasKeyPressed(EKeys::RightBracket) || WasKeyPressed(EKeys::Up) || WasKeyPressed(EKeys::Five)) { SetClassVolume(Selected, ClassVolumes[Selected] + 0.1f); }
 	if (WasKeyPressed(EKeys::M))            { SetClassVolume(Selected, ClassVolumes[Selected] > 0.01f ? 0.f : 1.f); }
 
 	FString Line;
@@ -244,5 +246,5 @@ void ADemo0904_SoundClassMix::Tick(float DeltaSeconds)
 		VolumeBars[i]->SetRelativeLocation(FVector(360.f, SpeakerY[i] + 140.f, 60.f + BarHeight * 0.5f));
 		Line += FString::Printf(TEXT("%s %.0f%%  "), ClassNames[i], ClassVolumes[i] * 100.f);
 	}
-	SetStatus(FString::Printf(TEXT("SMix_Options 적용 중 · %s\n선택: %s (키 ↓/↑ 또는 [ ] 로 조절)"), *Line, ClassNames[Selected]));
+	SetStatus(FString::Printf(TEXT("SMix_Options 적용 중 · %s\n선택: %s (키 4/5 로 조절)"), *Line, ClassNames[Selected]));
 }

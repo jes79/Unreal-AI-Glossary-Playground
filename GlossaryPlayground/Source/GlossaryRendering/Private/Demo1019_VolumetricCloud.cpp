@@ -89,8 +89,8 @@ void ADemo1019_VolumetricCloud::Tick(float DeltaSeconds)
 	Super::Tick(DeltaSeconds);
 	bool bChanged = !bApplied;
 	bApplied = true;
-	if (WasKeyPressed(EKeys::LeftBracket))  { CloudCoverage = FMath::Clamp(CloudCoverage - 0.1f, 0.f, 1.f); bChanged = true; }
-	if (WasKeyPressed(EKeys::RightBracket)) { CloudCoverage = FMath::Clamp(CloudCoverage + 0.1f, 0.f, 1.f); bChanged = true; }
+	if (WasKeyPressed(EKeys::LeftBracket))  { CloudCoverage = FMath::Clamp(CloudCoverage - 0.1f, -1.f, 1.f); bChanged = true; }
+	if (WasKeyPressed(EKeys::RightBracket)) { CloudCoverage = FMath::Clamp(CloudCoverage + 0.1f, -1.f, 1.f); bChanged = true; }
 	if (WasKeyPressed(EKeys::Hyphen)) { LayerBottomAltitude = FMath::Max(0.5f, LayerBottomAltitude - 1.f); bChanged = true; }
 	if (WasKeyPressed(EKeys::Equals)) { LayerBottomAltitude = FMath::Min(15.f, LayerBottomAltitude + 1.f); bChanged = true; }
 	if (WasKeyPressed(EKeys::Comma))  { SunElevation = FMath::Clamp(SunElevation - 5.f, -5.f, 90.f); bChanged = true; }

@@ -119,4 +119,6 @@ protected:
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
 	UPROPERTY(Transient) TObjectPtr<UDemo0616_RootLayout> Layout;
+
+	int32 PendingGraphicsSteps = 0;
 };

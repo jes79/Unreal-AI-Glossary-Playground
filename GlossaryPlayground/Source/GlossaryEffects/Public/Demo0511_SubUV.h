@@ -29,5 +29,5 @@ protected:
 
 private:
 	UPROPERTY(Transient) TObjectPtr<UNiagaraComponent> Flipbook;
-	float Timer = 0.f;
+	float Timer = 0.6f;   // 정수 초 캡처 때 폭발 중간 프레임이 보이도록 위상을 어긋나게
 };

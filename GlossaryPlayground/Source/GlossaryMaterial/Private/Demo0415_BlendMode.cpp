@@ -18,7 +18,7 @@ void ADemo0415_BlendMode::BeginPlay()
 {
 	Super::BeginPlay();
 	UWorld* World = GetWorld();
-	SetupFixedCamera(FVector(-850.f, -150.f, 260.f), FVector(0.f, -150.f, 160.f), 60.f);
+	SetupFixedCamera(FVector(-1200.f, -10.f, 300.f), FVector(0.f, -10.f, 160.f), 60.f);
 
 	// 뒤 줄무늬 벽: 투명도를 판단하는 배경
 	for (int32 I = 0; I < 14; ++I)

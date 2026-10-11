@@ -73,7 +73,7 @@ void ADemo0525_MotionBlur::Tick(float DeltaSeconds)
 	if (ChaseCamera)
 	{
 		// 차 뒤쪽 바깥에서 따라가며 차를 본다
-		const FVector CamPos = CarPos - Forward * 600.f + Dir * 350.f + FVector(0.f, 0.f, 220.f);
+		const FVector CamPos = CarPos - Forward * 600.f - Dir * 200.f + FVector(0.f, 0.f, 220.f);   // 트랙 안쪽(기둥 사이)에서
 		ChaseCamera->SetActorLocationAndRotation(CamPos, (CarPos + Forward * 200.f - CamPos).Rotation());
 	}
 	if (Volume)

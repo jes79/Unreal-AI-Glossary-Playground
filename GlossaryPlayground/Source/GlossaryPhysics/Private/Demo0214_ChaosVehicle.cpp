@@ -2,6 +2,7 @@
 
 #include "ChaosWheeledVehicleMovementComponent.h"
 #include "D0214_SportsCar.h"
+#include "Components/SkeletalMeshComponent.h"
 #include "GlossaryKit.h"
 
 using namespace GlossaryKit;

@@ -31,7 +31,7 @@ protected:
 	/** Layer Height (km) */
 	UPROPERTY(EditAnywhere, Category = "Volumetric Cloud", meta = (ClampMin = 0.1)) float LayerHeight = 6.f;
 	/** 머티리얼 파라미터: 구름 양 (0~1) */
-	UPROPERTY(EditAnywhere, Category = "Volumetric Cloud", meta = (ClampMin = 0, ClampMax = 1)) float CloudCoverage = 0.5f;
+	UPROPERTY(EditAnywhere, Category = "Volumetric Cloud", meta = (ClampMin = -1, ClampMax = 1)) float CloudCoverage = 0.f;
 	/** 해 고도 (도) */
 	UPROPERTY(EditAnywhere, Category = "Volumetric Cloud") float SunElevation = 25.f;
 

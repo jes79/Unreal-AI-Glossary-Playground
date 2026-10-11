@@ -31,7 +31,7 @@ void ADemo0502_SpawnRateBurst::BeginPlay()
 
 	SpawnLabel(World, TEXT("Spawn Rate 50 /초 — 계속"), FVector(0.f, -350.f, 420.f), Colors::Cyan, 22.f);
 	SpawnLabel(World, TEXT("Spawn Burst 100 — 한꺼번에"), FVector(0.f, 350.f, 420.f), Colors::Accent, 22.f);
-	EffectsKit::SetupFixedCamera(this, FVector(-1100.f, -250.f, 330.f), FVector(0.f, -100.f, 220.f), 65.f);
+	EffectsKit::SetupFixedCamera(this, FVector(-1100.f, -420.f, 330.f), FVector(0.f, -260.f, 220.f), 65.f);
 	if (Smoke)
 	{
 		Smoke->SetVariableFloat(TEXT("SmokeSpawnRate"), SpawnRate);

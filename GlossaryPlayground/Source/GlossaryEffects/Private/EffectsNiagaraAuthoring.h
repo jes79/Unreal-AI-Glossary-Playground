@@ -60,7 +60,7 @@ public:
 	bool HasModule(const FGuid& Emitter, const FString& Module);
 
 	/** 모듈 추가: Usage = ParticleSpawnScript / ParticleUpdateScript / EmitterUpdateScript …, 이벤트 스택은 EventUsageId 지정 */
-	bool AddModule(const FGuid& Emitter, ENiagaraScriptUsage Usage, const FString& ScriptPath, const FGuid& EventUsageId = FGuid());
+	bool AddModule(const FGuid& Emitter, ENiagaraScriptUsage Usage, const FString& ScriptPath, const FGuid& EventUsageId = FGuid(), int32 TargetIndex = INDEX_NONE);
 
 	/** 렌더러 추가 (NewObject 해서 넘긴다) */
 	void AddRenderer(const FGuid& Emitter, UNiagaraRendererProperties* Renderer);

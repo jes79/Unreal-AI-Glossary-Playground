@@ -16,6 +16,8 @@
 #include "GlossaryKit.h"
 #include "GlossaryUIKit.h"
 #include "Kismet/GameplayStatics.h"
+#include "Misc/App.h"
+#include "UnrealClient.h"
 
 using namespace GlossaryKit;
 
@@ -146,6 +148,14 @@ void ADemo0608_PauseMenu::SetPaused(bool bPause)
 void ADemo0608_PauseMenu::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
+	// 검증용: -GlossaryShot 실행에서 일시정지 상태면 (게임 시간이 멈춰 공용 캡처가 안 되므로) 실제 시간 1.5초 뒤 직접 캡처 후 종료
+	FString ShotPath;
+	if (bPausedNow && FParse::Value(FCommandLine::Get(), TEXT("GlossaryShot="), ShotPath))
+	{
+		PausedRealTime += FApp::GetDeltaTime();
+		if (PausedShotStage == 0 && PausedRealTime > 1.5f) { FScreenshotRequest::RequestScreenshot(ShotPath, true, false); PausedShotStage = 1; }
+		else if (PausedShotStage == 1 && PausedRealTime > 3.f) { PausedShotStage = 2; GetPC()->ConsoleCommand(TEXT("quit")); }
+	}
 	// Game Only 일 때 ESC 는 PlayerController 로 온다 (UI Only 일 때는 위젯의 NativeOnKeyDown 이 받는다)
 	if (WasKeyPressed(EKeys::Escape) || WasKeyPressed(EKeys::P) || WasKeyPressed(EKeys::Gamepad_Special_Right))
 	{

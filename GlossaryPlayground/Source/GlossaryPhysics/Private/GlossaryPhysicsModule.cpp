@@ -4,11 +4,13 @@
 #include "Engine/StaticMesh.h"
 #include "GeometryCollection/GeometryCollection.h"
 #include "GeometryCollection/GeometryCollectionClusteringUtility.h"
+#include "GeometryCollection/GeometryCollectionConvexUtility.h"
 #include "GeometryCollection/GeometryCollectionEngineConversion.h"
 #include "GeometryCollection/GeometryCollectionObject.h"
 #include "GeometryCollection/GeometryCollectionUtility.h"
 #include "GlossaryAssetKit.h"
 #include "GlossaryKit.h"
+#include "Materials/MaterialExpressionVectorParameter.h"
 #include "Materials/MaterialInstanceConstant.h"
 #include "PhysicalMaterials/PhysicalMaterial.h"
 #include "PlanarCut.h"
@@ -55,8 +57,16 @@ namespace
 		GC->Reset();
 		GC->EnableNanite = false;
 
-		UMaterialInstanceConstant* WallMat = GlossaryAssetKit::CreateMaterialInstance(TEXT("/Game/Glossary/02_Physics/MI_DestructibleWall"),
-			GlossaryKit::GetColorMaterial(), {}, {{TEXT("Color"), FLinearColor(0.75f, 0.42f, 0.25f)}});
+		// Geometry Collection 에 쓰는 머티리얼은 Usage 'Used with Geometry Collections' 가 켜져 있어야 한다
+		// (꺼져 있으면 실행 중 기본 격자 머티리얼로 대체된다) → 전용 머티리얼을 만든다
+		UMaterial* WallMat = GlossaryAssetKit::CreateMaterial(TEXT("/Game/Glossary/02_Physics/M_DestructibleWall"));
+		if (WallMat)
+		{
+			auto* Color = GlossaryAssetKit::AddVectorParam(WallMat, TEXT("Color"), FLinearColor(0.75f, 0.42f, 0.25f));
+			GlossaryAssetKit::ConnectToPin(Color, MP_BaseColor);
+			WallMat->bUsedWithGeometryCollections = true;
+			GlossaryAssetKit::FinishMaterial(WallMat);
+		}
 		TArray<UMaterialInterface*> Materials;
 		Materials.Add(WallMat ? static_cast<UMaterialInterface*>(WallMat) : GlossaryKit::GetColorMaterial());
 
@@ -113,6 +123,10 @@ namespace
 		const int32 FirstNew = CutMultipleWithPlanarCells(Cells, *Collection, Selection, /*Grout*/ 0.0, /*CollisionSampleSpacing*/ 50.0, Seed);
 
 		FGeometryCollectionClusteringUtility::UpdateHierarchyLevelOfChildren(Collection, -1);
+		// 조각마다 충돌용 볼록 껍질(Convex Hull) — 없으면 부서진 조각이 바닥을 뚫고 떨어진다 (Fracture 모드는 자동 생성)
+		const bool bHadHulls = FGeometryCollectionConvexUtility::HasConvexHullData(Collection);
+		FGeometryCollectionConvexUtility::GetValidConvexHullData(Collection);
+		UE_LOG(LogGlossaryPhysicsAssets, Display, TEXT("[Glossary] GC_Wall Convex: 이전 %d → 지금 %d"), bHadHulls, FGeometryCollectionConvexUtility::HasConvexHullData(Collection));
 		::GeometryCollection::GenerateTemporaryGuids(Collection, 0, true);
 		GC->InvalidateCollection();
 		GC->RebuildRenderData();

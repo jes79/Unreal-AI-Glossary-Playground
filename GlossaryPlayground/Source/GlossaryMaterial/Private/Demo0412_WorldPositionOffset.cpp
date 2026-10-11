@@ -18,7 +18,7 @@ ADemo0412_WorldPositionOffset::ADemo0412_WorldPositionOffset()
 void ADemo0412_WorldPositionOffset::BeginPlay()
 {
 	Super::BeginPlay();
-	SetupFixedCamera(FVector(-900.f, -250.f, 300.f), FVector(0.f, -250.f, 160.f), 60.f);
+	SetupFixedCamera(FVector(-1300.f, -80.f, 520.f), FVector(200.f, -80.f, 220.f), 60.f);
 
 	// 풀밭: 원뿔 인스턴스 (Instanced Static Mesh)
 	GrassMaterial = UMaterialInstanceDynamic::Create(LoadMaterial(TEXT("M_WindGrass")), this);
@@ -47,7 +47,7 @@ void ADemo0412_WorldPositionOffset::BeginPlay()
 	SpawnShape(GetWorld(), EShape::Cylinder, PolePos + FVector(0.f, 0.f, 250.f), FVector(12.f, 12.f, 500.f), Colors::Wall);
 	UProceduralMeshComponent* Flag = NewObject<UProceduralMeshComponent>(this, TEXT("Flag"));
 	Flag->SetupAttachment(GetRootComponent());
-	Flag->SetRelativeLocationAndRotation(PolePos + FVector(0.f, 0.f, 500.f), FRotator(0.f, -35.f, 0.f));   // 비스듬히 보이게
+	Flag->SetRelativeLocationAndRotation(PolePos + FVector(0.f, 0.f, 500.f), FRotator(0.f, -35.f, 0.f));   // 비스듬히 보이게 (역광이라 약간 어둡다)
 	Flag->RegisterComponent();
 	AddInstanceComponent(Flag);
 	BuildFlag(Flag, 260.f, 160.f);

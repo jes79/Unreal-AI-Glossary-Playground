@@ -1,6 +1,7 @@
 #include "Demo1018_PCG.h"
 
 #include "Camera/CameraActor.h"
+#include "Components/BoxComponent.h"
 #include "Components/InstancedStaticMeshComponent.h"
 #include "Components/SplineComponent.h"
 #include "Engine/StaticMeshActor.h"
@@ -56,6 +57,14 @@ void ADemo1018_PCG::BeginPlay()
 	// 길: 영역을 가로지르는 S자 Spline
 	PathSpline = SpawnSplineActor(TEXT("PCG_Path"));
 	BuildPath();
+
+	// PCG 컴포넌트는 소유 액터의 경계(Bounds)가 있어야 실행된다 → 영역 크기의 박스를 붙인다 (PCG Volume 역할)
+	UBoxComponent* Box = NewObject<UBoxComponent>(this, TEXT("PCGBounds"));
+	Box->SetupAttachment(RootComponent);
+	Box->SetBoxExtent(FVector(H, H, 500.f));
+	Box->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+	Box->SetCollisionResponseToAllChannels(ECR_Ignore);
+	Box->RegisterComponent();
 
 	// PCG 컴포넌트에 그래프를 넣고 실행 중 생성
 	PCG = NewObject<UPCGComponent>(this, TEXT("PCG"));

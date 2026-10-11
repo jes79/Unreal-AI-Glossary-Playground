@@ -173,7 +173,11 @@ namespace GlossaryLevelBuilder
 		}
 		else
 		{
-			GlossaryAssetKit::RunBuilders(TEXT("00_Common"));
+			// 공통 에셋은 없을 때만 만든다(여러 분야 빌드가 M_Color 를 동시에 덮어쓰다 파일이 사라지는 것 방지)
+			if (!FPackageName::DoesPackageExist(TEXT("/Game/Glossary/Common/M_Color")))
+			{
+				GlossaryAssetKit::RunBuilders(TEXT("00_Common"));
+			}
 			TSet<FString> Categories;
 			TArray<FString> Parts;
 			Filter.ParseIntoArray(Parts, TEXT(","), true);

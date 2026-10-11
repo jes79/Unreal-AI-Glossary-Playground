@@ -24,7 +24,7 @@ rm -f "$OUT"
 ARGS=("$(cygpath -w "$PROJECT")" "$LEVEL" -game -windowed -ResX=1600 -ResY=900 -nosplash -unattended
       "-abslog=$(cygpath -w "$LOG")" "-GlossaryShot=$(cygpath -w "$OUT")" "-GlossaryShotDelay=$DELAY")
 [ -n "$KEYS" ] && ARGS+=("-GlossaryShotKeys=$KEYS")
-timeout $((DELAY + 120)) "$UE/Engine/Binaries/Win64/UnrealEditor.exe" "${ARGS[@]}"
+timeout $(awk "BEGIN{print int($DELAY)+120}") "$UE/Engine/Binaries/Win64/UnrealEditor.exe" "${ARGS[@]}"
 if [ -f "$OUT" ]; then echo "shot=$OUT"; else echo "스크린샷 실패 (크래시?) log=$LOG"; fi
 grep -E "Error:|Fatal|Ensure|LogScript: Warning|Glossary.*Warning" "$LOG" 2>/dev/null | grep -v "LogInit\|Failed to load '.*\.dll'" | head -20
 true

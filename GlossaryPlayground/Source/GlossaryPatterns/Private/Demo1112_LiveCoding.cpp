@@ -53,9 +53,10 @@ void ADemo1112_LiveCoding::BeginPlay()
 	GearRoot->SetMobility(EComponentMobility::Movable);
 	Gear->SetRootComponent(GearRoot);
 	GearRoot->RegisterComponent();
+	Gear->SetActorLocation(FVector(500.f, 0.f, 320.f)); // 루트가 없던 액터는 스폰 위치가 무시되므로 루트를 단 뒤 다시 지정
 	AddShape(Gear, EShape::Cylinder, FVector::ZeroVector, FVector(120.f, 120.f, 60.f), Colors::Dark, nullptr, FRotator(90.f, 0.f, 0.f));
 
-	MessageLabel = SpawnLabel(World, TEXT(""), FVector(500.f, 0.f, 620.f), FLinearColor::White, 22.f);
+	MessageLabel = SpawnLabel(World, TEXT(""), FVector(500.f, 0.f, 30.f), FLinearColor::White, 22.f);
 
 	if (APlayerController* PC = GetPC())
 	{

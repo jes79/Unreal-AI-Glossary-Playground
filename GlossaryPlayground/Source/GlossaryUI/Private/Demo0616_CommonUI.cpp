@@ -74,7 +74,13 @@ bool UDemo0616_MenuBase::NativeOnHandleBackAction()
 	{
 		return true; // 처리했다고만 하고 아무것도 안 함 (메인 메뉴는 닫히지 않음)
 	}
-	return Super::NativeOnHandleBackAction(); // 기본 동작 = DeactivateWidget → 스택이 이 화면을 빼고 아래 화면을 다시 활성화
+	if (bIsBackHandler)
+	{
+		return Super::NativeOnHandleBackAction(); // Common UI 기본 동작 = DeactivateWidget
+	}
+	// Back 액션 데이터가 없는 프로젝트: 기본 구현은 bIsBackHandler 일 때만 동작하므로 같은 일을 직접 한다
+	DeactivateWidget(); // → 스택이 이 화면을 빼고 아래 화면을 다시 활성화
+	return true;
 }
 
 FReply UDemo0616_MenuBase::NativeOnKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent)
@@ -243,12 +249,14 @@ void ADemo0616_CommonUI::Tick(float DeltaSeconds)
 	if (Top && (WasKeyPressed(EKeys::BackSpace) || WasKeyPressed(EKeys::Escape))) { Top->RequestBack(); }
 	if (Top && WasKeyPressed(EKeys::G))
 	{
-		while (UDemo0616_MenuBase* Cur = Cast<UDemo0616_MenuBase>(S->GetActiveWidget()))
-		{
-			if (Cur->IsA<UDemo0616_GraphicsMenu>()) { break; }
-			Cur->ActivateFirst();
-			if (S->GetActiveWidget() == Cur) { break; }
-		}
+		// 한 프레임에 여러 번 push 하면 전환 중인 화면이 꼬이므로, 활성 화면이 맨 위가 된 다음 프레임마다 한 단계씩 진행
+		PendingGraphicsSteps = 2;
+	}
+
+	if (PendingGraphicsSteps > 0 && Top && S->GetWidgetList().Num() > 0 && S->GetWidgetList().Last() == Top)
+	{
+		if (Top->IsA<UDemo0616_GraphicsMenu>()) { PendingGraphicsSteps = 0; }
+		else { Top->ActivateFirst(); --PendingGraphicsSteps; }
 	}
 
 	FString Path;

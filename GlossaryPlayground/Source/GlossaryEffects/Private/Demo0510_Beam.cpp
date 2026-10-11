@@ -16,7 +16,7 @@ ADemo0510_Beam::ADemo0510_Beam()
 	Showcase = TEXT("두 구슬 사이를 잇는 번개 빔, 끝점을 User Parameter(BeamStart/BeamEnd)로 매 프레임 갱신");
 	PlayerPawnClass = nullptr;
 	Environment.Sky = EGlossarySky::Night;
-	Environment.ExposureEV100 = 3.f;
+	Environment.ExposureEV100 = 12.f;   // 환경 노출 보정 = EV100-10 이라 값이 클수록 밝다 (밤 장면을 조금 밝게)
 }
 
 void ADemo0510_Beam::BeginPlay()

@@ -54,7 +54,7 @@ void UDemo0618_Menu::BuildTree()
 {
 	UCanvasPanel* Canvas = MakeRootCanvas();
 	UBorder* Panel = MakeBorder(FLinearColor(0.03f, 0.04f, 0.08f, 0.92f), FMargin(32.f, 24.f));
-	AddToCanvas(Canvas, Panel, FAnchors(1.f, 0.5f), FVector2D(-80.f, 40.f), FVector2D(620.f, 0.f), FVector2D(1.f, 0.5f));
+	AddToCanvas(Canvas, Panel, FAnchors(1.f, 0.5f), FVector2D(-80.f, 40.f), FVector2D::ZeroVector, FVector2D(1.f, 0.5f));
 	UVerticalBox* Col = WidgetTree->ConstructWidget<UVerticalBox>(UVerticalBox::StaticClass());
 	Panel->SetContent(Col);
 

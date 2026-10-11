@@ -53,3 +53,10 @@
 - 스택 뷰모델은 에디터 UI API 라 버전마다 바뀔 수 있음
 - 동적 입력(커브, Random Range)이 걸린 입력은 RI 경로로는 무시됨 → SetLocalValue 사용
 - 대안(최후): 마스터 시스템 몇 개에 User 파라미터를 노출하고 StaticDuplicateObject 로 복제 + User 기본값만 변경
+
+## 실제 구현에서 확인한 점 (05 분야 작업 결과)
+- 헤드리스 FNiagaraSystemViewModel 은 `Options.MessageLogGuid` 가 없으면 NiagaraMessageManager assert 로 크래시 → 임시 GUID 지정
+- Curl Noise·Vortex·Point Attraction 같은 힘 모듈은 SolveForcesAndVelocity 앞(TargetIndex 1)에 넣어야 효과가 있다
+- 정적 스위치로 숨은 입력에 SetLocalValue 하면 오류 없이 무시된다 → Velocity Mode 등 스위치부터 설정
+- 커맨드렛(-NullRHI 없이)에서 GPU 셰이더 대기로 멈추는 일은 없었다. 저장 시점 IsReadyToRun=0 이어도 실행 시 정상
+- 구현: Source/GlossaryEffects/Private/EffectsNiagaraAuthoring.*, EffectsNiagaraSystems.cpp

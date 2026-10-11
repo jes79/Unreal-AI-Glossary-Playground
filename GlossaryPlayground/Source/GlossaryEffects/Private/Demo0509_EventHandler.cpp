@@ -15,7 +15,7 @@ ADemo0509_EventHandler::ADemo0509_EventHandler()
 	Showcase = TEXT("불꽃놀이: 로켓 입자가 죽는 위치에서 Death Event → Event Handler 로 폭죽 입자 스폰");
 	PlayerPawnClass = nullptr;
 	Environment.Sky = EGlossarySky::Night;
-	Environment.ExposureEV100 = 2.f;
+	Environment.ExposureEV100 = 12.f;   // 환경 노출 보정 = EV100-10 이라 값이 클수록 밝다 (밤 장면을 조금 밝게)
 }
 
 void ADemo0509_EventHandler::BeginPlay()
@@ -23,7 +23,7 @@ void ADemo0509_EventHandler::BeginPlay()
 	Super::BeginPlay();
 	Fireworks = EffectsKit::AddNiagara(this, TEXT("NS_Fireworks"), FVector::ZeroVector);
 	SpawnBlock(GetWorld(), FVector::ZeroVector, FVector(120.f, 120.f, 20.f), Colors::Wall);
-	SpawnLabel(GetWorld(), TEXT("Rocket(죽을 때 DeathEvent) → Burst(Event Handler)"), FVector(0.f, 0.f, 120.f), Colors::Item, 18.f);
+	SpawnLabel(GetWorld(), TEXT("Rocket(죽을 때 DeathEvent) → Burst(Event Handler)"), FVector(0.f, 0.f, 450.f), Colors::Item, 18.f);
 	EffectsKit::SetupFixedCamera(this, FVector(-2600.f, 0.f, 500.f), FVector(0.f, 0.f, 1100.f), 70.f);
 }
 

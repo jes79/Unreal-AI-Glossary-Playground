@@ -170,8 +170,8 @@ namespace
 		Burst(B, E, 100);   // Spawn Burst Instantaneous 100
 		InitParticle(B, E, FLinearColor(8.f, 2.5f, 0.3f, 1.f), 1.2f, 2.f, 8.f, 14.f);
 		SphereShape(B, E, 10.f);
-		PointVelocity(B, E, 700.f);
-		B.SetVec3(E, TEXT("GravityForce"), TEXT("Gravity"), FVector3f(0.f, 0.f, -980.f));
+		ConeVelocity(B, E, FVector3f(0, 0, 1), 55.f, 650.f);   // 위쪽 반구로 터져 바닥 위에 오래 보이게
+		B.SetVec3(E, TEXT("GravityForce"), TEXT("Gravity"), FVector3f(0.f, 0.f, -600.f));
 		B.SetFloat(E, TEXT("Drag"), TEXT("Drag"), 1.f);
 		SpriteMaterial(B, E, TEXT("M_FX_Additive"));
 		B.Finish();
@@ -183,12 +183,12 @@ namespace
 		FB B(NSFolder + Name);
 		const FGuid E = B.AddEmitter(TEXT("Fountain"), TEXT("Swarm"));
 		B.SetFloat(E, TEXT("SpawnRate"), TEXT("SpawnRate"), 50000.f);   // 50000/초 × 수명 2초 = 살아 있는 입자 10만 개
-		InitParticle(B, E, bGPU ? FLinearColor(0.2f, 1.5f, 3.f, 1.f) : FLinearColor(3.f, 1.f, 0.2f, 1.f), 2.f, 2.f, 3.f, 5.f);
+		InitParticle(B, E, bGPU ? FLinearColor(0.6f, 3.f, 8.f, 1.f) : FLinearColor(8.f, 3.f, 0.6f, 1.f), 2.f, 2.f, 7.f, 11.f);
 		SphereShape(B, E, 380.f);
 		B.SetEnumByName(E, TEXT("ShapeLocation"), TEXT("Sphere Distribution"), TEXT("Random"));
 		ConeVelocity(B, E, FVector3f(0, 0, 1), 180.f, 40.f);
 		B.SetVec3(E, TEXT("GravityForce"), TEXT("Gravity"), FVector3f(0.f, 0.f, 0.f));
-		B.AddModule(E, ENiagaraScriptUsage::ParticleUpdateScript, TEXT("/Niagara/Modules/Update/Forces/V2/CurlNoiseForce.CurlNoiseForce"));
+		B.AddModule(E, ENiagaraScriptUsage::ParticleUpdateScript, TEXT("/Niagara/Modules/Update/Forces/V2/CurlNoiseForce.CurlNoiseForce"), FGuid(), 1);   // Solve Forces And Velocity 앞에 (뒤에 두면 힘이 적분되지 않는다)
 		B.SetFloat(E, TEXT("CurlNoiseForce"), TEXT("Noise Strength"), 300.f);
 		SpriteMaterial(B, E, TEXT("M_FX_Additive"));
 		if (bGPU)
@@ -222,7 +222,7 @@ namespace
 		FB B(NSFolder + TEXT("NS_SwordTrail"));
 		const FGuid E = B.AddEmitter(TEXT("Fountain"), TEXT("Trail"));
 		B.SetFloat(E, TEXT("SpawnRate"), TEXT("SpawnRate"), 200.f);   // 칼끝이 지나간 자리마다 입자를 촘촘히 남긴다
-		InitParticle(B, E, FLinearColor(0.6f, 1.6f, 4.f, 1.f), 0.3f, 0.3f, 10.f, 10.f);
+		InitParticle(B, E, FLinearColor(0.6f, 1.6f, 4.f, 1.f), 0.5f, 0.5f, 10.f, 10.f);
 		B.SetEnumByName(E, TEXT("InitializeParticle"), TEXT("Ribbon Width Mode"), TEXT("Direct Set"));
 		B.SetFloat(E, TEXT("InitializeParticle"), TEXT("Ribbon Width"), 45.f);
 		SphereShape(B, E, 0.f);
@@ -316,7 +316,7 @@ namespace
 		if (bCurl)
 		{
 			// Curl Noise Force: 3D 노이즈의 curl → 소용돌이 흐름을 따라 떠다닌다
-			B.AddModule(E, ENiagaraScriptUsage::ParticleUpdateScript, TEXT("/Niagara/Modules/Update/Forces/V2/CurlNoiseForce.CurlNoiseForce"));
+			B.AddModule(E, ENiagaraScriptUsage::ParticleUpdateScript, TEXT("/Niagara/Modules/Update/Forces/V2/CurlNoiseForce.CurlNoiseForce"), FGuid(), 1);   // Solve Forces And Velocity 앞에 (뒤에 두면 힘이 적분되지 않는다)
 			B.SetFloat(E, TEXT("CurlNoiseForce"), TEXT("Noise Strength"), 250.f);
 			B.SetFloat(E, TEXT("CurlNoiseForce"), TEXT("Noise Frequency"), 0.004f);
 		}
@@ -404,7 +404,6 @@ namespace
 		{
 			Sprite->SubImageSize = FVector2D(8.0, 8.0);   // 8x8 시트
 		}
-		B.DumpStack(E);
 		B.Finish();
 	}
 
@@ -461,7 +460,6 @@ namespace
 		B.SetEnumByName(Flash, TEXT("InitializeParticle"), TEXT("Sprite Size Mode"), TEXT("Uniform"));
 		B.SetFloat(Flash, TEXT("InitializeParticle"), TEXT("Uniform Sprite Size"), 60.f);
 		SpriteMaterial(B, Flash, TEXT("M_FX_Additive"));
-		B.DumpStack(E);
 		B.Finish();
 	}
 
@@ -531,7 +529,8 @@ namespace
 		LinearVelocity(B, E, FVector3f(0.f, 0.f, 110.f));
 		B.SetVec3(E, TEXT("GravityForce"), TEXT("Gravity"), FVector3f(0.f, 0.f, 20.f));
 		// 몸 둘레를 돌며 오르도록 소용돌이
-		B.AddModule(E, ENiagaraScriptUsage::ParticleUpdateScript, TEXT("/Niagara/Modules/Update/Velocity/VortexVelocity.VortexVelocity"));
+		B.AddModule(E, ENiagaraScriptUsage::ParticleUpdateScript, TEXT("/Niagara/Modules/Update/Velocity/VortexVelocity.VortexVelocity"), FGuid(), 1);   // Solve Forces And Velocity 앞에 (뒤에 두면 힘이 적분되지 않는다)
+		B.SetFloat(E, TEXT("VortexVelocity"), TEXT("Velocity Amount"), 150.f);
 		SpriteMaterial(B, E, TEXT("M_FX_Additive"));
 		B.Finish();
 	}
@@ -561,9 +560,9 @@ namespace
 		B.AddUserFloat(TEXT("RainRate"), 6000.f);
 		const FGuid Rain = B.AddEmitter(TEXT("Fountain"), TEXT("Rain"));
 		B.LinkInput(Rain, TEXT("SpawnRate"), TEXT("SpawnRate"), FloatDef(), TEXT("User.RainRate"));
-		InitParticle(B, Rain, FLinearColor(0.5f, 0.6f, 0.8f, 0.5f), 0.75f, 0.75f, 3.f, 3.f);
+		InitParticle(B, Rain, FLinearColor(2.f, 2.4f, 3.f, 0.8f), 0.75f, 0.75f, 3.f, 3.f);
 		B.SetEnumByName(Rain, TEXT("InitializeParticle"), TEXT("Sprite Size Mode"), TEXT("Non-Uniform"));
-		B.SetVec2(Rain, TEXT("InitializeParticle"), TEXT("Sprite Size"), FVector2f(2.5f, 70.f));
+		B.SetVec2(Rain, TEXT("InitializeParticle"), TEXT("Sprite Size"), FVector2f(4.f, 90.f));
 		// 카메라 주변 40m × 40m, 높이 15m 판에서 생성 → 0.75초 뒤 바닥(z=0)에 닿을 즈음 사라진다
 		B.SetEnumByName(Rain, TEXT("ShapeLocation"), TEXT("Shape Primitive"), TEXT("Box / Plane"));
 		B.SetVec3(Rain, TEXT("ShapeLocation"), TEXT("Box Size"), FVector3f(4000.f, 4000.f, 10.f));
@@ -610,12 +609,13 @@ namespace
 			B.SetVec3(E, TEXT("GravityForce"), TEXT("Gravity"), FVector3f::ZeroVector);
 			B.SetFloat(E, TEXT("Drag"), TEXT("Drag"), 0.5f);
 			// Vortex Velocity: 축(로컬 Z) 둘레를 돈다 + Point Attraction: 중심으로 빨려 든다
-			B.AddModule(E, ENiagaraScriptUsage::ParticleUpdateScript, TEXT("/Niagara/Modules/Update/Velocity/VortexVelocity.VortexVelocity"));
-			B.AddModule(E, ENiagaraScriptUsage::ParticleUpdateScript, TEXT("/Niagara/Modules/Update/Forces/V2/PointAttractionForce.PointAttractionForce"));
-			if (i == 0)
-			{
-				B.DumpStack(E);
-			}
+			B.AddModule(E, ENiagaraScriptUsage::ParticleUpdateScript, TEXT("/Niagara/Modules/Update/Velocity/VortexVelocity.VortexVelocity"), FGuid(), 1);   // Solve Forces And Velocity 앞에 (뒤에 두면 힘이 적분되지 않는다)
+			B.AddModule(E, ENiagaraScriptUsage::ParticleUpdateScript, TEXT("/Niagara/Modules/Update/Forces/V2/PointAttractionForce.PointAttractionForce"), FGuid(), 1);   // Solve Forces And Velocity 앞에 (뒤에 두면 힘이 적분되지 않는다)
+			B.SetFloat(E, TEXT("VortexVelocity"), TEXT("Velocity Amount"), 260.f);
+			B.SetVec3(E, TEXT("VortexVelocity"), TEXT("Vortex Axis"), FVector3f(0.f, 0.f, 1.f));
+			B.SetFloat(E, TEXT("PointAttractionForce"), TEXT("Attraction Strength"), 900.f);
+			B.SetFloat(E, TEXT("PointAttractionForce"), TEXT("Attraction Radius"), 600.f);
+			B.SetFloat(E, TEXT("PointAttractionForce"), TEXT("Kill Radius"), 12.f);
 			SpriteMaterial(B, E, TEXT("M_FX_Additive"));
 		}
 		B.Finish();

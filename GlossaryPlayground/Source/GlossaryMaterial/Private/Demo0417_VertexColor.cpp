@@ -60,7 +60,7 @@ void ADemo0417_VertexColor::BeginPlay()
 	Paint(Origin + FVector(450.f, 250.f, 0.f), 0.6f);
 	UploadColors();
 
-	SpawnLabel(GetWorld(), TEXT("M_VertexColorBlend = Lerp(돌, 이끼, VertexColor.R)"), Origin + FVector(700.f, 0.f, 150.f), Colors::Item, 16.f);
+	SpawnLabel(GetWorld(), TEXT("M_VertexColorBlend = Lerp(돌, 이끼, VertexColor.R)"), Origin + FVector(-650.f, 450.f, 40.f), Colors::Item, 16.f);
 }
 
 void ADemo0417_VertexColor::Paint(const FVector& WorldCenter, float Amount)

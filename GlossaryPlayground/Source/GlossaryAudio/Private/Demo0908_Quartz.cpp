@@ -170,6 +170,7 @@ void ADemo0908_Quartz::Trigger()
 		OnCommand.BindUFunction(this, GET_FUNCTION_NAME_CHECKED(ADemo0908_Quartz, OnQuantizedCommand));
 		UQuartzClockHandle* ClockRef = Clock;
 		PendingPressTimes.Add(FPlatformTime::Seconds());
+		PendingPressPositions.Add(GetBarPosition());
 		Player->PlayQuantized(this, ClockRef, NextBeat, OnCommand);
 	}
 	else
@@ -186,23 +187,32 @@ void ADemo0908_Quartz::OnQuantizedCommand(EQuartzCommandDelegateSubType EventTyp
 	if (EventType == EQuartzCommandDelegateSubType::CommandOnStarted && PendingPressTimes.Num() > 0)
 	{
 		const double Pressed = PendingPressTimes[0];
+		const float PressPos = PendingPressPositions.Num() > 0 ? PendingPressPositions[0] : GetBarPosition();
 		PendingPressTimes.RemoveAt(0);
+		if (PendingPressPositions.Num() > 0)
+		{
+			PendingPressPositions.RemoveAt(0);
+		}
 		LastWaitMs = static_cast<float>((FPlatformTime::Seconds() - Pressed) * 1000.0);
 		HitFlash = 1.f;
-		// 실제로는 박 경계에서 울린다. 이벤트가 게임 스레드에 늦게 도착하므로 마커는 가장 가까운 박 경계에 놓는다
-		const float Pos = GetBarPosition();
-		float Snapped = FMath::RoundToFloat(Pos);
-		if (Snapped >= 4.f)
+		// 소리는 오디오 렌더 스레드에서 "누른 뒤 다음 Beat 경계"에 정확히 시작한다.
+		// 시작 알림은 게임 스레드에 조금 늦게 도착하므로, 마커는 누른 위치의 다음 박 경계에 놓는다
+		float NextBeat = FMath::FloorToFloat(PressPos) + 1.f;
+		if (NextBeat >= 4.f)
 		{
-			Snapped = 0.f;
+			NextBeat = 0.f;
 		}
-		AddMarker(Snapped, true);
+		AddMarker(NextBeat, true);
 	}
 	else if (EventType == EQuartzCommandDelegateSubType::CommandOnFailedToQueue || EventType == EQuartzCommandDelegateSubType::CommandOnCanceled)
 	{
 		if (PendingPressTimes.Num() > 0)
 		{
 			PendingPressTimes.RemoveAt(0);
+		}
+		if (PendingPressPositions.Num() > 0)
+		{
+			PendingPressPositions.RemoveAt(0);
 		}
 	}
 }

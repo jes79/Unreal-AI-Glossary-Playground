@@ -83,13 +83,13 @@ void ADemo0819_DayNight::ApplyTime()
 	const float LampFactor = FMath::Clamp(1.f - (SinElev + 0.05f) * 8.f, 0.f, 1.f);
 	for (UPointLightComponent* Lamp : Lamps)
 	{
-		Lamp->SetIntensity(LampFactor * 120.f);
+		Lamp->SetIntensity(LampFactor * 40.f);
 	}
 	// 고정 노출(EV100 10)에서는 밤이 새까맣게 보이므로, 밤에는 노출 보정을 조금 올려 사람 눈처럼 적응시킨다
 	if (UPostProcessComponent* PP = Env->GetPostProcess())
 	{
 		PP->Settings.bOverride_AutoExposureBias = true;
-		PP->Settings.AutoExposureBias = (Env->Settings.ExposureEV100 - 10.f) + LampFactor * 3.f;
+		PP->Settings.AutoExposureBias = (Env->Settings.ExposureEV100 - 10.f) + LampFactor * 1.5f;
 	}
 	for (UMaterialInstanceDynamic* MID : BulbMIDs)
 	{

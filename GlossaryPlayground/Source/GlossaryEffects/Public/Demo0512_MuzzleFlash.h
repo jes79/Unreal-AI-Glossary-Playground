@@ -29,7 +29,7 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Muzzle Flash") float FlashDuration = 0.05f;
 	/** 연사 간격 */
 	UPROPERTY(EditAnywhere, Category = "Muzzle Flash") float FireInterval = 0.12f;
-	UPROPERTY(EditAnywhere, Category = "Muzzle Flash") float LightIntensity = 400.f;
+	UPROPERTY(EditAnywhere, Category = "Muzzle Flash") float LightIntensity = 60.f;
 
 private:
 	void Fire();
@@ -37,6 +37,7 @@ private:
 	UPROPERTY(Transient) TObjectPtr<UPointLightComponent> FlashLight;
 	bool bAutoFire = true;
 	bool bSlowMo = false;
+	bool bHold = false;   // H: 0.05초 화염을 끊김 없이 이어 붙여 모양을 계속 보여 준다(관찰용)
 	float FireTimer = 0.f;
 	float LightTimer = 0.f;
 	int32 Shots = 0;

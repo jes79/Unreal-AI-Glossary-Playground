@@ -92,7 +92,7 @@ ADemo0814_Checkpoint::ADemo0814_Checkpoint()
 	PrimaryActorTick.TickGroup = TG_PostPhysics;
 	Controls = TEXT("WASD 이동 · Space 점프로 용암(주황)을 건넌다 · 깃발을 지나면 체크포인트 저장(초록)\n")
 		TEXT("K : 즉사(테스트) · T : 다음 깃발로 순간이동(테스트)\n")
-		TEXT("관찰: 죽으면 1.5초 뒤 마지막으로 지난 깃발에서 RestartPlayerAtTransform 으로 새 폰이 생긴다");
+		TEXT("관찰: 죽으면 1초 뒤 마지막으로 지난 깃발에서 RestartPlayerAtTransform 으로 새 폰이 생긴다");
 	Showcase = TEXT("깃발 Trigger 로 체크포인트 저장, 용암에 빠지면 GameMode::RestartPlayerAtTransform 으로 마지막 깃발에서 부활");
 }
 

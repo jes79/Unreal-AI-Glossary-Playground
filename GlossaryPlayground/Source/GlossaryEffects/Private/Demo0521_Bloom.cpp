@@ -18,7 +18,7 @@ ADemo0521_Bloom::ADemo0521_Bloom()
 	Showcase = TEXT("발광 세기가 다른 구들에 Bloom Intensity 1.5 · Threshold -1 표준 Bloom ↔ Convolution Bloom ↔ 끔 비교");
 	PlayerPawnClass = nullptr;
 	Environment.Sky = EGlossarySky::Night;
-	Environment.ExposureEV100 = 3.f;
+	Environment.ExposureEV100 = 12.f;   // 환경 노출 보정 = EV100-10 이라 값이 클수록 밝다 (밤 장면을 조금 밝게)
 }
 
 void ADemo0521_Bloom::BeginPlay()

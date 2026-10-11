@@ -17,7 +17,7 @@ ADemo0511_SubUV::ADemo0511_SubUV()
 	Showcase = TEXT("코드로 만든 8x8 폭발 플립북을 SubUV Animation 모듈로 재생, 원본 시트 나란히 표시");
 	PlayerPawnClass = nullptr;
 	Environment.Sky = EGlossarySky::Night;
-	Environment.ExposureEV100 = 4.f;
+	Environment.ExposureEV100 = 12.f;   // 환경 노출 보정 = EV100-10 이라 값이 클수록 밝다 (밤 장면을 조금 밝게)
 }
 
 void ADemo0511_SubUV::BeginPlay()
@@ -33,9 +33,9 @@ void ADemo0511_SubUV::BeginPlay()
 	{
 		Sheet->SetMaterial(0, Preview);
 	}
-	SpawnLabel(World, TEXT("SubUV 재생 (Sub Image Size 8x8)"), FVector(0.f, -250.f, 480.f), Colors::Item, 20.f);
+	SpawnLabel(World, TEXT("SubUV 재생 (Sub Image Size 8x8)"), FVector(0.f, -150.f, 470.f), Colors::Item, 20.f);
 	SpawnLabel(World, TEXT("T_FX_Explosion8x8 원본 시트"), FVector(0.f, 320.f, 450.f), FLinearColor::White, 20.f);
-	EffectsKit::SetupFixedCamera(this, FVector(-1000.f, 0.f, 260.f), FVector(0.f, 0.f, 240.f), 65.f);
+	EffectsKit::SetupFixedCamera(this, FVector(-1100.f, -250.f, 260.f), FVector(0.f, -60.f, 240.f), 65.f);
 }
 
 void ADemo0511_SubUV::Tick(float DeltaSeconds)

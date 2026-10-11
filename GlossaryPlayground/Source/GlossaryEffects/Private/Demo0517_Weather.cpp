@@ -17,7 +17,7 @@ ADemo0517_Weather::ADemo0517_Weather()
 	Showcase = TEXT("카메라를 따라다니는 GPU 비 이미터(초당 6000) + 바닥에 튀는 물방울, 이동해도 항상 주변에만 비");
 	Environment.Sky = EGlossarySky::Sunset;
 	Environment.bClouds = true;
-	Environment.ExposureEV100 = 8.f;
+	Environment.ExposureEV100 = 12.f;   // 환경 노출 보정 = EV100-10 이라 값이 클수록 밝다 (밤 장면을 조금 밝게)
 }
 
 void ADemo0517_Weather::BeginPlay()

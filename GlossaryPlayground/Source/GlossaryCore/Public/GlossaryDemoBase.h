@@ -42,6 +42,7 @@ struct GLOSSARYCORE_API FGlossaryEnvironmentSettings
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Environment) bool bClouds = false;
 	/** 자동 노출을 끄고 EV100 을 고정한다(데모끼리 밝기 비교가 쉬움). 0527 처럼 노출 데모는 false. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Environment) bool bFixedExposure = true;
+	/** 고정 노출의 밝기. 10 이 기준이고 값이 클수록 화면이 밝아진다 (Exposure Compensation = 값 - 10). 밤 장면은 12 정도 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Environment) float ExposureEV100 = 10.f;
 };
 

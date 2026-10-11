@@ -121,7 +121,7 @@ void ADemo0605_DamageNumbers::HitEnemy(AStaticMeshActor* Enemy, bool bForceCrit)
 	const int32 Base = FMath::RandRange(12, 30);
 	const int32 Damage = bCrit ? FMath::RoundToInt(Base * CriticalMultiplier) : Base;
 	// 머리 위(높이 180cm 원기둥 꼭대기 + 30cm)에서 시작
-	Layer->SpawnNumber(Enemy->GetActorLocation() + FVector(0.f, 0.f, 120.f), Damage, bCrit);
+	Layer->SpawnNumber(Enemy->GetActorLocation() + FVector(0.f, 0.f, 100.f), Damage, bCrit);
 	++TotalHits;
 	TotalCrits += bCrit ? 1 : 0;
 }

@@ -68,7 +68,7 @@ void ADemo0505_RibbonTrail::Tick(float DeltaSeconds)
 		{
 			SwingTime = 0.f;
 			Direction = -Direction;
-			Pause = 0.35f;
+			Pause = 0.05f;
 		}
 	}
 	const float Alpha = FMath::InterpEaseInOut(0.f, 1.f, FMath::Clamp(SwingTime / SwingDuration, 0.f, 1.f), 2.f);

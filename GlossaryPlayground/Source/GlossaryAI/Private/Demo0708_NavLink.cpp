@@ -4,6 +4,8 @@
 #include "Camera/CameraActor.h"
 #include "D07Common.h"
 #include "DrawDebugHelpers.h"
+#include "EngineUtils.h"
+#include "NavigationSystem.h"
 #include "Engine/StaticMeshActor.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GlossaryKit.h"
@@ -18,6 +20,25 @@ namespace
 	const FVector LinkStart(430.f, 0.f, 300.f);   // 절벽 위 끝
 	const FVector LinkEnd(820.f, 0.f, 0.f);       // 절벽 아래
 }
+
+/** 절벽 끝의 Smart Link: 단순 링크(PointLinks)는 비우고 Smart Link 하나만 위 → 아래 한 방향으로 */
+static ANavLinkProxy* SpawnJumpLink(UWorld* World)
+{
+	ANavLinkProxy* Proxy = World->SpawnActorDeferred<ANavLinkProxy>(ANavLinkProxy::StaticClass(), FTransform::Identity);
+	Proxy->PointLinks.Reset();
+	Proxy->bSmartLinkIsRelevant = true;   // Smart Link 를 NavMesh 에 넣는다
+	Proxy->GetSmartLinkComp()->SetLinkData(LinkStart, LinkEnd, ENavLinkDirection::LeftToRight);
+	Proxy->FinishSpawning(FTransform::Identity);
+	return Proxy;
+}
+
+#if WITH_EDITOR
+void ADemo0708_NavLink::BuildLevel(UWorld* World)
+{
+	// 레벨에 저장되는 Nav Link Proxy (에디터에서 손으로 놓는 것과 같다)
+	SpawnJumpLink(World)->SetActorLabel(TEXT("NavLinkProxy_Jump"));
+}
+#endif
 
 ADemo0708_NavLink::ADemo0708_NavLink()
 {
@@ -52,11 +73,17 @@ void ADemo0708_NavLink::BeginPlay()
 	SpawnLabel(World, TEXT("목표"), BottomGoal + FVector(0.f, 0.f, 80.f), Colors::Item, 18.f);
 
 	// ---- Nav Link Proxy: 단순 링크(PointLinks)는 비우고 Smart Link 하나만 쓴다 ----
-	LinkProxy = World->SpawnActorDeferred<ANavLinkProxy>(ANavLinkProxy::StaticClass(), FTransform::Identity);
-	LinkProxy->PointLinks.Reset();
-	LinkProxy->bSmartLinkIsRelevant = true;   // Smart Link 를 NavMesh 에 넣는다
-	LinkProxy->GetSmartLinkComp()->SetLinkData(LinkStart, LinkEnd, ENavLinkDirection::LeftToRight);   // 위 → 아래 한 방향
-	LinkProxy->FinishSpawning(FTransform::Identity);
+	// 빌더가 레벨에 놓아 둔 Nav Link Proxy (BuildLevel). 없으면 실행 중에 같은 설정으로 만든다
+	for (TActorIterator<ANavLinkProxy> It(World); It; ++It)
+	{
+		LinkProxy = *It;
+	}
+	if (!LinkProxy)
+	{
+		LinkProxy = SpawnJumpLink(World);
+	}
+	// 실행 중 스폰한 절벽·경사로와 함께 링크 데이터를 내비게이션 옥트리에 다시 알린다
+	FNavigationSystem::UpdateActorAndComponentData(*LinkProxy);
 	// 링크에 도착하면 호출 (블루프린트의 Event Receive Smart Link Reached 와 같음)
 	// (OnSmartLinkReached 는 C++ 에서 protected 라 블루프린트가 바인딩하는 것과 같은 리플렉션 경로로 연결)
 	FScriptDelegate Delegate;

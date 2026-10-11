@@ -335,7 +335,7 @@ bool FGlossaryNiagaraBuilder::SetModuleEnabled(const FGuid& Emitter, const FStri
 	return true;
 }
 
-bool FGlossaryNiagaraBuilder::AddModule(const FGuid& Emitter, ENiagaraScriptUsage Usage, const FString& ScriptPath, const FGuid& EventUsageId)
+bool FGlossaryNiagaraBuilder::AddModule(const FGuid& Emitter, ENiagaraScriptUsage Usage, const FString& ScriptPath, const FGuid& EventUsageId, int32 TargetIndex)
 {
 	FVersionedNiagaraEmitterData* Data = GetEmitterData(Emitter);
 	UNiagaraScript* Module = LoadObject<UNiagaraScript>(nullptr, *ScriptPath);
@@ -366,7 +366,7 @@ bool FGlossaryNiagaraBuilder::AddModule(const FGuid& Emitter, ENiagaraScriptUsag
 		return false;
 	}
 	InvalidateViewModel();
-	return FNiagaraStackGraphUtilities::AddScriptModuleToStack(Module, *OutputNode) != nullptr;
+	return FNiagaraStackGraphUtilities::AddScriptModuleToStack(Module, *OutputNode, TargetIndex) != nullptr;
 }
 
 void FGlossaryNiagaraBuilder::AddRenderer(const FGuid& Emitter, UNiagaraRendererProperties* Renderer)

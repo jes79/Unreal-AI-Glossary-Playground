@@ -19,7 +19,7 @@ void ADemo0420_Refraction::BeginPlay()
 {
 	Super::BeginPlay();
 	UWorld* World = GetWorld();
-	SetupFixedCamera(FVector(-650.f, -200.f, 200.f), FVector(0.f, -150.f, 170.f), 60.f);
+	SetupFixedCamera(FVector(-950.f, 30.f, 230.f), FVector(0.f, 30.f, 170.f), 60.f);
 
 	// 뒤 배경: 세로 줄무늬 벽 (왜곡이 잘 보이게)
 	for (int32 I = 0; I < 16; ++I)

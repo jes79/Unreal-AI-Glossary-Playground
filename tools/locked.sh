@@ -10,7 +10,8 @@ LOCK="$ROOT/.build-lock"
 WAITED=0
 until mkdir "$LOCK" 2>/dev/null; do
   # 30분 넘게 잡힌 잠금은 죽은 프로세스가 남긴 것으로 보고 푼다
-  if [ -d "$LOCK" ] && [ $(( $(date +%s) - $(stat -c %Y "$LOCK") )) -gt 1800 ]; then
+  MTIME=$(stat -c %Y "$LOCK" 2>/dev/null || echo "")
+  if [ -n "$MTIME" ] && [ $(( $(date +%s) - MTIME )) -gt 1800 ]; then
     rmdir "$LOCK" 2>/dev/null
     continue
   fi

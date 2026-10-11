@@ -99,7 +99,7 @@ void ADemo0516_FootstepDust::BeginPlay()
 	{
 		Runner->PlayAnimation(JogSequence, true);
 	}
-	EffectsKit::SetupFixedCamera(this, FVector(-1300.f, 0.f, 650.f), FVector(0.f, 0.f, 50.f), 60.f);
+	EffectsKit::SetupFixedCamera(this, FVector(-1100.f, -500.f, 450.f), FVector(0.f, -150.f, 60.f), 65.f);
 }
 
 TArray<float> ADemo0516_FootstepDust::FindFootContactTimes(UAnimSequence* Sequence, FName FootBone)

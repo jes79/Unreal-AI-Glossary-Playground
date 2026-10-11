@@ -66,6 +66,7 @@ private:
 	UPROPERTY() TObjectPtr<UGeometryCollectionComponent> WallComponent;
 	UPROPERTY() TArray<TObjectPtr<AStaticMeshActor>> Bullets;
 	int32 NumPieces = 0;
+	TArray<FVector> InitialPieceLocations;
 	int32 BreakEvents = 0;
 	int32 Shots = 0;
 	FVector LastBreak = FVector::ZeroVector;

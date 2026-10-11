@@ -23,7 +23,7 @@ void ADemo0402_MaterialInstance::BeginPlay()
 
 	// 부모 머티리얼 견본 (왼쪽 아래)
 	SpawnWithMaterial(EShape::Cube, FVector(0.f, -700.f, 80.f), FVector(140.f), LoadMaterial(TEXT("M_Base")));
-	SpawnLabel(World, TEXT("부모 M_Base\n(Color · Roughness 노출)"), FVector(0.f, -700.f, 230.f), Colors::Item, 16.f);
+	SpawnLabel(World, TEXT("부모 M_Base\n(Color · Roughness 노출)"), FVector(-120.f, -700.f, -10.f), Colors::Item, 16.f);
 
 	for (int32 I = 0; I < InstanceNames.Num(); ++I)
 	{

@@ -12,13 +12,13 @@ using namespace GlossaryKit;
 ADemo0512_MuzzleFlash::ADemo0512_MuzzleFlash()
 {
 	DemoId = TEXT("0512");
-	Controls = TEXT("F : 자동 연사 ON/OFF   마우스 왼쪽 / Space : 한 발   T : 슬로 모션(×0.05)\n")
+	Controls = TEXT("F : 자동 연사 ON/OFF   마우스 왼쪽 / Space : 한 발   T : 슬로 모션(×0.05)   H : 화염 계속 보기\n")
 		TEXT("관찰: 총구(Muzzle) 위치에 0.05초짜리 화염 Niagara 가 붙고, 같은 0.05초 동안 Point Light 가 켜져\n")
 		TEXT("벽과 바닥이 번쩍인다. 실제 속도로는 거의 한 프레임 — 슬로 모션으로 보면 화염 모양이 보인다");
 	Showcase = TEXT("총구 소켓에 0.05초 화염 Niagara + Point Light 깜빡임, 자동 연사와 슬로 모션");
 	PlayerPawnClass = nullptr;
 	Environment.Sky = EGlossarySky::Night;
-	Environment.ExposureEV100 = 3.f;
+	Environment.ExposureEV100 = 10.f;
 }
 
 void ADemo0512_MuzzleFlash::BeginPlay()
@@ -70,7 +70,9 @@ void ADemo0512_MuzzleFlash::Tick(float DeltaSeconds)
 	{
 		Fire();
 	}
-	if (bAutoFire)
+	if (WasKeyPressed(EKeys::H)) { bHold = !bHold; }
+	if (bHold) { FireTimer += DeltaSeconds; if (FireTimer >= FlashDuration) { FireTimer = 0.f; Fire(); } }
+	else if (bAutoFire)
 	{
 		FireTimer += DeltaSeconds;
 		if (FireTimer >= FireInterval)

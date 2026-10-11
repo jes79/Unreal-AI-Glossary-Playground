@@ -6,6 +6,7 @@
 #include "D0214_SportsCar.generated.h"
 
 class UCameraComponent;
+class UStaticMeshComponent;
 class UChaosWheeledVehicleMovementComponent;
 class UInputAction;
 class UInputMappingContext;
@@ -62,6 +63,9 @@ protected:
 	UPROPERTY(VisibleAnywhere, Category = Camera) TObjectPtr<USpringArmComponent> SpringArm;
 	UPROPERTY(VisibleAnywhere, Category = Camera) TObjectPtr<UCameraComponent> Camera;
 	UPROPERTY() TObjectPtr<UChaosWheeledVehicleMovementComponent> ChaosMovement;
+
+	/** 보이는 차체: 복사한 SKM_SportsCar 가 이 프로젝트에서 렌더되지 않아 같은 모양의 SM_SportsCar 를 물리 메시에 붙인다 */
+	UPROPERTY(VisibleAnywhere, Category = Vehicle) TObjectPtr<UStaticMeshComponent> BodyVisual;
 
 	UPROPERTY(EditAnywhere, Category = Input) TObjectPtr<UInputMappingContext> MappingContext;
 	UPROPERTY(EditAnywhere, Category = Input) TObjectPtr<UInputAction> MoveAction;

@@ -26,7 +26,7 @@ void ADemo0401_PBR::BeginPlay()
 	for (int32 I = 0; I < 6; ++I)
 	{
 		const FLinearColor Colors[] = { Colors::Enemy, Colors::Item, Colors::Ally, Colors::Player, Colors::Purple, Colors::Accent };
-		SpawnBlock(World, FVector(-1400.f + (I % 2) * 100.f, -900.f + I * 360.f, 0.f), FVector(80.f, 80.f, 500.f), Colors[I]);
+		SpawnBlock(World, FVector(-1750.f + (I % 2) * 100.f, -900.f + I * 360.f, 0.f), FVector(80.f, 80.f, 500.f), Colors[I]);
 	}
 
 	// 5×5 격자: 열 = Metallic, 행 = Roughness. 모두 같은 M_PBR 의 MID 이고 값만 다르다

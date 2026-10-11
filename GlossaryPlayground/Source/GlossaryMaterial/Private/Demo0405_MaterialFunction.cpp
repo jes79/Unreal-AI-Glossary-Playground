@@ -21,7 +21,7 @@ void ADemo0405_MaterialFunction::BeginPlay()
 {
 	Super::BeginPlay();
 	UWorld* World = GetWorld();
-	SetupFixedCamera(FVector(-1150.f, 20.f, 300.f), FVector(0.f, 20.f, 120.f), 60.f);
+	SetupFixedCamera(FVector(-1150.f, -40.f, 300.f), FVector(0.f, -40.f, 120.f), 60.f);
 
 	const FString Labels[] = { TEXT("M_Rim_Metal\n금속 + 주황 림"), TEXT("M_Rim_Stone\n돌 + 초록 림"), TEXT("M_Rim_Ghost\n유령 + 파랑 림") };
 	for (int32 I = 0; I < CallerMaterials.Num(); ++I)
